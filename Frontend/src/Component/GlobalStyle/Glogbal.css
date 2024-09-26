@@ -1,0 +1,25 @@
+.main{
+    @apply bg-gray-100 p-5 max-w-full
+}
+
+/* DarkMode */
+.bg-darkMode {
+    @apply bg-white dark:bg-gray-900 transition-colors duration-75 
+}
+.color-txt {
+    @apply text-black dark:text-gray-200
+}
+
+/* Button */
+.btn{
+    @apply no-underline text-sm font-semibold rounded-md shadow-md
+    text-white cursor-pointer px-5 py-3  text-center her mr-4
+}
+.her:hover {
+    transition: ease 200ms;
+    box-shadow: rgba(0, 0, 0, 0.838) 0 2px 6px 0;
+}
+/* AlpineJs */
+[x-cloak] {
+    display: none !important;
+}

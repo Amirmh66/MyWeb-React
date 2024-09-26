@@ -1,0 +1,23 @@
+.th {
+    @apply py-3 px-5
+}
+
+.th-h{ 
+    @apply hover:bg-gray-200 p-2 rounded-lg 
+}
+.td {
+    @apply py-3 px-5 border-t border-gray-300 dark:border-gray-950
+}
+.tr {
+    @apply hover:bg-gray-200 dark:hover:bg-gray-950 transition-all shadow-inner
+}
+
+.head-table{
+    @apply   bg-gray-100 dark:bg-gray-700 rounded-lg p-3 mb-5
+}
+
+
+.table{
+    @apply rounded-lg text-center bg-gray-100 dark:bg-gray-700  min-w-full 
+}
+

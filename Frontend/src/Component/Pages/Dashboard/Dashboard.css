@@ -1,0 +1,6 @@
+.iconOnBox {
+    @apply my-2 inline-block text-white p-2 rounded-full
+}
+.exportBtn {
+    @apply p-2 text-sm border border-sky-300 text-blue-400 cursor-pointer font-bold text-center rounded-lg flex gap-2 items-center
+}

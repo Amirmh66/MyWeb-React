@@ -1,0 +1,29 @@
+table{
+    @apply  w-full 
+}
+
+tr {
+    @apply border-b border-gray-400
+}
+
+thead td {
+    @apply text-sm font-semibold bg-gray-50 uppercase text-start p-3;
+}
+
+td {
+    @apply px-3 py-2
+}
+.ul-user{
+    @apply max-w-full
+}
+
+.Status {
+    @apply bg-green-500 p-1 m-2 inline-block rounded-full text-white
+}
+
+.her:hover {
+    transition: ease 200ms;
+    box-shadow: rgba(0, 0, 0, 0.838) 0 3px 9px 0;
+}
+
+
