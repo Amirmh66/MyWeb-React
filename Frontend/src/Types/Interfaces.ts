@@ -6,13 +6,16 @@ export interface Item {
     name: string;
     path: string;
 }
-export interface IUser{
-        Id: string;
-        Name: string;
-        Email: string;
-        PhoneNumber: number;
-        AccessLevel: string;
-        RegisterDate: string;
+export interface IUser {
+  _id: string;
+  UserName: string;
+  Email: string;
+  Password: string;
+  PhoneNumber: number;
+  PictureProf: string;
+  Role: string;
+  CreatedAt: Date;
+  UpdatedAt: Date;
 }
 export interface IButton{
     color: string;
@@ -23,7 +26,7 @@ export interface IPageN{
     text:string;
 }
 export interface IProduct{
-    Id:string;
+    _id:string;
     Picture:string;
     Name:string;
     Description:string;
@@ -31,34 +34,13 @@ export interface IProduct{
     Status:boolean;
     Price:number;
 }
+export interface IDropDown{
+    value?: string;
+    onChange?: (event:React.ChangeEvent<HTMLSelectElement>) => void;
+}
 
-
-// "Product": [
-//     {
-//       "Id": "1",
-//       "Picture": "public/Images/usaflag.jpeg",
-//       "Name": "CPU",
-//       "Description": "CPU Core Ultra 9",
-//       "Stock": 20,
-//       "Price": 10000,
-//       "Status": "true"
-//     },
-//     {
-//       "Id": "2",
-//       "Picture": "public/Images/usaflag.jpeg",
-//       "Name": "CPU",
-//       "Description": "CPU Core Ultra 9",
-//       "Stock": 20,
-//       "Price": 10000,
-//       "Status": "true"
-//     },
-//     {
-//       "Id": "3",
-//       "Picture": "public/Images/usaflag.jpeg",
-//       "Name": "CPU",
-//       "Description": "CPU Core Ultra 9",
-//       "Stock": 20,
-//       "Price": 10000,
-//       "Status": "true"
-//     }
-//   ]
+export interface IAlert{
+    message:string;
+    onConfirm:() =>void ;
+    onCancle:() => void;
+}

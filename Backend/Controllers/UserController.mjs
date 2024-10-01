@@ -1,40 +1,54 @@
-import Product from "../Models/ProductModel.mjs";
+import User from "../Models/UserModel.mjs";
 
-export const GetProduct = async (req, res) => {
-  let product = [];
+export const GetAllUser = async (req, res) => {
   try {
-    const Products = await Product.find();
-    res.json(Products);
+    const users = await User.find();
+    res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-export const saveProduct = async (req, res) => {
-  const product = new Product(req.body);
+export const GetUserById = async (req, res) => {
+  const userid = req.params.id;
   try {
-    const insertedProduct = await product.save();
-    res.json(insertedProduct);
+    const user = await User.findById(userid);
+    res.json(user);
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};
+export const saveProduct = async (req, res) => {
+  const newUser = new User(req.body);
+  try {
+    const inserteduser = await newUser.save();
+    res.json(inserteduser);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
-
-export const updateProduct = async (req, res) => {
+export const updateUser = async (req, res) => {
   try {
-    const updateProduct = await Product.updateOne(
+    const user = await User.updateOne(
       { _id: req.params.id },
       { $set: req.body }
     );
-    res.status(200).json("Product Edited");
+    res.status(200).json("User Edited");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-export const deleteProduct = async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
-    const deleteProduct = await Product.deleteOne({ _id: req.params.id });
-    res.status(200).json("Product Deleted");
+    const user = await User.deleteOne({ _id: req.params.id });
+    res.status(200).json("User Deleted.");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const deleteAllUser = async (req, res) => {
+  try {
+    const user = await User.deleteMany({});
+    res.status(200).json("Users Deleted.");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

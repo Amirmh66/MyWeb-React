@@ -1,25 +1,29 @@
 .main{
-    @apply bg-gray-100 p-5 max-w-full
+    @apply bg-gray-100 transition-colors duration-75 dark:bg-gray-800 p-5 max-w-full min-h-full 
 }
-
-/* DarkMode */
-.bg-darkMode {
-    @apply bg-white dark:bg-gray-900 transition-colors duration-75 
-}
-.color-txt {
-    @apply text-black dark:text-gray-200
-}
-
 /* Button */
 .btn{
     @apply no-underline text-sm font-semibold rounded-md shadow-md
-    text-white cursor-pointer px-5 py-3  text-center her mr-4
+    text-white cursor-pointer px-5 py-3 text-center mr-4
 }
-.her:hover {
-    transition: ease 200ms;
-    box-shadow: rgba(0, 0, 0, 0.838) 0 2px 6px 0;
+.slc{
+    @apply block appearance-none w-full bg-white border border-gray-300 rounded-md
+     py-2 pl-3 pr-10 text-base leading-5 text-gray-700
+     focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500
 }
-/* AlpineJs */
-[x-cloak] {
-    display: none !important;
+body{
+    @apply bg-darkMode text
+}
+.bg-darkMode {
+    @apply bg-white dark:bg-gray-900 transition-colors duration-75
+}
+.text{
+@apply text-black dark:text-gray-100
+}
+
+::-webkit-scrollbar{
+    @apply bg-gray-300 w-2 
+}
+::-webkit-scrollbar-thumb{
+    @apply bg-violet-700 rounded-sm
 }

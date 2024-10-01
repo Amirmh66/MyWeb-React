@@ -4,7 +4,7 @@ import "../GlobalStyle/Glogbal.css";
 export function Button({ text, color, onClick }: IButton) {
   return (
     <>
-      <button onClick={onClick} className={`${"btn"} ${color}`}>
+      <button  onClick={onClick} className={`${"btn"} ${color}`}>
         {text}
       </button>
     </>

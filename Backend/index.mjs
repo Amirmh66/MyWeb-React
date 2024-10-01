@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import ProductRoute from "./Routes/ProductRoute.mjs";
-
+import UserRoute from "./Routes/UserRoute.mjs";
 const app = express();
 const db = mongoose.connection;
 
@@ -14,5 +14,6 @@ db.once("open", () => console.log("Database Connected."));
 app.use(cors());
 app.use(express.json());
 app.use(ProductRoute);
+app.use(UserRoute);
 
 app.listen(3000, console.log("Server Is Running On Port 3000"));

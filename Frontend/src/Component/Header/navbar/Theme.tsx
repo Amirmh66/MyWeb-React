@@ -1,26 +1,31 @@
+import { useEffect, useState } from "react";
 import { Dark, Light } from "../../Elements/Icons";
-function Theme() {
+
+export default function Theme() {
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
+
+  document.documentElement.classList.remove("dark", "light");
+  document.documentElement.classList.add(theme);
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
   return (
     <>
-      <div className="hidden lg:flex color-txt">
-        {/* Button  */}
-        <button
-          type="button"
-          className="hover:bg-gray-200 rounded-full p-2 dark:hover:bg-gray-800"
-        >
-          {/* dark  */}
-          <div x-bind:className="darkMode ? 'hidden' : 'block' ">
-            <Dark />
-          </div>
-
-          {/* Light  */}
-          <div x-bind:className=" darkMode ? 'block' : 'hidden' ">
-            <Light />
-          </div>
+      <>
+        <button onClick={toggleTheme} className="themeB">
+          {theme === "light" ? <Light /> : <Dark />}
         </button>
-      </div>
+      </>
     </>
   );
 }
-
-export default Theme;

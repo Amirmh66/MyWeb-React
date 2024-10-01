@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "./Sidebar.css";
+import '../GlobalStyle/Glogbal.css'
 import SiteLogo from "./SiteLogo";
 import { Hamburger } from "../Elements/Icons";
 import {

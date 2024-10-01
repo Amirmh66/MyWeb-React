@@ -1,4 +1,3 @@
-import { IPageN } from "../../Types/Interfaces";
 import "./Header.css";
 import Language from "./navbar/Language";
 import Notification from "./navbar/Notification";
@@ -11,7 +10,7 @@ export default function Header() {
   return (
     <>
       {/* Navbar  */}
-      <nav className="bg-darkMode p-5 h-24 flex items-center justify-center">
+      <nav className="nav">
         {/* PageName  */}
         <PageName />
 
@@ -28,7 +27,7 @@ export default function Header() {
         <Notification />
 
         {/* Profile */}
-        <Profile/>
+        <Profile />
       </nav>
     </>
   );
