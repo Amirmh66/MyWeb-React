@@ -44,3 +44,8 @@ export interface IAlert{
     onConfirm:() =>void ;
     onCancle:() => void;
 }
+export interface ICategories{
+    _id:string;
+    Name:string;
+    Description:string;
+}

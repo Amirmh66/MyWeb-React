@@ -1,14 +1,11 @@
-import AdminLayout from './Component/Layouts/AdminLayout'
-import './Component/GlobalStyle/Glogbal.css'
-import AuthLayout from './Component/Layouts/AuthLayout';
+import Container from "./Component/Layouts/Container";
 
 function App() {
   return (
     <>
-      <AdminLayout />
-      {/* <AuthLayout/> */}
+      <Container/>
     </>
   );
 }
 
-export default App
+export default App;

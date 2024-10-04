@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import cors from "cors";
 import ProductRoute from "./Routes/ProductRoute.mjs";
 import UserRoute from "./Routes/UserRoute.mjs";
+import CategoryRoute from "./Routes/CategoryRoute.mjs";
+
 const app = express();
 const db = mongoose.connection;
 
@@ -15,5 +17,6 @@ app.use(cors());
 app.use(express.json());
 app.use(ProductRoute);
 app.use(UserRoute);
+app.use(CategoryRoute);
 
 app.listen(3000, console.log("Server Is Running On Port 3000"));

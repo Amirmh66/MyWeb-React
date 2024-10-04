@@ -12,6 +12,13 @@ const apiRoutes: any = {
   createUser: `${baseURL}/users/`,
   updateUser: (id: string) => `${baseURL}/users/${id}`,
   deleteUser: (id: string) => `${baseURL}/users/${id}`,
+
+  getCategories:`${baseURL}/categories`,
+  getCategoryById: (id: string) => `${baseURL}/categories/${id}`,
+  createCategory: `${baseURL}/categories/`,
+  updateCategory: (id: string) => `${baseURL}/categories/${id}`,
+  deleteCategory: (id: string) => `${baseURL}/categories/${id}`,
+  
 };
 
 export default apiRoutes;

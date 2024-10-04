@@ -5,6 +5,7 @@ function Login() {
   const  { setUserName , setShowProfile }:any = useContext(LoginContext);
   return (
     <>
+    <h1>Login Page</h1>
       <div>
         <input
           onChange={(e) => setUserName(e.target.value)}

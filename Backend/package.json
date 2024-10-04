@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.mjs",
   "scripts": {
-    "start": "nodemon index.mjs" 
+    "start": "nodemon index.mjs"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +12,6 @@
     "axios": "^1.7.7",
     "cors": "^2.8.5",
     "express": "^4.21.0",
-    "mongoose": "^8.6.3"
+    "mongoose": "^8.7.0"
   }
 }
