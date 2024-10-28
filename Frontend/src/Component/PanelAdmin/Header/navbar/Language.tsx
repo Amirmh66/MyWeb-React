@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { ChebronDown } from "../../../Elements/Icons";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 function Language() {
   return (
@@ -11,7 +10,7 @@ function Language() {
           alt="usaflag"
         />
         <span className="pl-2 font-bold">Eng (US)</span>
-        <ChebronDown />
+        <ChevronDownIcon />
       </div>
     </>
   );

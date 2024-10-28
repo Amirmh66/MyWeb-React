@@ -1,6 +1,9 @@
 .aside {
-    @apply fixed md:relative inset-y-0 left-0 z-30 md:shadow-none h-full shadow-lg min-h-full 
-    md:rounded-none rounded-r-xl p-4 md:translate-x-0 lg:pt-4 md:w-48 lg:w-52 xl:w-56
+    @apply fixed md:relative z-30 shadow-lg md:shadow-none md:rounded-none rounded-r-xl p-4
+     md:translate-x-0 lg:pt-4 md:w-48 lg:w-52 xl:w-56 theme h-full
+}
+.theme{
+    @apply bg-white dark:bg-gray-900 transition-colors duration-75 text-black dark:text-gray-100
 }
 .HamburgerBtn {
     @apply items-start md:hidden
@@ -9,15 +12,13 @@
     text-shadow: 0 0 25px #00fffb;
 }
 .logo{
-    @apply text-4xl font-bold justify-center hidden md:flex text-black dark:text-white 
+    @apply text-3xl font-bold hidden items-center justify-center md:flex theme
 }
-
-
-.li {
-    @apply drop-shadow-lg cursor-pointer py-2 px-2 md:px-2 m-0 md:m-2
-     hover:bg-violet-700 hover:text-gray-50 rounded-lg 
+#li {
+    @apply drop-shadow-lg cursor-pointer py-2 px-2 m-1
+     hover:bg-violet-700 hover:text-gray-50  rounded-lg 
      flex justify-start items-center transition duration-200
 }
 .li-txt {
-    @apply text-sm line-clamp-1 pl-10
+    @apply text-sm line-clamp-1 pl-10 
 }

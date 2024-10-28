@@ -1,10 +1,15 @@
 import type { IButton } from "../../Types/Interfaces";
 import "../GlobalStyle/Glogbal.css";
 
-export function Button({ text, color, onClick }: IButton) {
+export default function Button({ text, className, onClick, disable}: IButton) {
   return (
     <>
-      <button  onClick={onClick} className={`${"btn"} ${color}`}>
+      <button
+        onClick={onClick}
+        disabled={disable}
+        type="submit"
+        className={`${"btn"} ${className}`}
+      >
         {text}
       </button>
     </>

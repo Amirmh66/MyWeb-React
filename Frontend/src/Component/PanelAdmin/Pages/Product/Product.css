@@ -7,41 +7,33 @@
 .tr {
     @apply hover:bg-gray-200 dark:hover:bg-gray-950 transition-all shadow-inner
 }
-.head-table{
-    @apply   bg-gray-100 dark:bg-gray-700 rounded-lg p-3 mb-5
-    flex items-center gap-24
+.table{
+    @apply rounded-lg text-center p-5 
 }
 
 .filterbtn{
     @apply flex items-center hover:bg-gray-300
      hover:dark:bg-gray-600 p-2 rounded-lg
 }
-
-.table{
-    @apply rounded-lg text-center bg-gray-100 dark:bg-gray-700  min-w-full p-5
+.structInp{
+    @apply mt-5 gap-3 grid sm:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2
 }
-/* form */
-.inp{
-    @apply bg-gray-300 dark:bg-gray-950
-     text-black placeholder:text-black
-     dark:placeholder:text-gray-200
-     dark:text-gray-100 mt-2 p-3 rounded-lg
-      focus:outline-none w-full
+label{
+    @apply font-medium tracking-wide
 }
-.txterea{
+.input{
+    @apply mt-2 p-3 rounded-lg font-medium focus:outline-none w-full drop-shadow
+    bg-gray-100 dark:bg-gray-800
+}
+#textarea{
     @apply text-sm font-bold tracking-wide p-3 rounded-lg w-full 
-    focus:outline-none bg-gray-300 dark:bg-gray-950
-    text-black placeholder:text-black
-    dark:placeholder:text-gray-200
-    dark:text-gray-100
+    focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-400 drop-shadow
+     bg-gray-100 dark:bg-gray-800
 }
-.structure{
-    @apply w-full p-8 my-4 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40
-     mr-auto rounded-2xl shadow-2xl
+.structure-product{
+    @apply p-5 lg:w-9/12 px-24 rounded-xl bg-white dark:bg-gray-900
 }
-.des{
-    @apply h-36
-}
-.lbl{
-    @apply m-10
+.DropDown{
+    @apply bg-gray-200 dark:bg-gray-950
+    rounded-lg py-2 px-4 m-2 cursor-pointer text-lg
 }

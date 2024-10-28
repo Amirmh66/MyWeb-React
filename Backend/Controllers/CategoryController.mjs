@@ -17,12 +17,18 @@ export const GetCategoryById = async (req, res) => {
   }
 };
 export const saveCategory = async (req, res) => {
-  const category = new Category(req.body);
-  try {
-    const insertedCategory = await category.save();
-    res.json(insertedCategory);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+  const categoryName = req.body.name;
+  const name = await Category.findOne({ name: categoryName });
+  if (!name) {
+    const category = new Category(req.body);
+    try {
+      const insertedCategory = await category.save();
+      res.json(insertedCategory);
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  } else {
+    res.status(400).json("This category already exsit in database!!!");
   }
 };
 export const updateCategory = async (req, res) => {
@@ -40,6 +46,14 @@ export const deleteCategory = async (req, res) => {
   try {
     const deleteCategory = await Category.deleteOne({ _id: req.params.id });
     res.status(200).json("Category Deleted");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const deleteAllCategories = async (req, res) => {
+  try {
+    const deleteCategory = await Category.deleteMany({});
+    res.status(200).json("AllCategories Deleted");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

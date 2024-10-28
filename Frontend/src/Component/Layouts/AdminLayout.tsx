@@ -9,17 +9,16 @@ function AdminLayout() {
   const [currentPage, setCurrentPage] = useState<string>("Dashboard");
   return (
     <>
-      <div className="flex h-full">
+      <div className="flex">
         <pageContext.Provider value={{ currentPage, setCurrentPage }}>
           <div className="aside">
             <Sidebar />
           </div>
 
           <div className="flex-1">
-            {/* Header */}
             <Header />
-            {/* Main */}
-            <main className="main">
+
+            <main className="main p-3">
               <Outlet />
             </main>
           </div>

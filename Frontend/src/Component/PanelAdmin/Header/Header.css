@@ -1,10 +1,13 @@
-/* Navbar */
 .SearchBox {
-   @apply w-48 h-8 md:w-80 md:h-10 text-sm px-8 rounded-2xl bg-gray-100 dark:bg-gray-600 focus:outline-none focus:ring-2 transition-all dark:focus:ring-violet-300 focus:ring-violet-500 text-black dark:text-gray-200
+   @apply h-8 md:w-80 md:h-10 text-sm px-8 rounded-2xl focus:outline-none focus:ring-2 transition-all
+    dark:focus:ring-violet-400 focus:ring-violet-500 dark:bg-gray-700 bg-gray-200
+}
+.theme{
+   @apply bg-white dark:bg-gray-900 transition-colors duration-75 text-black dark:text-gray-100
 }
 
 .nav {
-   @apply p-5 h-24 flex items-center justify-center
+   @apply p-4 h-20 flex items-center gap-5 theme
 }
 
 .User-AL {

@@ -1,133 +1,190 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../User.css";
-import { Outlet, useNavigate, useParams, useSubmit } from "react-router-dom";
-import { Button } from "../../../../Elements/Buttons";
+import { useNavigate, useParams, useSubmit } from "react-router-dom";
+import Button from "../../../../Elements/Buttons";
 import api from "../../../../../Constants/apiRoutes";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { IRoles } from "../../../../../Types/Interfaces";
+import { Warning } from "../../../../Elements/Icons";
+import validateUser from "../../../../../Validations/UserValidation";
 function EditUser() {
-  const [users, setUsers] = useState({
-    UserName: "",
-    Email: "",
-    PhoneNumber: "",
-    Password: "",
-    ConfirmPassword: "",
-  });
   const { id } = useParams();
-  const navigate = useNavigate();
-
+  const [roles, setRoles] = useState<IRoles[]>([]);
+  const redirect = useNavigate();
+  const [error, setErorr] = useState("");
+  const [initialValues, setInitialValues] = useState({
+    fullName: "",
+    userName: "",
+    email: "",
+    phoneNumber: null,
+    password: "",
+    role: "",
+  });
   useEffect(() => {
     getUser();
   }, [id]);
 
   const getUser = async () => {
     try {
-      const res = await axios.get(api.getUserById(id));
-      setUsers(res.data);
-    } catch (error) {
-      console.log(error);
+      const response = await axios.get(api.getUserById(id));
+      const data = response.data;
+      setInitialValues({
+        fullName: data.fullName,
+        userName: data.userName,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        password: "",
+        role: data.role,
+      });
+    } catch (error: any) {
+      setErorr(error.response.data);
     }
   };
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setUsers({ ...users, [name]: value });
-  };
+  useEffect(() => {
+    getRoles();
+  });
 
-  const onSave = async (e: any) => {
-    e.preventDefault();
+  const getRoles = async () => {
     try {
-      await axios
-        .patch(api.updateUser(id), users, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((res) => console.log(res));
-      navigate("/users");
-    } catch (error) {
-      console.log(error, "Error While Update Product");
+      const response = await axios.get(api.getRoles);
+      setRoles(response.data);
+    } catch (error: any) {
+      setErorr(error.response.data);
     }
   };
 
+  const onSave = async (values: any) => {
+    try {
+      await axios.patch(api.updateUser(id), values);
+      redirect("/PanelAdmin/Users");
+    } catch (error: any) {
+      setErorr(error.response.data);
+    }
+  };
   return (
     <>
-    <Outlet/>
-      <form onSubmit={onSave}>
-        <div className="container mx-auto my-4 px-4 lg:px-20">
-          <div className="structure">
-            <div className="flex">
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validateUser}
+        onSubmit={onSave}
+        enableReinitialize={true}
+      >
+        <Form>
+          <div className="px-10">
+            <div className="structure-user">
               <h1 className="font-bold text-3xl">Edit User</h1>
-            </div>
-            {/* Inputs */}
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-1 2xl:grid-cols-2 mt-5">
-              {/* UserName */}
-              <input
-                name="UserName"
-                className="inp"
-                type="text"
-                value={users.UserName}
-                onChange={handleInputChange}
-                placeholder="UserName(required)"
-                required
-                maxLength={45}
-              />
-              {/* Email */}
-              <input
-                className="inp"
-                name="Email"
-                type="text"
-                value={users.Email}
-                onChange={handleInputChange}
-                placeholder="Email(required)"
-                required
-                maxLength={65}
-              />
-              <input
-                className="inp"
-                name="PhoneNumber"
-                type="text"
-                value={users.PhoneNumber}
-                onChange={handleInputChange}
-                placeholder="PhoneNumber(optional)"
-                required
-                maxLength={11}
-              />
-              {/* Password */}
-              <input
-                name="Password"
-                className="inp"
-                type="password"
-                value={users.Password}
-                onChange={handleInputChange}
-                placeholder="Password(required)"
-                required
-                maxLength={100}
-              />
+              <div className="structInp">
+                {error && (
+                  <p className="error">
+                    <Warning />
+                    {error}
+                  </p>
+                )}
+                <div>
+                  <Field
+                    name="fullName"
+                    type="text"
+                    placeholder="FullName(required)"
+                  />
+                  <ErrorMessage
+                    name="fullName"
+                    component={"p"}
+                    className="text-red-600"
+                  />
+                </div>
+                <div className="grid grid-cols-1 gap-3 lg:grid-cols-2">
+                  <div>
+                    <Field
+                      name="userName"
+                      type="text"
+                      placeholder="UserName(required)"
+                    />
+                    <ErrorMessage
+                      name="userName"
+                      component={"p"}
+                      className="text-red-600"
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      name="phoneNumber"
+                      type="number"
+                      placeholder="PhoneNumber(optional)"
+                    />
+                    <ErrorMessage
+                      name="phoneNumber"
+                      component={"p"}
+                      className="text-red-600"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Field
+                    name="email"
+                    type="text"
+                    placeholder="Email(required)"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component={"p"}
+                    className="text-red-600"
+                  />
+                </div>
+                <div>
+                  <Field
+                    name="password"
+                    type="text"
+                    placeholder="Password(required)"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    component={"p"}
+                    className="text-red-600"
+                  />
+                </div>
+                <div>
+                  <Field
+                    name="confirmPassword"
+                    type="text"
+                    placeholder="ConfirmPassword(required)"
+                  />
+                  <ErrorMessage
+                    name="confirmPassword"
+                    component={"p"}
+                    className="text-red-600"
+                  />
+                </div>
 
-              {/* ConfirmPassword */}
-              <input
-                name="ConfirmPassword"
-                className="inp"
-                type="password"
-                value={users.ConfirmPassword}
-                onChange={handleInputChange}
-                placeholder="ConfirmPassword(required)"
-                required
-                maxLength={100}
-              />
-            </div>
-            {/* Image */}
-            {/* <div className="my-5">
-            <input type="file" name="File" />
-          </div>
-          <DropDown /> */}
+                <div>
+                  <Field name="role" as="select" className="DropDown">
+                    {roles.map((role) => (
+                      <option value={role.name} key={role._id}>
+                        {role.name}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="role"
+                    component={"p"}
+                    className="text-red-600"
+                  />
+                </div>
+              </div>
 
-            <div className="my-4 w-1/2 lg:w-1/4">
-              <Button onClick={useSubmit} text="Edit" color="bg-blue-700" />
+              <div className="my-4">
+                <Button
+                  onClick={useSubmit}
+                  text="Edit"
+                  className="bg-blue-700"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </Form>
+      </Formik>
     </>
   );
 }
-
 export default EditUser;

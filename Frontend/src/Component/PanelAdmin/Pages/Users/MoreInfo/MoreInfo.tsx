@@ -3,16 +3,19 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
 import { User } from "../../../../Elements/Icons";
+
 function MoreInfo() {
   const [users, setUsers] = useState({
-    UserName: "",
-    Email: "",
-    PhoneNumber: 0,
-    Password: "",
-    Role: "",
-    CreateAt:'',
-    UpdatedAt:''
+    fullName: "",
+    userName: "",
+    email: "",
+    phoneNumber: 0,
+    password: "",
+    role: "",
+    createdAt: "",
+    updatedAt: "",
   });
+
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const { id } = useParams();
@@ -43,7 +46,7 @@ function MoreInfo() {
         <div className="UserInfo">
           <User />
           <p>
-            Info UserName : <span className="underline">{users.UserName}</span>
+            Info UserName : <span className="underline">{users.userName}</span>
           </p>
         </div>
         <table className="table">
@@ -76,30 +79,28 @@ function MoreInfo() {
             {
               <tr>
                 <td className="td">
-                  <h5>{users.UserName}</h5>
+                  <h5>{users.fullName}</h5>
                 </td>
                 <td className="td">
-                  <h5>{users.Email}</h5>
-                </td>
-
-                <td className="td">
-                  <h5>
-                    {users.PhoneNumber}
-                  </h5>
+                  <h5>{users.email}</h5>
                 </td>
 
                 <td className="td">
-                  <h5>{users.Role}</h5>
+                  <h5>{users.phoneNumber}</h5>
+                </td>
+
+                <td className="td">
+                  <h5>{users.role}</h5>
                 </td>
 
                 <td className="td">
                   <p className="text-green-500">Active</p>
                 </td>
                 <td className="td">
-                  <p>{users.CreateAt}</p>
+                  {users.createdAt ? <p>{users.createdAt}</p> : <p>~</p>}
                 </td>
                 <td className="td">
-                 <p>{users.UpdatedAt}</p>
+                  <p>{users.updatedAt}</p>
                 </td>
               </tr>
             }

@@ -1,0 +1,52 @@
+body{
+   @apply themePnlUser text
+}
+
+.container{
+    @apply mx-auto flex flex-col gap-5
+}
+
+.text{
+@apply text-black dark:text-gray-100
+}
+.themePnlUser{
+    @apply bg-gray-100 dark:bg-gray-800 
+}
+
+.boxManage {
+    @apply rounded-sm bg-white dark:bg-gray-900 flex max-w-64 md:max-w-52 mx-auto 
+}
+
+.user {
+    @apply py-2 px-4 bg-green-500 dark:bg-green-800 text-sm dark:text-white 
+    text-black font-semibold rounded-tl-md rounded-tr-md 
+}
+
+.li-manage{
+    @apply py-2 px-4 block text-sm font-medium hover:px-6 transition-all duration-150 
+    cursor-pointer
+}
+
+.crm-item{
+    @apply block hover:bg-gray-300 dark:hover:bg-gray-950
+}
+
+.title {
+    @apply dark:bg-gray-900 bg-gray-50 p-5 text-center font-semibold 
+    text-lg text rounded-bl-md rounded-br-md flex justify-between items-center
+}
+
+.dropDownbtn{
+    @apply absolute right-0 z-10 mt-2 origin-top-right rounded-md shadow-lg ring-1
+     ring-black dark:ring-gray-300 bg-white dark:bg-gray-800 ring-opacity-5 transition focus:outline-none
+      data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0
+      data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in
+}
+.menuItem{
+    @apply block px-4 py-2 text-sm data-[focus]:bg-gray-100  dark:data-[focus]:bg-gray-600 data-[focus]:text-gray-900 dark:data-[focus]:text-white
+    dark:bg-gray-900  dark:text-white text-gray-700 cursor-pointer
+}
+.menuButton{
+    @apply inline-flex w-full justify-between gap-x-1.5  px-4 py-2 text-sm 
+    font-semibold text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-950 hover:px-6 transition-all
+}

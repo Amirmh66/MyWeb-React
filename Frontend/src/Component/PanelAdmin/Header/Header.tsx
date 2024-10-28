@@ -1,4 +1,5 @@
 import "./Header.css";
+import HomePage from "./navbar/HomePage";
 import Language from "./navbar/Language";
 import Notification from "./navbar/Notification";
 import PageName from "./navbar/PageName";
@@ -9,24 +10,18 @@ import Theme from "./navbar/Theme";
 export default function Header() {
   return (
     <>
-      {/* Navbar  */}
       <nav className="nav">
-        {/* PageName  */}
         <PageName />
 
-        {/* SearchBox */}
         <SearchBox />
 
-        {/* Choose-Language  */}
-        <Language />
+        {/* <Language /> */}
+        <HomePage/>
 
-        {/* Theme  */}
         <Theme />
 
-        {/* Bell & Notification  */}
         <Notification />
 
-        {/* Profile */}
         <Profile />
       </nav>
     </>

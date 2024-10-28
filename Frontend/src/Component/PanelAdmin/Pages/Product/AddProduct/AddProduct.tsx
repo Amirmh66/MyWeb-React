@@ -1,103 +1,219 @@
-import { useState } from "react";
-import "../Product.css";
-import { Button } from "../../../../Elements/Buttons";
-import DropDown from "../../../../Elements/DropDown";
+import Button from "../../../../Elements/Buttons";
 import axios from "axios";
-import { Outlet, useNavigate, useSubmit } from "react-router-dom";
-import api from '../../../../../Constants/apiRoutes'
-function AddProduct() {
-  const [products, setProducts] = useState({
-    Name: "",
-    Description: "",
-    Stock: "",
-    Price: "",
-    Category: "",
-    File: "",
-  });
-  const navigate = useNavigate();
+import api from "../../../../../Constants/apiRoutes";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import validProduct from "../../../../../Validations/ProductValidation";
+import { useSubmit } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { ICategories } from "../../../../../Types/Interfaces";
+import SusscessMes from "../../../../Elements/SuccessMes";
+import { Warning } from "../../../../Elements/Icons";
+import "../Product.css";
 
-  const onSave = async (e: any) => {
-    e.preventDefault();
+function AddProduct() {
+  const [categories, setCategories] = useState<ICategories[]>([]);
+  const [error, setError] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    getCategories();
+  });
+
+  const getCategories = async () => {
     try {
-      await axios.post(api.createProduct, products, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((res) => console.log(res));
-      
-    } catch (error) {
-      console.log(error);
+      const response = await axios.get(api.getCategories);
+      const data = response.data;
+      setCategories(data);
+    } catch (error: any) {
+      setError(error.response.data);
     }
   };
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setProducts({ ...products, [name]: value });
+
+  const onSubmit = async (values: any) => {
+    try {
+      await axios.post(api.createProduct, values);
+      setShowSuccess(true);
+    } catch (error: any) {
+      setError(error.response.data);
+    }
+  };
+
+  const onCancle = () => {
+    setShowSuccess(false);
+  };
+  const initialValues = {
+    name: "",
+    price: "",
+    stock: "",
+    summary: "",
+    description: "",
+    category: "",
   };
   return (
     <>
-      <form onSubmit={onSave}>
-        <div className="container mx-auto my-4 px-4 lg:px-20">
-          <div className="structure">
-            <div className="flex">
-              <h1 className="font-bold uppercase text-3xl">New Product</h1>
-            </div>
-            {/* Inputs */}
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
-              {/* Name */}
-              <input
-                name="Name"
-                value={products.Name}
-                onChange={handleInputChange}
-                className="inp"
-                type="text"
-                placeholder="Name(required)"
-              />
-              {/* Price */}
-              <input
-                id="Price"
-                className="inp"
-                name="Price"
-                value={products.Price}
-                onChange={handleInputChange}
-                type="number"
-                placeholder="Price(required)"
-              />
-              {/* Stock */}
-              <input
-                name="Stock"
-                className="inp"
-                value={products.Stock}
-                onChange={handleInputChange}
-                type="number"
-                placeholder="Stock(required)"
-              />
-            </div>
-            {/* Textarea */}
-            <div className="my-4">
-              <textarea
-                name="Description"
-                value={products.Description}
-                onChange={handleInputChange}
-                placeholder="Description(required)"
-                className="txterea"
-              ></textarea>
-            </div>
-            {/* Image */}
-            <div className="my-5">
-              <input
-                type="file"
-                name="File"
-                onChange={handleInputChange}
-                value={products.File}
-              />
-            </div>
-            <DropDown onChange={handleInputChange} value={products.Category} />
+      <div className="px-10">
+        <div className="structure-product">
+          <h1 className="font-bold uppercase text-3xl">New Product</h1>
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validProduct}
+          >
+            <Form>
+              <div className="structInp">
+                {error && (
+                  <p className="error">
+                    <Warning />
+                    {error}
+                  </p>
+                )}
+                <div>
+                  <label htmlFor="Name">Name:</label>
+                  <Field
+                    id="Name"
+                    name="name"
+                    className="input"
+                    placeholder="ProductName"
+                  />
+                  <ErrorMessage
+                    name="name"
+                    className="text-red-600"
+                    component="p"
+                  />
+                </div>
 
-            <div className="my-2 w-1/2 lg:w-1/4">
-              <Button onClick={useSubmit} text="Create" color="bg-green-700" />
-            </div>
-          </div>
+                <div className="flex gap-5">
+                  <div>
+                    <label htmlFor="Price">Price:</label>
+                    <Field
+                      id="Price"
+                      name="price"
+                      type="number"
+                      className="input"
+                      placeholder="Price"
+                    />
+                    <ErrorMessage
+                      name="price"
+                      className="text-red-600"
+                      component="p"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="Stock">Stock:</label>
+                    <Field
+                      id="Stock"
+                      name="stock"
+                      type="number"
+                      className="input"
+                      placeholder="Stock"
+                    />
+                    <ErrorMessage
+                      className="text-red-600"
+                      component="p"
+                      name="stock"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="Summary">Summary:</label>
+                  <Field
+                    id="Summary"
+                    name="summary"
+                    type="text"
+                    className="input"
+                    placeholder="Summary"
+                  />
+                  <ErrorMessage
+                    name="summary"
+                    className="text-red-600"
+                    component="p"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="Description">Description:</label>
+                  <Field
+                    id="textarea"
+                    name="description"
+                    rows="6"
+                    as="textarea"
+                    placeholder="Description"
+                  />
+                  <ErrorMessage
+                    name="description"
+                    className="text-red-600"
+                    component="p"
+                  />
+                </div>
+                {/* DropPicture */}
+
+                <div className="extraOutline p-4 bg-gray-100 dark:bg-gray-800 w-max bg-whtie m-auto rounded-lg">
+                  <div
+                    className="file_upload p-5 relative border-4 border-dotted border-gray-300 dark:border-gray-950 rounded-lg"
+                    style={{ width: "380px" }}
+                  >
+                    <div className="input_field flex flex-col w-max mx-auto text-center">
+                      <label>
+                        <input
+                          className="text-sm cursor-pointer w-36 hidden"
+                          type="file"
+                          multiple
+                        />
+                        <div
+                          className="text bg-indigo-600 text-white border border-gray-300 rounded font-semibold
+                             cursor-pointer p-1 px-3 hover:bg-indigo-500"
+                        >
+                          Select
+                        </div>
+                      </label>
+
+                      <div className="title text-indigo-500 uppercase">
+                        or drop files here
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center">
+                  <div>
+                    <label htmlFor="Category">Category:</label>
+                    <br />
+                    <Field
+                      id="Category"
+                      name="category"
+                      as="select"
+                      className="DropDown"
+                    >
+                      {categories.map((category) => (
+                        <option key={category._id} value={category.name}>
+                          {category.name}
+                        </option>
+                      ))}
+                    </Field>
+                    <ErrorMessage
+                      name="category"
+                      className="text-red-600"
+                      component="p"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Button
+                    text="Submit"
+                    className="bg-green-700"
+                    onClick={useSubmit}
+                  />
+                </div>
+              </div>
+            </Form>
+          </Formik>
         </div>
-      </form>
+      </div>
+      {showSuccess && (
+        <SusscessMes
+          onCancle={onCancle}
+          message="Create Product Successfully!"
+        />
+      )}
     </>
   );
 }

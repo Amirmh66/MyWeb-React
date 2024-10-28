@@ -1,0 +1,19 @@
+.login{
+    @apply hidden lg:inline-block py-3 px-7 bg-blue-500 hover:bg-blue-600 text-sm
+     text-white font-bold rounded-xl transition duration-200 cursor-pointer
+}
+.Panel-btn{
+    @apply bg-gray-800 text-white p-2 rounded-lg cursor-pointer font-bold  text-sm relative px-10 py-3
+}
+
+.navli{
+    @apply text-sm font-normal text-gray-700 hover:text-neutral-500 cursor-pointer
+    
+}
+.header{
+    @apply bg-none px-4 py-3 flex flex-col justify-center gap-10 md:gap-0 md:flex-row md:justify-between items-center 
+    md:bg-white md:dark:bg-gray-900 text-black dark:text-white 
+}
+#searchBox{
+    @apply rounded-md px-8 py-3 focus:outline-none focus:outline-indigo-500
+} 

@@ -1,7 +1,9 @@
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useAuth } from "../../../Provider/AuthProvider";
 
-import { ChebronDown } from "../../../Elements/Icons";
+function Profile() {
+  const auth = useAuth();
 
-function Profile({Name}:any) {
   return (
     <>
       <div className="basis-4/5 md:cursor-pointer xs:hidden sm:flex color-txt">
@@ -9,13 +11,13 @@ function Profile({Name}:any) {
 
         <div className="User-AL">
           {/* UserName */}
-          <h5>{Name}</h5>
+          <h5>{auth?.userName}</h5>
           {/* AccessLevel */}
-          <p>Admin</p>
+          <p className="font-semibold text-sm">{auth?.role}</p>
         </div>
 
         <div className="hidden md:block">
-          <ChebronDown />
+          <ChevronDownIcon />
         </div>
       </div>
     </>

@@ -19,12 +19,20 @@ export const GetProductById = async (req, res) => {
 };
 
 export const saveProduct = async (req, res) => {
-  const product = new Product(req.body);
-  try {
-    const insertedProduct = await product.save();
-    res.json(insertedProduct);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+  const prodcutName = req.body.name;
+  const isExistProduct = await Product.findOne({ name: prodcutName });
+  if (!isExistProduct) {
+    try {
+      const newProduct = new Product(req.body);
+      const insertedProduct = await newProduct.save();
+      res.json(insertedProduct);
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  } else {
+    res
+      .status(400)
+      .json("This Product with this name has already exist in database!!!");
   }
 };
 
@@ -43,6 +51,15 @@ export const deleteProduct = async (req, res) => {
   try {
     const deleteProduct = await Product.deleteOne({ _id: req.params.id });
     res.status(200).json("Product Deleted");
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteAllProduct = async (req, res) => {
+  try {
+    const product = await Product.deleteMany({});
+    res.status(200).json("AllProduct Deleted.");
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

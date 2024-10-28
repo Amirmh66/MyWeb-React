@@ -1,29 +1,32 @@
 import mongoose from "mongoose";
 
 const User = mongoose.Schema({
-  UserName: {
+  fullName: {
     type: String,
   },
-  Email: {
+  userName: {
     type: String,
   },
-  Password: {
+  email: {
     type: String,
   },
-  PhoneNumber: {
+  password: {
+    type: String,
+  },
+  phoneNumber: {
     type: Number,
   },
-  PictureProf: {
+  imageUrl: {
     type: String,
   },
-  Role: {
+  role: {
     type: String,
   },
-  CreatedAt: {
-    type: Date,
+  createdAt: {
+    type: String,
   },
-  UpdateAt: {
-    type: Date,
+  updateAt: {
+    type: String,
   },
 });
 

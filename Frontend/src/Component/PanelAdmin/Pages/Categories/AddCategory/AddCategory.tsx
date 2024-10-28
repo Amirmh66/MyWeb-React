@@ -1,69 +1,92 @@
-import { Button } from "../../../../Elements/Buttons";
+import Button from "../../../../Elements/Buttons";
 import { useState } from "react";
 import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
-import { useSubmit } from "react-router-dom";
+import { useNavigate, useSubmit } from "react-router-dom";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import SuccessMes from "../../../../Elements/SuccessMes";
+import * as yup from "yup";
+import { Warning } from "../../../../Elements/Icons";
 
 function AddCategory() {
-  const [categories, setCategories] = useState({
-    Name: "",
-    Description: "",
-  });
+  const [error, setError] = useState(null);
+  const [showConfirm, setShowConfirm] = useState(false);
+  const navigate = useNavigate();
 
-  const onSave = async (e: any) => {
-    e.preventDefault();
+  const onSave = async (values: any) => {
     try {
-      await axios
-        .post(api.createCategory, categories, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((res) => console.log(res));
-    } catch (error) {
-      console.log(error);
+      await axios.post(api.createCategory, values);
+      // setShowConfirm(true);
+      navigate("/PanelAdmin/Categories");
+    } catch (error: any) {
+      setError(error.response.data);
     }
   };
+  const initialValues = {
+    name: "",
+    description: "",
+  };
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setCategories({ ...categories, [name]: value });
+  const validCategory = yup.object().shape({
+    name: yup.string().max(45).required("Name is required"),
+    description: yup.string().max(90).optional(),
+  });
+
+  const onCancle = () => {
+    setShowConfirm(false);
   };
   return (
     <>
-      <form onSubmit={onSave}>
-        <div className="container mx-auto my-4 px-4 lg:px-20">
-          <div className="structure">
-            <div className="flex">
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSave}
+        validationSchema={validCategory}
+      >
+        <Form autoComplete="off">
+          <div className="container mx-auto my-4 px-4 lg:px-20">
+            <div className="structure">
               <h1 className="font-bold text-3xl">New Category</h1>
-            </div>
-            {/* Inputs */}
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-1 2xl:grid-cols-2 mt-5">
-              {/* UserName */}
-              <input
-                name="Name"
-                className="inp"
-                type="text"
-                value={categories.Name}
-                onChange={handleInputChange}
-                placeholder="Name(required)"
-                required
-                maxLength={30}
-              />
-              <input
-                className="inp"
-                name="Description"
-                type="text"
-                value={categories.Description}
-                onChange={handleInputChange}
-                placeholder="Description(optional)"
-                maxLength={100}
-              />
-            </div>
-            <div className="my-4 w-1/2 lg:w-1/4">
-              <Button onClick={useSubmit} text="Create" color="bg-green-700" />
+              <div className="structInp">
+                {error && <p className="error"><Warning/>{error}</p>}
+                <div>
+                  <Field
+                    name="name"
+                    type="text"
+                    placeholder="CategoryName(required)"
+                  />
+                  <ErrorMessage
+                    name="name"
+                    className="text-red-500"
+                    component="p"
+                  />
+                </div>
+                <div>
+                  <Field
+                    name="description"
+                    type="textarea"
+                    as="textarea"
+                    placeholder="Description(optional)"
+                  />
+                </div>
+              </div>
+
+              <div className="my-4">
+                <Button
+                  onClick={useSubmit}
+                  text="Create"
+                  className="bg-green-700"
+                />
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </Form>
+      </Formik>
+      {showConfirm && (
+        <SuccessMes
+          onCancle={onCancle}
+          message={"Create Category Successfully!"}
+        />
+      )}
     </>
   );
 }

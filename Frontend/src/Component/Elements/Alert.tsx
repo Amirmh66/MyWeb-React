@@ -1,5 +1,5 @@
 import { IAlert } from "../../Types/Interfaces";
-import { Button } from "./Buttons";
+import  Button  from "./Buttons";
 import { Warning } from "./Icons";
 
 function Alert({ message, onConfirm, onCancle }: IAlert) {
@@ -9,7 +9,7 @@ function Alert({ message, onConfirm, onCancle }: IAlert) {
 
         <div className="bg-white dark:bg-gray-700 rounded-lg p-5 shadow-lg">
 
-          <div className="flex justify-between items-center gap-4">
+          <div className="flex items-center gap-3">
 
             <div className="p-2 inline-block text-red-600 bg-gray-200 rounded-full">
             <Warning/>
@@ -19,8 +19,8 @@ function Alert({ message, onConfirm, onCancle }: IAlert) {
           </div>
 
           <div className="flex gap-10 pt-5 justify-around">
-            <Button onClick={onConfirm} text="Confirm" color="bg-green-400 dark:bg-green-700" />
-            <Button onClick={onCancle} text="Cancel" color="bg-gray-400 dark:bg-gray-500" />
+            <Button onClick={onConfirm} text="Confirm" className="bg-green-400 dark:bg-green-700" />
+            <Button onClick={onCancle} text="Cancel" className="bg-gray-400 dark:bg-gray-500" />
           </div>
 
         </div>

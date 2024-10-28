@@ -1,0 +1,10 @@
+.li-f{
+    @apply text-gray-700 dark:text-gray-300 hover:text-gray-950 dark:hover:text-gray-400 font-semibold block pb-2 text-sm
+    cursor-pointer
+}
+.usefulL{
+    @apply block uppercase text-neutral-950 text-sm font-bold mb-2
+}
+.btnLink{
+    @apply bg-white shadow-lg font-normal h-10 w-10  justify-center items-center rounded-full outline-none focus:outline-none mr-2
+}

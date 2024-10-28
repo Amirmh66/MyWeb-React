@@ -1,118 +1,201 @@
-import {  useNavigate, useSubmit } from "react-router-dom";
-import { Button } from "../../../../Elements/Buttons";
+import { useNavigate, useSubmit } from "react-router-dom";
+import Button from "../../../../Elements/Buttons";
 import "../User.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import SuccessMes from "../../../../Elements/SuccessMes";
+import validateUser from "../../../../../Validations/UserValidation";
+import { IRoles } from "../../../../../Types/Interfaces";
+import { Warning } from "../../../../Elements/Icons";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
+
 function AddUser() {
-  const [users, setUsers] = useState({
-    UserName: "",
-    Email: "",
-    PhoneNumber: "",
-    Password: "",
-    ConfirmPassword: "",
-    Role:"User",
-    CreatedAt:Date.now()
-  });
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [error, setError] = useState(null);
+  const [roles, setRoles] = useState<IRoles[]>([]);
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const redirect = useNavigate();
 
-  const navigate = useNavigate();
+  function eyeOn() {
+    setIsVisible(true);
+  }
+  function eyeOff() {
+    setIsVisible(false);
+  }
 
-  const onSave = async (e: any) => {
-    e.preventDefault();
+  useEffect(() => {
+    getRoles();
+  }, []);
+  const getRoles = async () => {
     try {
-      await axios
-        .post(api.createUser, users, {
-          headers: { "Content-Type": "application/json" },
-        })
-        .then((res) => console.log(res));
-      navigate("/users");
-    } catch (error) {
-      console.log(error);
+      const response = await axios.get(api.getRoles);
+      setRoles(response.data);
+    } catch ({ error }: any) {
+      setError(error.response.data.message);
     }
   };
 
-  const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setUsers({ ...users, [name]: value });
+  const onSave = async (values: any) => {
+    try {
+      await axios.post(api.createUser, values);
+      redirect("/PanelAdmin/Users");
+      alert("Register Successfully.");
+    } catch (error: any) {
+      setError(error.response.data.message);
+    }
+  };
+
+  const onCancle = () => {
+    setShowConfirm(false);
+  };
+
+  const initialValues = {
+    fullName: "",
+    userName: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    role: "",
+    createdAt: "",
   };
   return (
     <>
-      <form onSubmit={onSave}>
-        <div className="container mx-auto my-4 px-4 lg:px-20">
-          <div className="structure">
-            <div className="flex">
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSave}
+        validationSchema={validateUser}
+      >
+        <Form>
+          <div className="px-10">
+            <div className="structure-user">
               <h1 className="font-bold text-3xl">New User</h1>
-            </div>
-            {/* Inputs */}
-            <div className="grid grid-cols-1 gap-5 md:grid-cols-1 2xl:grid-cols-2 mt-5">
-              {/* UserName */}
-              <input
-                name="UserName"
-                className="inp"
-                type="text"
-                value={users.UserName}
-                onChange={handleInputChange}
-                placeholder="UserName(required)"
-                required
-                maxLength={45}
-              />
-              <input
-                className="inp"
-                name="Email"
-                type="email"
-                value={users.Email}
-                onChange={handleInputChange}
-                placeholder="Email(required)"
-                required
-                maxLength={65}
-              />
-              <input
-                className="inp"
-                name="PhoneNumber"
-                type="text"
-                value={users.PhoneNumber}
-                onChange={handleInputChange}
-                placeholder="PhoneNumber(optional)"
-                required
-                max={11}
-                maxLength={11}
+              <div className="structInp">
+                {error && (
+                  <p className="error">
+                    <Warning />
+                    {error}
+                  </p>
+                )}
+                <div>
+                  <Field
+                    name="fullName"
+                    type="text"
+                    placeholder="FullName"
+                    className="inp"
+                  />
+                  <ErrorMessage
+                    name="fullName"
+                    className="text-red-600"
+                    component="p"
+                  />
+                </div>
 
-              />
-              <input
-                name="Password"
-                className="inp"
-                type="password"
-                value={users.Password}
-                onChange={handleInputChange}
-                placeholder="Password(required)"
-                required
-                maxLength={100}
-              />
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                  <div>
+                    <Field
+                      name="userName"
+                      type="text"
+                      placeholder="userName(required)"
+                      className="inp"
+                    />
+                    <ErrorMessage
+                      name="userName"
+                      className="text-red-600"
+                      component="p"
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      name="phoneNumber"
+                      type="text"
+                      placeholder="phoneNumber(optional)"
+                      className="inp"
+                      max="11"
+                    />
+                    <ErrorMessage
+                      name="phoneNumber"
+                      className="text-red-600"
+                      component="p"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <Field
+                    name="email"
+                    type="text"
+                    placeholder="email(required)"
+                    className="inp"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    className="text-red-600"
+                    component="p"
+                  />
+                </div>
+                <div>
+                  <Field
+                    name="password"
+                    type="password"
+                    placeholder="Password(required)"
+                    className="inp"
+                  />
+                  <ErrorMessage
+                    name="password"
+                    className="text-red-600"
+                    component="p"
+                  />
+                </div>
+                <div>
+                  <Field
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="ConfirmPassword(required)"
+                    className="inp"
+                  />
+                  <ErrorMessage
+                    name="confirmPassword"
+                    className="text-red-600"
+                    component="p"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="Roles">Roles</label>
+                  <Field
+                    id="Roles"
+                    as="select"
+                    className="DropDown"
+                    name="role"
+                  >
+                    {roles.map((role) => (
+                      <option key={role._id} value={role.name}>
+                        {role.name}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="role"
+                    className="text-red-600"
+                    component="p"
+                  />
+                </div>
+              </div>
 
-              {/* ConfirmPassword */}
-              <input
-                name="ConfirmPassword"
-                className="inp"
-                type="password"
-                value={users.ConfirmPassword}
-                onChange={handleInputChange}
-                placeholder="ConfirmPassword(required)"
-                required
-                maxLength={100}
-              />
+              <div className="my-4">
+                <Button
+                  onClick={useSubmit}
+                  text="Create"
+                  className="bg-green-700"
+                />
+              </div>
             </div>
-            {/* Image */}
-            {/* <div className="my-5">
-            <input type="file" name="File" />
           </div>
-          <DropDown /> */}
-
-            <div className="my-4 w-1/2 lg:w-1/4">
-              <Button onClick={useSubmit} text="Create" color="bg-green-700" />
-            </div>
-          </div>
-        </div>
-      </form>
+        </Form>
+      </Formik>
+      {showConfirm && (
+        <SuccessMes onCancle={onCancle} message={"Create User Successfully!"} />
+      )}
     </>
   );
 }

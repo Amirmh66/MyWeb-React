@@ -1,11 +1,26 @@
-import React from 'react'
-
+import { Outlet, useLocation } from "react-router-dom";
+import Footer from "./Footer/Footer";
+import Header from "./Header/Header";
+import Main from "./Main/Main";
 function HomePage() {
-  return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
-  )
-}
+  const location = useLocation();
 
-export default HomePage
+  return (
+    <>
+      {location.pathname !== "/" ? (
+        <div>
+          <Header />
+          <Outlet />
+          <Footer />
+        </div>
+      ) : (
+        <div>
+          <Header />
+          <Main />
+          <Footer />
+        </div>
+      )}
+    </>
+  );
+}
+export default HomePage;

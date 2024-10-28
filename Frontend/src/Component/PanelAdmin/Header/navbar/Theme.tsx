@@ -3,7 +3,7 @@ import { Dark, Light } from "../../../Elements/Icons";
 
 export default function Theme() {
   const [theme, setTheme] = useState("light");
-
+ 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
