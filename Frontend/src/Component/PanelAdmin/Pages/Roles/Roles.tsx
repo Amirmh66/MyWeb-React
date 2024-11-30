@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
-import type { IRoles } from "../../../../Types/Interfaces";
 import Button from "../../../Elements/Buttons";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../Constants/apiRoutes";
 import Alert from "../../../Elements/Alert";
-import Loading from "../../../Elements/Loading";
+import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
+import TablesSkeleton from "../../../Elements/TablesSkeleton";
+
+
+
+interface IRoles {
+  _id: string;
+  name: string;
+}
 
 function Roles() {
-  //#region States
+
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,13 +23,11 @@ function Roles() {
   const [showAlertAll, setShowAlertAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
-  //#endregion
 
+  //#region GetAllRoles
   useEffect(() => {
     getRoles();
   }, []);
-
-  //#region GetAllRoles
   const getRoles = async () => {
     try {
       const response = await axios(api.getRoles);
@@ -65,10 +70,11 @@ function Roles() {
 
   const ConfirmDeleteAll = async () => {
     try {
-      await axios.delete(api.deleteAllRoles);
-      setShowAlertAll(false);
-      getRoles();
-    } catch ({ error }: any) {
+      await axios.delete(api.deleteAllRoles).then(() => {
+        setShowAlertAll(false);
+        getRoles();
+      });
+    } catch (error: any) {
       setError(error);
     }
   };
@@ -77,60 +83,69 @@ function Roles() {
   };
   //#endregion
 
-  if (loading) return <Loading />;
+  if (loading) return <TablesSkeleton />;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <>
       {location.pathname === "/PanelAdmin/Roles" ? (
-        <div className="theme rounded-md p-2 drop-shadow">
-          <div className="head-table">
+        <div>
+          <div className="mb-1 bg-white dark:bg-gray-900 p-4 rounded-lg ">
             <Link to="AddRole">
-              <Button text="Create Role" className="bg-green-500" />
+              <Button text="Create Role" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
             </Link>
             <Button
               text="Refresh Role Table"
+              icon={<ArrowPathIcon className="w-5" />}
               className="bg-blue-500"
               onClick={getRoles}
             />
             <Button
               text="Delete All Roles"
+              icon={<TrashIcon className="w-5" />}
               className="bg-red-800"
               onClick={handleDeleteAll}
             />
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="th">
-                  <p>Name</p>
-                </th>
-                <th className="th">
-                  <p>Command</p>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {roles.map((role) => (
-                <tr key={role._id}>
-                  <td className="td">
-                    <h5>{role.name}</h5>
-                  </td>
-
-                  <td className="td">
-                    <Button
-                      onClick={() => handleDelete(role._id)}
-                      text="Delete"
-                      className="bg-red-500"
-                    />
-                    <Link to={`EditRole/${role._id}`}>
-                      <Button text="Edit Role" className={"bg-blue-500"} />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto shadow-md sm:rounded-lg flex flex-col min-w-full align-middle">
+            <div className="overflow-auto" style={{ maxHeight: "490px" }}>
+              <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 ">
+                <thead className="bg-gray-200 dark:bg-gray-700">
+                  <tr>
+                    <th scope="col">Role Name</th>
+                    <th scope="col">Command</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700 ">
+                  {roles.map((role) => (
+                    <tr
+                      key={role._id}
+                      className="hover:bg-gray-300 dark:hover:bg-gray-900"
+                    >
+                      <td>
+                        <p className="uppercase">{role.name}</p>
+                      </td>
+                      <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                        <Button
+                          onClick={() => handleDelete(role._id)}
+                          text="Delete"
+                          icon={<TrashIcon className="w-5" />}
+                          className="bg-red-500"
+                        />
+                        <Link to={`EditRole/${role._id}`}>
+                          <Button
+                            icon={<PencilSquareIcon className="w-5" />}
+                            text="Edit Role"
+                            className={"bg-blue-500"}
+                          />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       ) : (
         <Outlet />

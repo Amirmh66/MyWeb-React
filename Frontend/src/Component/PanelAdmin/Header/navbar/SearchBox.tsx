@@ -1,14 +1,17 @@
-import React from "react";
-import { Search } from "../../../Elements/Icons";
+import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
 function SearchBox() {
   return (
     <>
-      <div className="basis-2/5 mx-5 2xl:mx-8 relative flex items-center drop-shadow">
-        <span className="p-2 absolute">
-          <Search />
+      <div className="basis-2/5 mx-5 2xl:mx-8 relative flex items-center shadow-md rounded-full">
+        <span className="px-3 absolute">
+          <MagnifyingGlassIcon className="h-6 w-6 text-indigo-500"/>
         </span>
-        <input type="search" className="SearchBox" placeholder="Search here..." />
+        <input
+          type="search"
+          id="searchBox"
+          placeholder="Search here..."
+        />
       </div>
     </>
   );

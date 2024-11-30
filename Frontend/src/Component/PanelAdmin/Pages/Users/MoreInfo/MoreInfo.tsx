@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
-import { User } from "../../../../Elements/Icons";
+import { UserCircleIcon } from "@heroicons/react/20/solid";
 
 function MoreInfo() {
   const [users, setUsers] = useState({
@@ -44,7 +44,7 @@ function MoreInfo() {
     <>
       <div className="bg-white dark:bg-gray-800 rounded-md p-2 drop-shadow">
         <div className="UserInfo">
-          <User />
+          <UserCircleIcon className="w-9 text-orange-300" />
           <p>
             Info UserName : <span className="underline">{users.userName}</span>
           </p>

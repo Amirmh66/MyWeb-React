@@ -1,13 +1,14 @@
 import Button from "../../../Elements/Buttons";
 import "./Product.css";
-import { ChebronDown, Search } from "../../../Elements/Icons";
+import { ArrowPathIcon, ChevronDownIcon, CurrencyDollarIcon, MagnifyingGlassIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
 import Alert from "../../../Elements/Alert.tsx";
 import type { IProduct } from "../../../../Types/Interfaces";
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../Constants/apiRoutes.ts";
-import Loading from "../../../Elements/Loading.tsx";
+import TablesSkeleton from "../../../Elements/TablesSkeleton.tsx";
+import Pagination from "../../../Elements/Paganation.tsx";
 
 export default function Product() {
   const [products, setProduct] = useState<IProduct[]>([]);
@@ -16,22 +17,23 @@ export default function Product() {
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertAll, setShowAlertAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limit] = useState(9);
   const location = useLocation();
+
   useEffect(() => {
-    fetchProduct();
-  }, []);
+    getProduct(currentPage);
+  }, [currentPage]);
 
   //#region getProduct
-  const fetchProduct = async () => {
+  const getProduct = async (page: number) => {
     try {
-      const response = await fetch(api.getProducts);
-      if (!response.ok) {
-        throw new Error("Network Response was not Ok");
-      }
-      const data = await response.json();
-      setProduct(data);
-    } catch ({ error }: any) {
-      setError(error.message);
+      const response = await axios.get(`http://localhost:3000/products?page=${page}&limit=${limit}`);
+      setProduct(response.data.products)
+      setTotalPages(response.data.totalPages);
+    } catch (error: any) {
+      setError(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -49,7 +51,7 @@ export default function Product() {
         await axios.delete(api.deleteProduct(selectedId));
         setShowAlert(false);
         setSelectedId(null);
-        fetchProduct();
+        getProduct(currentPage);
       } catch (error) {
         console.log(error);
       }
@@ -65,7 +67,7 @@ export default function Product() {
     try {
       await axios.delete(api.deleteAllProducts);
       setShowAlertAll(false);
-      fetchProduct();
+      getProduct(currentPage);
     } catch ({ error }: any) {
       console.log(error.message);
     } finally {
@@ -81,123 +83,111 @@ export default function Product() {
   };
   //#endregion
 
-  if (loading) return <Loading />;
+  if (loading) return <TablesSkeleton />;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <>
       {location.pathname === "/PanelAdmin/Product" ? (
-        <div className="theme rounded-md p-2 drop-shadow overflow-x-hidden max-h-screen">
-          <div className="head-table">
-            <Link to={"AddProduct"}>
-              <Button text="New Product" className="bg-green-500" />
-            </Link>
-            <Button
-              text="Refresh Product Table"
-              className="bg-sky-500"
-              onClick={fetchProduct}
-            />
-            <Button
-              text="DeleteAll"
-              className="bg-red-700"
-              onClick={handleDeleteAll}
-            />
+        <div>
+          <div className="drop-shadow mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg flex justify-between items-center">
+            <div>
+              <Link to={"AddProduct"}>
+                <Button text="New Product" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
+              </Link>
+              <Button
+                text="Refresh Product Table"
+                icon={<ArrowPathIcon className="w-5" />}
+                className="bg-sky-500"
+                onClick={() => getProduct(currentPage)}
+              />
+              <Button
+                text="DeleteAll"
+                icon={<TrashIcon className="w-5" />}
+                className="bg-red-700"
+                onClick={handleDeleteAll}
+              />
+            </div>
             <button className="filterbtn">
               All Category
-              <ChebronDown />
+              <ChevronDownIcon />
             </button>
             <button className="filterbtn">
               All Product
-              <ChebronDown />
+              <ChevronDownIcon />
             </button>
             <button className="filterbtn">
-              <Search />
+              All Brands
+              <ChevronDownIcon />
+            </button>
+            <button className="filterbtn">
+              <MagnifyingGlassIcon />
             </button>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="th">
-                  <input type="checkbox" />
-                </th>
+          <div className="min-w-full overflow-x-hidden rounded-lg flex flex-col shadow-md">
+            <div className=" overflow-auto" style={{ maxHeight: "490px" }}>
+              <table className="min-w-full table-fixed dark:divide-gray-700 ">
+                <thead className="bg-gray-200 dark:bg-gray-700">
+                  <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Command</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700">
+                  {products.map((p) => (
+                    <tr
+                      key={p._id}
+                      className="dark:hover:bg-gray-900 hover:bg-gray-200 shadow-inner"
+                    >
+                      <td>
+                        <img
+                          className="w-14 h-12 rounded text-xs"
+                          srcSet="/Images/Darwin.png"
+                          alt={p.name}
+                        />
+                      </td>
 
-                <th className="th">
-                  <p>Image</p>
-                </th>
+                      <td>
+                        <p>{p.name}</p>
+                      </td>
 
-                <th className="th">
-                  <p>Name</p>
-                </th>
-
-                <th className="th">
-                  <p>Status</p>
-                </th>
-
-                <th className="th">
-                  <p>Stock</p>
-                </th>
-                <th className="th">
-                  <p>Price</p>
-                </th>
-                <th>
-                  <p>Category</p>
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {products.map((p) => (
-                <tr key={p._id} className="tr">
-                  <td className="td">
-                    <input type="checkbox" />
-                  </td>
-
-                  <td className="td">
-                    <img
-                      className="w-12 h-12 rounded text-xs"
-                      src={p.imageUrl}
-                      alt={p.name}
-                    />
-                  </td>
-
-                  <td className="td">
-                    <p>{p.name}</p>
-                  </td>
-
-                  <td className="td">
-                    {p.stock > 9 ? (
-                      <p className="text-green-500">Avaliable</p>
-                    ) : (
-                      <p className="text-red-600">{`Only ${p.stock} left`}</p>
-                    )}
-                  </td>
-
-                  <td className="td">
-                    <p>{p.stock}</p>
-                  </td>
-
-                  <td className="td">
-                    <p>${p.price}</p>
-                  </td>
-
-                  <td className="td">
-                    <p>{p.category}</p>
-                  </td>
-                  <td className="td">
-                    <Button
-                      onClick={() => handleDelete(p._id)}
-                      text="Delete"
-                      className="bg-red-500"
-                    />
-
-                    <Link to={`EditProduct/${p._id}`}>
-                      <Button text="Edit" className="bg-yellow-500" />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      <td>
+                        {p.stock > 9 ? (
+                          <p className="text-green-500">Avaliable</p>
+                        ) : (
+                          <p className="text-red-600">{`Only ${p.stock} left`}</p>
+                        )}
+                      </td>
+                      <td>
+                        <p>{p.stock}</p>
+                      </td>
+                      <td>
+                        <p>${p.price}</p>
+                      </td>
+                      <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                        <Button
+                          onClick={() => handleDelete(p._id)}
+                          icon={<TrashIcon className="w-5" />}
+                          text="Delete"
+                          className="bg-red-500"
+                        />
+                        <Link to={`EditProduct/${p._id}`}>
+                          <Button text="Edit" icon={<PencilSquareIcon className="w-5" />} className="bg-yellow-500" />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div className="mt-1">
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+          </div>
         </div>
       ) : (
         <Outlet />

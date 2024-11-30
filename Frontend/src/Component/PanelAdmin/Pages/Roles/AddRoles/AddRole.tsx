@@ -2,20 +2,22 @@ import Button from "../../../../Elements/Buttons";
 import { useState } from "react";
 import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
-import { useSubmit } from "react-router-dom";
+import { useNavigate, useSubmit } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import SuccessMes from "../../../../Elements/SuccessMes";
 import * as yup from "yup";
-import { Warning } from "../../../../Elements/Icons";
+import { ExclamationTriangleIcon } from "@heroicons/react/20/solid"
+import "../Roles.css";
 
 function AddRole() {
   const [error, setError] = useState<string | null>(null);
-  const [showConfirm, setShowConfirm] = useState(false);
+  const redirect = useNavigate();
 
-  const onSave = async (values: any) => {
+  const onSave = async (values: any, resetForm: any) => {
     try {
-      await axios.post(api.createRole, values);
-      setShowConfirm(true);
+      await axios.post(api.createRole, values).then(() => {
+        redirect("/PanelAdmin/Roles");
+        resetForm();
+      });
     } catch (error: any) {
       setError(error.response.data);
     }
@@ -28,9 +30,6 @@ function AddRole() {
     name: yup.string().max(20).required("Name is required"),
   });
 
-  const onCancle = () => {
-    setShowConfirm(false);
-  };
   return (
     <>
       <Formik
@@ -39,23 +38,29 @@ function AddRole() {
         validationSchema={validRole}
       >
         <Form autoComplete="off">
-          <div className="container mx-auto my-4 px-4 lg:px-20">
-            <div className="structure">
-              <h1 className="font-bold text-3xl">New Role</h1>
-              <div className="mt-5">
+          <div className="px-4 lg:px-20">
+            <div className="structure-roles">
+              <h1 className="font-bold text-3xl">
+                <span className="underline underline-offset-4">New</span> Role
+              </h1>
+              <div className="my-5">
                 {error && (
-                  <p className="error">
-                    <Warning />
-                    {error}
-                  </p>
+                  <div className="flex items-center gap-1 error">
+                    <span className='w-5 '>
+                      <ExclamationTriangleIcon />
+                    </span>
+                    <p>
+                      {error}
+                    </p>
+                  </div>
                 )}
-
                 <div>
                   <label htmlFor="Role">RoleName</label>
                   <Field
                     name="name"
+                    id="Role"
                     type="text"
-                    className="lowercase"
+                    className="lowercase input"
                     placeholder="etc:admin"
                   />
                   <ErrorMessage
@@ -65,8 +70,7 @@ function AddRole() {
                   />
                 </div>
               </div>
-
-              <div className="my-4">
+              <div>
                 <Button
                   onClick={useSubmit}
                   text="Create"
@@ -77,9 +81,6 @@ function AddRole() {
           </div>
         </Form>
       </Formik>
-      {showConfirm && (
-        <SuccessMes onCancle={onCancle} message={"Create Role Successfully!"} />
-      )}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import type { IButton } from "../../Types/Interfaces";
 import "../GlobalStyle/Glogbal.css";
 
-export default function Button({ text, className, onClick, disable}: IButton) {
+export default function Button({ text, className, onClick, disable, icon }: IButton) {
   return (
     <>
       <button
@@ -10,7 +10,10 @@ export default function Button({ text, className, onClick, disable}: IButton) {
         type="submit"
         className={`${"btn"} ${className}`}
       >
-        {text}
+        <div className="flex gap-2">
+          {icon}
+          {text}
+        </div>
       </button>
     </>
   );

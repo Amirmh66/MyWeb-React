@@ -1,0 +1,180 @@
+import { Link, Outlet, useLocation } from "react-router-dom"
+import Button from "../../../Elements/Buttons"
+import { useEffect, useState } from "react"
+import axios from "axios";
+import apiRoutes from "../../../../Constants/apiRoutes";
+import Alert from "../../../Elements/Alert";
+import { ArrowPathIcon, DevicePhoneMobileIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
+import TablesSkeleton from "../../../Elements/TablesSkeleton";
+
+interface IType {
+  _id: string;
+  typeName: string;
+}
+
+interface IBrand {
+  _id: string;
+  name: string;
+  logoUrl: string;
+  types: string[];
+  createdAt: Date;
+}
+
+function Brands() {
+  const [brands, setBrands] = useState<IBrand[]>([]);
+  const [isSendRequest, setIsSendRequest] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const location = useLocation();
+  const [isShowAlert, setIsShowAlert] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [isShowModal, setIsShowModal] = useState(false);
+  const [types, setTypes] = useState<IType[]>([])
+
+  //#region ShowModal
+  const handleShowModal = async (id: string) => {
+    setIsShowModal(true);
+    try {
+      await axios.get(apiRoutes.getBrandTypes(id)).then((res) => {
+        setTypes(res.data);
+      })
+    } catch (error: any) {
+      setError(error.response.data.message);
+    }
+  }
+  //#endregion
+  //#region GetBrands
+  useEffect(() => {
+    if (isSendRequest) {
+      getBrands();
+    }
+  }, [isSendRequest]);
+
+  const getBrands = async () => {
+    try {
+      await axios.get(apiRoutes.getBrands).then((res) => {
+        setBrands(res.data)
+        setError(null);
+      })
+    } catch (error: any) {
+      setError(error.response.data.message)
+    } finally {
+      setIsSendRequest(false);
+    }
+  }
+  //#endregion
+  //#region HandleDelete
+  const handleDelete = (brandId: string) => {
+    setSelectedId(brandId);
+    setIsShowAlert(true);
+  };
+
+  const ConfirmDelete = async () => {
+    if (selectedId) {
+      try {
+        await axios.delete(apiRoutes.deleteBrand(selectedId));
+        setIsShowAlert(false);
+        setSelectedId(null);
+        getBrands();
+      } catch (error: any) {
+        setError(error.response.data.message)
+      }
+    }
+  };
+  const CancelDelete = () => {
+    setIsShowAlert(false);
+    setSelectedId(null);
+  };
+  //#endregion 
+
+  if (error) return error
+  if (isSendRequest) return <TablesSkeleton />
+  return (
+    <>
+      {location.pathname === "/PanelAdmin/Brands" ? (
+        <>
+          <div className="mb-1 bg-white dark:bg-gray-900 p-4 rounded-lg ">
+            <Link to="AddBrand">
+              <Button text="Create Brand" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
+            </Link>
+            <Button
+              text="Refresh Brand Table"
+              icon={<ArrowPathIcon className="w-5" />}
+              className="bg-blue-500"
+              onClick={getBrands}
+            />
+          </div>
+          <div className="overflow-x-auto shadow-md sm:rounded-lg flex flex-col min-w-full ">
+            <div className="overflow-auto" style={{ maxHeight: "490px" }}>
+              <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 ">
+                <thead className="bg-gray-200 dark:bg-gray-700">
+                  <tr>
+                    <th scope="col">Logo</th>
+                    <th scope="col">Brand Name</th>
+                    <th scope="col">Command</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700 ">
+                  {brands.map((b) => (
+                    <tr
+                      key={b._id}
+                      className="hover:bg-gray-300 dark:hover:bg-gray-900"
+                    >
+                      <td>
+                        <img className="w-10 ml-10" srcSet="/Images/Darwin.png" />
+                      </td>
+                      <td>{b.name}</td>
+                      <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                        <Button
+                          onClick={() => handleDelete(b._id)}
+                          text="Delete"
+                          icon={<TrashIcon className="w-5" />}
+                          className="bg-red-600"
+                        />
+                        <Link to={`Editbrand/${b._id}`}>
+                          <Button text="Edit" icon={<PencilSquareIcon className="w-5" />} className="bg-blue-600" />
+                        </Link>
+                        <Button
+                          icon={<DevicePhoneMobileIcon className="w-5" />}
+                          text="ShowTypes"
+                          onClick={() => handleShowModal(b._id)}
+                          className="bg-yellow-500"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </>
+      ) : (
+        <Outlet />
+      )}
+
+      {isShowModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
+          <div className="rounded-lg w-72 flex flex-col justify-start gap-5 bg-white">
+            <div className="py-1 px-2 flex justify-between gap-10 ">
+              <p className="text-lg font-semibold">Types:</p>
+              <ul className="overflow-y-auto w-full h-64">
+                {types.map((t) => (
+                  <li className="border hover:bg-gray-50 rounded-lg p-2 m-1">
+                    <p className="font-semibold">{t.typeName}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="p-2 text-center">
+              <Button text="Close" className="bg-gray-400 w-full text-center" onClick={() => setIsShowModal(false)} />
+            </div>
+          </div>
+        </div>
+      )}
+      {isShowAlert && (
+        <Alert message="Are You Sure You Want To Delete This Brand?" onCancle={CancelDelete} onConfirm={ConfirmDelete} />
+      )}
+    </>
+  )
+}
+export default Brands

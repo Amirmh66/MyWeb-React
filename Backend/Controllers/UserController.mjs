@@ -1,4 +1,4 @@
-import User from "../Models/UserModel.mjs";
+import User from "../Models/User.mjs";
 import bcrypt from "bcrypt";
 import moment from "moment-jalaali";
 
@@ -19,6 +19,18 @@ export const GetUserById = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+export const GetRoleUserById = async (req, res) => {
+  const userId = req.params.id;
+  try {
+    await User.findById(userId)
+      .populate("roles")
+      .then((response) => {
+        res.status(200).json(response);
+      });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 export const saveUser = async (req, res) => {
   const user = req.body;
   const isUserExsit = await User.findOne({ email: user.email });
@@ -28,7 +40,7 @@ export const saveUser = async (req, res) => {
       const currentData = moment().format("jYYYY/jM/jD");
       const hashPassword = await bcrypt.hash(user.password, 10);
       user.createdAt = currentData;
-      user.password =hashPassword; 
+      user.password = hashPassword;
       const newUser = new User(user);
       await newUser.save();
       res.status(201).json({ message: "User Successfully Registered." });

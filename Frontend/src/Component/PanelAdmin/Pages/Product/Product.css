@@ -1,19 +1,10 @@
-.th {
-    @apply py-3 px-5
-}
-.td {
-    @apply py-3 px-5 border-t border-gray-300 dark:border-gray-950
-}
-.tr {
-    @apply hover:bg-gray-200 dark:hover:bg-gray-950 transition-all shadow-inner
-}
 .table{
     @apply rounded-lg text-center p-5 
 }
 
 .filterbtn{
     @apply flex items-center hover:bg-gray-300
-     hover:dark:bg-gray-600 p-2 rounded-lg
+     hover:dark:bg-gray-600 p-1 rounded-lg  text-sm font-semibold
 }
 .structInp{
     @apply mt-5 gap-3 grid sm:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2
@@ -36,4 +27,18 @@ label{
 .DropDown{
     @apply bg-gray-200 dark:bg-gray-950
     rounded-lg py-2 px-4 m-2 cursor-pointer text-lg
+}
+td{
+    @apply text-sm font-semibold text-gray-900 text-center whitespace-nowrap dark:text-white
+}
+th{
+    @apply p-5 text-sm tracking-wider text-center text-gray-700 uppercase dark:text-gray-400
+}
+
+
+.scrollbarP::-webkit-scrollbar{
+    @apply bg-white w-3 rounded-lg
+}
+.scrollbarP::-webkit-scrollbar-thumb{
+    @apply bg-yellow-100  rounded-lg
 }

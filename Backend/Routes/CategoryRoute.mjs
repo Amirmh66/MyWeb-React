@@ -6,6 +6,7 @@ import {
   updateCategory,
   deleteCategory,
   deleteAllCategories,
+  GetCategoryTypesById,
 } from "../Controllers/CategoryController.mjs";
 
 const router = express.Router();
@@ -13,8 +14,9 @@ const router = express.Router();
 router.get("/categories", GetCategory);
 router.post("/categories", saveCategory);
 router.get("/categories/:id", GetCategoryById);
+router.get("/categoryTypes/:id", GetCategoryTypesById);
 router.patch("/categories/:id", updateCategory);
 router.delete("/categories/:id", deleteCategory);
-router.delete("/categories/",deleteAllCategories)
+router.delete("/categories/", deleteAllCategories);
 
 export default router;

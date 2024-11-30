@@ -1,6 +1,6 @@
 .card{
-    @apply p-1 bg-white dark:bg-gray-500 rounded-lg cursor-pointer 
-    shadow-md hover:shadow-lg transition-all duration-150 h-72 flex-col-reverse
+    @apply p-1 bg-white dark:bg-gray-500 rounded-lg
+    cursor-pointer transition-all duration-150 h-full
 }
 
 .productSec{

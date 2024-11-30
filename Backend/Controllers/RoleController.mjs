@@ -1,4 +1,4 @@
-import Role from "../Models/RoleModel.mjs";
+import Role from "../Models/Role.mjs";
 
 export const GetRole = async (req, res) => {
   try {

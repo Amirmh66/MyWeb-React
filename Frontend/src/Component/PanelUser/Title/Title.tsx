@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
-import { Home } from "../../Elements/Icons";
-import { useAuth } from "../../Provider/AuthProvider";
+import { HomeIcon } from "@heroicons/react/20/solid";
 
 function Title() {
-  const auth = useAuth();
   return (
     <>
       <div className="title">
@@ -16,7 +14,7 @@ function Title() {
 
         <Link to={"/"}>
           <div className="p-2 hover:bg-gray-200 rounded-full transition-all">
-            <Home />
+            <HomeIcon />
           </div>
         </Link>
       </div>

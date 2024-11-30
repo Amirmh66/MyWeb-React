@@ -5,10 +5,11 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../Constants/apiRoutes";
 import Alert from "../../../Elements/Alert";
-import Loading from "../../../Elements/Loading";
+import "./Categoryies.css";
+import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
+import TablesSkeleton from "../../../Elements/TablesSkeleton";
 
 function Categories() {
-  //#region States
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,13 +17,11 @@ function Categories() {
   const [showAlertAll, setShowAlertAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
-  //#endregion
 
+  //#region GetAllCategories
   useEffect(() => {
     getCategories();
   }, []);
-
-  //#region GetAllCategories
   const getCategories = async () => {
     try {
       const response = await fetch(api.getCategories);
@@ -80,67 +79,67 @@ function Categories() {
   };
   //#endregion
 
-  if (loading) return <Loading />;
+  if (loading) return <TablesSkeleton />;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <>
       {location.pathname === "/PanelAdmin/Categories" ? (
-        <div className="theme rounded-md p-2 drop-shadow">
-          <div className="head-table">
+        <div>
+          <div className="mb-1 bg-white dark:bg-gray-900 p-4 rounded-lg ">
             <Link to="addCategory">
-              <Button text="Create Category" className="bg-green-500" />
+              <Button text="Create Category" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
             </Link>
             <Button
-              text="Refresh Users Table"
+              text="Refresh Categories Table"
               className="bg-blue-500"
+              icon={<ArrowPathIcon className="w-5" />}
               onClick={getCategories}
             />
             <Button
               text="DeleteAllCategories"
-              className="bg-red-800"
+              icon={<TrashIcon className="w-5" />}
+              className="bg-red-800 "
               onClick={handleDeleteAll}
             />
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="th">
-                  <p>Name</p>
-                </th>
-                <th className="th">
-                  <p>Description</p>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories.map((category) => (
-                <tr key={category._id}>
-                  <td className="td">
-                    <h5>{category.name}</h5>
-                  </td>
-                  <td className="td">
-                  <h5>{category.description}</h5>
-                  </td>
-                  <td className="td">
-                    <Button
-                      onClick={() => handleDelete(category._id)}
-                      text="Delete"
-                      className="bg-red-500"
-                    />
-                    <Link to={`EditCategory/${category._id}`}>
-                      <Button text="Edit Info" className={"bg-blue-500"} />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto shadow-md sm:rounded-lg flex flex-col min-w-full ">
+            <div className="overflow-auto" style={{ maxHeight: "490px" }}>
+              <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 ">
+                <thead className="bg-gray-200 dark:bg-gray-700">
+                  <tr>
+                    <th scope="col">Category Name</th>
+                    <th scope="col">Command</th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700 ">
+                  {categories.map((c) => (
+                    <tr
+                      key={c._id}
+                      className="hover:bg-gray-300 dark:hover:bg-gray-900"
+                    >
+                      <td>{c.name}</td>
+                      <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                        <Button
+                          onClick={() => handleDelete(c._id)}
+                          text="Delete"
+                          icon={<TrashIcon className="w-5" />}
+                          className="bg-red-600"
+                        />
+                        <Link to={`EditCategory/${c._id}`}>
+                          <Button text="Edit" icon={<PencilSquareIcon className="w-5" />} className="bg-blue-600" />
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       ) : (
         <Outlet />
       )}
-
       {showAlert && (
         <Alert
           message="Are You Sure You Want to Delete This Categories?"

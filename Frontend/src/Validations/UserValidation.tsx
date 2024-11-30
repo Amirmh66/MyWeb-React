@@ -1,14 +1,21 @@
 import * as yup from "yup";
 
-const passwordRules = "/^(?=.*/d){?=.*[a-z]}(?=.*[A-Z]).{5,}$/";
-// min 5 characcters, 1 upper case letter, 1 lower case letter , 1 numeric digit.
+const validEmail = /^[a-zA-Z0-9._]+@gmail\.com$/;
+const passwordRules = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
 
 const validateUser = yup.object().shape({
   fullName: yup.string().max(400).required("FullName is required"),
   userName: yup.string().max(45).required("UserName is required"),
-  email: yup.string().max(200).required("Email is required"),
+  email: yup
+    .string()
+    .matches(validEmail, "Email format is not valid!")
+    .email("Please enter a valid email address!")
+    .max(150)
+    .required("Please Enter Email"),
   phoneNumber: yup.number().nullable().optional(),
-  password: yup.string().min(7).optional(),
+  password: yup.string().matches(passwordRules
+    , "Password Must Be at Least 8 Characters long ,including uppercase, lowercase, a digit, and special character.")
+    .min(7).required("Password is required!"),
   confirmPassword: yup
     .string()
     .oneOf([yup.ref("password")], "ConfirmPassword must match the Password")

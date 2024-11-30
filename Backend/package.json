@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "main": "index.mjs",
   "scripts": {
-    "start": "nodemon index.mjs"
+    "start": "nodemon index"
   },
+  "type": "moduule",
   "author": "",
   "license": "ISC",
   "description": "",
@@ -17,5 +18,11 @@
     "jsonwebtoken": "^9.0.2",
     "moment-jalaali": "^0.10.1",
     "mongoose": "^8.7.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.0",
+    "ts-node": "^10.9.2"
   }
 }

@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from "../Provider/AuthProvider";
+import { selectCurrentRole } from "../Features/Authentication/AuthSlice/AuthSlice";
+import { useSelector } from "react-redux";
 
 interface IRequireAuth {
   children: JSX.Element;
@@ -7,15 +8,15 @@ interface IRequireAuth {
 }
 
 const RequireAuth = ({ children, requiredRole }: IRequireAuth) => {
-  const auth = useAuth();
+  const role = useSelector(selectCurrentRole);
   const location = useLocation();
 
-  if (!auth?.role) {
-    return <Navigate to="/notFound" state={{ from: location }} replace />;
-  }
-  if (auth.role !== requiredRole) {
-    return <Navigate to="/notFound" replace />;
-  }
+   if (!role) {
+     return <Navigate to="/notFound" state={{ from: location }} replace />;
+   }
+   if (role !== requiredRole) {
+     return <Navigate to="/notFound" replace />;
+   } 
 
   return children;
 };

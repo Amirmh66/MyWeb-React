@@ -3,43 +3,13 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
 import Alert from "../../Elements/Alert";
-import { useAuth } from "../../Provider/AuthProvider";
+import { useDispatch } from "react-redux";
+import { logOut } from "../../Features/Authentication/AuthSlice/AuthSlice";
 
 function BoxManage() {
-  const [theme, setTheme] = useState("light");
-  const redirect = useNavigate();
+  const navigate = useNavigate();
   const [showMes, setShowMes] = useState(false);
-  const [error, setError] = useState();
-  const auth = useAuth();
-
-  const darkTheme = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
-  const lightTheme = () => {
-    const newTheme = theme === "dark" ? "light" : "dark";
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-  };
-  document.documentElement.classList.remove("dark", "light");
-  document.documentElement.classList.add(theme);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setTheme(savedTheme);
-    }
-  }, []);
-
-  const Logout = async () => {
-    try {
-      auth?.logout();
-      redirect("/");
-    } catch (error: any) {
-      setError(error.response.data);
-    }
-  };
+  const dispatch = useDispatch();
 
   const handleCancle = async () => {
     setShowMes(false);
@@ -48,7 +18,8 @@ function BoxManage() {
     setShowMes(true);
   };
   const handleConfirm = async () => {
-    Logout();
+    dispatch(logOut());
+    navigate("/")
   };
   return (
     <>
@@ -88,12 +59,12 @@ function BoxManage() {
                   <a className="menuItem">Default</a>
                 </MenuItem>
                 <MenuItem>
-                  <a onClick={darkTheme} className="menuItem">
+                  <a className="menuItem">
                     Dark
                   </a>
                 </MenuItem>
                 <MenuItem>
-                  <a onClick={lightTheme} className="menuItem">
+                  <a className="menuItem">
                     Light
                   </a>
                 </MenuItem>

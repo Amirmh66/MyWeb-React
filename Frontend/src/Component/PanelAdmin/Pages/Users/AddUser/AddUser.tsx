@@ -3,49 +3,54 @@ import Button from "../../../../Elements/Buttons";
 import "../User.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import api from "../../../../../Constants/apiRoutes";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import SuccessMes from "../../../../Elements/SuccessMes";
 import validateUser from "../../../../../Validations/UserValidation";
-import { IRoles } from "../../../../../Types/Interfaces";
-import { Warning } from "../../../../Elements/Icons";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
+import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import apiRoutes from "../../../../../Constants/apiRoutes";
 
+interface IRoles {
+  _id: string;
+  name: string;
+}
 function AddUser() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState(null);
   const [roles, setRoles] = useState<IRoles[]>([]);
-  const [isVisible, setIsVisible] = useState<boolean>(false);
   const redirect = useNavigate();
+  const [isSendRequest, setIsSendRequest] = useState(true);
 
-  function eyeOn() {
-    setIsVisible(true);
-  }
-  function eyeOff() {
-    setIsVisible(false);
-  }
-
-  useEffect(() => {
-    getRoles();
-  }, []);
-  const getRoles = async () => {
-    try {
-      const response = await axios.get(api.getRoles);
-      setRoles(response.data);
-    } catch ({ error }: any) {
-      setError(error.response.data.message);
-    }
-  };
-
+  //#region OnSubmit
   const onSave = async (values: any) => {
     try {
-      await axios.post(api.createUser, values);
-      redirect("/PanelAdmin/Users");
-      alert("Register Successfully.");
+      await axios.post(apiRoutes.createUser, values).then(() => {
+        redirect("/PanelAdmin/Users");
+        alert("Register Successfully.");
+      });
     } catch (error: any) {
       setError(error.response.data.message);
     }
   };
+  //#endregion 
+  
+  //#region GetRoles
+  useEffect(() => {
+    if (isSendRequest) {
+      getRoles();
+    }
+  }, [isSendRequest])
+  const getRoles = async () => {
+    try {
+      await axios.get(apiRoutes.getRoles).then((res) => {
+        setRoles(res.data)
+      })
+    } catch (error: any) {
+      setError(error.response.data.message)
+    } finally {
+      setIsSendRequest(false);
+    }
+  }
+  //#endregion 
 
   const onCancle = () => {
     setShowConfirm(false);
@@ -57,8 +62,7 @@ function AddUser() {
     email: "",
     phoneNumber: "",
     password: "",
-    role: "",
-    createdAt: "",
+    role: '',
   };
   return (
     <>
@@ -70,20 +74,26 @@ function AddUser() {
         <Form>
           <div className="px-10">
             <div className="structure-user">
-              <h1 className="font-bold text-3xl">New User</h1>
+              <h1 className="font-bold text-3xl uppercase">
+                <span className="underline underline-offset-4">New</span> User
+              </h1>
               <div className="structInp">
                 {error && (
-                  <p className="error">
-                    <Warning />
-                    {error}
-                  </p>
+                  <div className="flex items-center gap-1 error">
+                    <span className='w-5 '>
+                      <ExclamationTriangleIcon />
+                    </span>
+                    <p>
+                      {error}
+                    </p>
+                  </div>
                 )}
                 <div>
                   <Field
                     name="fullName"
                     type="text"
                     placeholder="FullName"
-                    className="inp"
+                    className="input"
                   />
                   <ErrorMessage
                     name="fullName"
@@ -98,7 +108,7 @@ function AddUser() {
                       name="userName"
                       type="text"
                       placeholder="userName(required)"
-                      className="inp"
+                      className="input"
                     />
                     <ErrorMessage
                       name="userName"
@@ -111,7 +121,7 @@ function AddUser() {
                       name="phoneNumber"
                       type="text"
                       placeholder="phoneNumber(optional)"
-                      className="inp"
+                      className="input"
                       max="11"
                     />
                     <ErrorMessage
@@ -126,7 +136,7 @@ function AddUser() {
                     name="email"
                     type="text"
                     placeholder="email(required)"
-                    className="inp"
+                    className="input"
                   />
                   <ErrorMessage
                     name="email"
@@ -139,7 +149,7 @@ function AddUser() {
                     name="password"
                     type="password"
                     placeholder="Password(required)"
-                    className="inp"
+                    className="input"
                   />
                   <ErrorMessage
                     name="password"
@@ -152,7 +162,7 @@ function AddUser() {
                     name="confirmPassword"
                     type="password"
                     placeholder="ConfirmPassword(required)"
-                    className="inp"
+                    className="input"
                   />
                   <ErrorMessage
                     name="confirmPassword"
@@ -160,28 +170,18 @@ function AddUser() {
                     component="p"
                   />
                 </div>
-                <div>
+                <div className="flex flex-col gap-2">
                   <label htmlFor="Roles">Roles</label>
-                  <Field
-                    id="Roles"
-                    as="select"
-                    className="DropDown"
-                    name="role"
-                  >
-                    {roles.map((role) => (
-                      <option key={role._id} value={role.name}>
-                        {role.name}
-                      </option>
+                  <div className="flex">
+                    {roles.map((r) => (
+                      <div key={r._id} className="m-1 border p-1 rounded-lg flex gap-2 hover:bg-gray-50 dark:hover:bg-gray-800">
+                        <Field type="radio" name="role" value={r._id} />
+                        <label>{r.name}</label>
+                      </div>
                     ))}
-                  </Field>
-                  <ErrorMessage
-                    name="role"
-                    className="text-red-600"
-                    component="p"
-                  />
+                  </div>
                 </div>
               </div>
-
               <div className="my-4">
                 <Button
                   onClick={useSubmit}

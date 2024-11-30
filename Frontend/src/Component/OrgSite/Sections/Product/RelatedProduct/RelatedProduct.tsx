@@ -5,14 +5,55 @@ function RelatedProduct() {
     <>
       <div className="mt-10 border border-gray-500 rounded-lg">
         <p className="pl-8 pt-10 text-lg font-semibold">RelatedProducts</p>
-        <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-5 p-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5 gap-3  py-4 px-5">
           <Card
             _id={""}
             imageUrl={""}
-            name={""}
-            summary={""}
+            name={"redmi12"}
             description={""}
-            price={0}
+            price={1200}
+          /><Card
+            _id={""}
+            imageUrl={""}
+            name={"redmi12"}
+            description={""}
+            price={1200}
+          /><Card
+            _id={""}
+            imageUrl={""}
+            name={"redmi12"}
+            description={""}
+            price={1200}
+          /><Card
+            _id={""}
+            imageUrl={""}
+            name={"redmi12"}
+            description={""}
+            price={1200}
+          /><Card
+            _id={""}
+            imageUrl={""}
+            name={"redmi12"}
+            description={""}
+            price={1200}
+          /><Card
+            _id={""}
+            imageUrl={""}
+            name={"redmi12"}
+            description={""}
+            price={1200}
+          /><Card
+            _id={""}
+            imageUrl={""}
+            name={"redmi12"}
+            description={""}
+            price={1200}
+          /><Card
+            _id={""}
+            imageUrl={""}
+            name={"redmi12"}
+            description={""}
+            price={1200}
           />
         </div>
       </div>

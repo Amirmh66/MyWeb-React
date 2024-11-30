@@ -1,8 +1,11 @@
-import Category from "../Models/CategoryModel.mjs";
+import Category from "../Models/Category.mjs";
 
 export const GetCategory = async (req, res) => {
   try {
-    const Categories = await Category.find();
+    const { page = 1, limit = 5 } = req.body;
+    const Categories = await Category.find()
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
     res.json(Categories);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -16,10 +19,22 @@ export const GetCategoryById = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+export const GetCategoryTypesById = async (req, res) => {
+  const categoryId = req.params.id;
+  try {
+    await Category.findById(categoryId)
+      .populate("types")
+      .then((response) => {
+        res.status(200).json(response);
+      });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 export const saveCategory = async (req, res) => {
-  const categoryName = req.body.name;
-  const name = await Category.findOne({ name: categoryName });
-  if (!name) {
+  const category = req.body;
+  const categoryIsExist = await Category.findOne({ name: category.name });
+  if (!categoryIsExist) {
     const category = new Category(req.body);
     try {
       const insertedCategory = await category.save();
@@ -28,32 +43,29 @@ export const saveCategory = async (req, res) => {
       res.status(400).json({ message: error.message });
     }
   } else {
-    res.status(400).json("This category already exsit in database!!!");
+    res.status(400).json("This category already exsit in database!");
   }
 };
 export const updateCategory = async (req, res) => {
   try {
-    const updateCategory = await Category.updateOne(
-      { _id: req.params.id },
-      { $set: req.body }
-    );
-    res.status(200).json("Category Edited");
+    await Category.updateOne({ _id: req.params.id }, { $set: req.body });
+    res.status(200);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 export const deleteCategory = async (req, res) => {
   try {
-    const deleteCategory = await Category.deleteOne({ _id: req.params.id });
-    res.status(200).json("Category Deleted");
+    await Category.deleteOne({ _id: req.params.id });
+    res.status(200);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 export const deleteAllCategories = async (req, res) => {
   try {
-    const deleteCategory = await Category.deleteMany({});
-    res.status(200).json("AllCategories Deleted");
+    await Category.deleteMany({});
+    res.status(200);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

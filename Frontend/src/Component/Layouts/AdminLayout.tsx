@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import { useState } from "react";
 import { pageContext } from "../Context/PageNContext";
 import Header from "../PanelAdmin/Header/Header";
-
 import Sidebar from "../PanelAdmin/Sidebar/Sidebar";
 
 function AdminLayout() {

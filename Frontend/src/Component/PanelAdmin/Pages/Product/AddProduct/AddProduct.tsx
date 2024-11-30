@@ -7,36 +7,43 @@ import { useSubmit } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ICategories } from "../../../../../Types/Interfaces";
 import SusscessMes from "../../../../Elements/SuccessMes";
-import { Warning } from "../../../../Elements/Icons";
 import "../Product.css";
+import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 
 function AddProduct() {
   const [categories, setCategories] = useState<ICategories[]>([]);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  //#region GetCategories
   useEffect(() => {
     getCategories();
   });
-
   const getCategories = async () => {
     try {
-      const response = await axios.get(api.getCategories);
-      const data = response.data;
-      setCategories(data);
+      await axios.get(api.getCategories).then((res) => {
+        setCategories(res.data);
+      });
     } catch (error: any) {
       setError(error.response.data);
     }
   };
-
-  const onSubmit = async (values: any) => {
+  //#endregion 
+  //#region OnSubmit
+  const onSubmit = async (values: any, { resetFrom }: any) => {
     try {
-      await axios.post(api.createProduct, values);
-      setShowSuccess(true);
+      const res = await axios.post(api.createProduct, values);
+      if (res.status === 200) {
+        setShowSuccess(true);
+        resetFrom();
+        setError(null);
+      }
+
     } catch (error: any) {
       setError(error.response.data);
     }
   };
+  //#endregion
 
   const onCancle = () => {
     setShowSuccess(false);
@@ -45,15 +52,16 @@ function AddProduct() {
     name: "",
     price: "",
     stock: "",
-    summary: "",
     description: "",
-    category: "",
   };
+  
   return (
     <>
       <div className="px-10">
         <div className="structure-product">
-          <h1 className="font-bold uppercase text-3xl">New Product</h1>
+          <h1 className="font-bold uppercase text-3xl">
+            <span className="underline underline-offset-4">New</span> Product
+          </h1>
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
@@ -62,10 +70,14 @@ function AddProduct() {
             <Form>
               <div className="structInp">
                 {error && (
-                  <p className="error">
-                    <Warning />
-                    {error}
-                  </p>
+                  <div className="flex items-center gap-1 error">
+                    <span className='w-5'>
+                      <ExclamationTriangleIcon />
+                    </span>
+                    <p>
+                      {error}
+                    </p>
+                  </div>
                 )}
                 <div>
                   <label htmlFor="Name">Name:</label>
@@ -73,7 +85,7 @@ function AddProduct() {
                     id="Name"
                     name="name"
                     className="input"
-                    placeholder="ProductName"
+                    placeholder="Product Name and Model"
                   />
                   <ErrorMessage
                     name="name"
@@ -115,21 +127,6 @@ function AddProduct() {
                   </div>
                 </div>
                 <div>
-                  <label htmlFor="Summary">Summary:</label>
-                  <Field
-                    id="Summary"
-                    name="summary"
-                    type="text"
-                    className="input"
-                    placeholder="Summary"
-                  />
-                  <ErrorMessage
-                    name="summary"
-                    className="text-red-600"
-                    component="p"
-                  />
-                </div>
-                <div>
                   <label htmlFor="Description">Description:</label>
                   <Field
                     id="textarea"
@@ -143,7 +140,7 @@ function AddProduct() {
                     className="text-red-600"
                     component="p"
                   />
-                </div>
+                </div> 
                 {/* DropPicture */}
 
                 <div className="extraOutline p-4 bg-gray-100 dark:bg-gray-800 w-max bg-whtie m-auto rounded-lg">
@@ -174,7 +171,7 @@ function AddProduct() {
                 </div>
 
                 <div className="flex items-center">
-                  <div>
+                  {/* <div>
                     <label htmlFor="Category">Category:</label>
                     <br />
                     <Field
@@ -194,14 +191,15 @@ function AddProduct() {
                       className="text-red-600"
                       component="p"
                     />
-                  </div>
+                  </div> */}
                 </div>
                 <div>
-                  <Button
+                  {/* <Button
                     text="Submit"
                     className="bg-green-700"
                     onClick={useSubmit}
-                  />
+                  /> */}
+                  <button type="submit">Click</button>
                 </div>
               </div>
             </Form>

@@ -4,7 +4,7 @@ import "../User.css";
 import axios from "axios";
 import api from "../../../Constants/apiRoutes";
 import { useState } from "react";
-import { Home, Warning } from "../../Elements/Icons";
+import { HomeIcon, ExclamationTriangleIcon } from "@heroicons/react/16/solid";
 import validSignUp from "../../../Validations/SignUpValidation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { SignUpValues } from "../../../Types/Interfaces";
@@ -25,10 +25,10 @@ function SignUp() {
     try {
       await axios.post(api.SignUp, values);
       navigate("/login");
-      alert("SignUp Succssefully.Please Login!");
+      alert("SignUp Succssefully. Please Login!");
     } catch (error: any) {
-      console.log(error);
-      
+      console.log(error.response.data.message);
+
     }
   };
   const initialValues = {
@@ -36,7 +36,6 @@ function SignUp() {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "user",
   };
   return (
     <>
@@ -54,14 +53,14 @@ function SignUp() {
                 </p>
                 <span className="hidden md:block cursor-pointer rounded-full p-2 hover:bg-gray-100 transition ">
                   <Link to="/">
-                    <Home />
+                    <HomeIcon />
                   </Link>
                 </span>
               </div>
 
               {error && (
                 <p className="error">
-                  <Warning />
+                  <ExclamationTriangleIcon />
                   {error}
                 </p>
               )}

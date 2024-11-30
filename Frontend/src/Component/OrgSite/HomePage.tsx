@@ -2,14 +2,14 @@ import { Outlet, useLocation } from "react-router-dom";
 import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import Main from "./Main/Main";
-function HomePage() {
-  const location = useLocation();
 
+
+function HomePage() {
+  const location = useLocation(); 
   return (
     <>
       {location.pathname !== "/" ? (
         <div>
-          <Header />
           <Outlet />
           <Footer />
         </div>
@@ -17,7 +17,7 @@ function HomePage() {
         <div>
           <Header />
           <Main />
-          <Footer />
+          <Footer /> 
         </div>
       )}
     </>

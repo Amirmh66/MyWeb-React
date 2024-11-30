@@ -1,27 +1,29 @@
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useAuth } from "../../../Provider/AuthProvider";
+import { useSelector } from "react-redux";
+import { selectCurrentRole, selectCurrentUserName } from "../../../Features/Authentication/AuthSlice/AuthSlice";
 
 function Profile() {
-  const auth = useAuth();
+  const userName = useSelector(selectCurrentUserName);
+  const role = useSelector(selectCurrentRole);
 
   return (
     <>
-      <div className="basis-4/5 md:cursor-pointer xs:hidden sm:flex color-txt">
-        <img src="/Images/PicUser.png" className="size-12 rounded-md" alt="" />
+    <div className="basis-4/5 md:cursor-pointer xs:hidden sm:flex color-txt">
+      <img src="/Images/PicUser.png" className="size-12 rounded-md"  />
 
-        <div className="User-AL">
-          {/* UserName */}
-          <h5>{auth?.userName}</h5>
-          {/* AccessLevel */}
-          <p className="font-semibold text-sm">{auth?.role}</p>
-        </div>
-
-        <div className="hidden md:block">
-          <ChevronDownIcon />
-        </div>
+      <div className="User-AL">
+        {/* UserName */}
+        <p className="font-semibold">{userName}</p>
+        {/* AccessLevel */}
+        <p className="font-semibold text-sm">{role}</p>
       </div>
+
+      <div className="hidden md:block w-5">
+        <ChevronDownIcon />
+      </div>
+    </div>
     </>
-  );
+  )
 }
 
 export default Profile;

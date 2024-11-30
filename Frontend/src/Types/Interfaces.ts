@@ -1,7 +1,6 @@
 import React from "react";
 
 export interface Item {
-  id: number;
   icon: JSX.Element;
   name: string;
   path: string;
@@ -18,6 +17,7 @@ export interface IUser {
   updatedAt: Date;
 }
 export interface IButton {
+  icon?: JSX.Element;
   text: React.ReactNode;
   onClick?: () => void | any;
   disable?: any;
@@ -34,7 +34,6 @@ export interface IProduct {
   category: string;
   imageUrl: string;
   name: string;
-  summary: string;
   description: string;
   price: number;
 }
@@ -42,7 +41,6 @@ export interface ICardProduct {
   _id: string;
   imageUrl: string;
   name: string;
-  summary: string;
   description: string;
   price: number;
 }
@@ -59,18 +57,13 @@ export interface IAlert {
 export interface ICategories {
   _id: string;
   name: string;
+  types:[string];
   description: string;
 }
 
 export interface ISuccessMes {
   onCancle?: () => void;
   message: string;
-  HomeMes?: string;
-}
-
-export interface IRoles {
-  _id: string;
-  name: string;
 }
 
 export interface LoginValues {

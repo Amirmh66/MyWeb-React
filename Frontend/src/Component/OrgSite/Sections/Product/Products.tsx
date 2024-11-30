@@ -1,47 +1,59 @@
 import { useEffect, useState } from "react";
 import { IProduct } from "../../../../Types/Interfaces";
 import axios from "axios";
-import api from "../../../../Constants/apiRoutes";
 import "./Products.css";
-import Loading from "../../../Elements/Loading";
+import { LoadingSkeleton } from "../../../Elements/Loading";
 import Card from "./CardProduct/Card";
+import Paganation from '../../../Elements/Paganation'
+
 function Products() {
+
   const [products, setProducts] = useState<IProduct[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [limit] = useState(12);
 
+  //#region GetProduct
   useEffect(() => {
-    GetProduct();
-  }, []);
-
-  const GetProduct = async () => {
+    setTimeout(() => {
+      GetProduct(currentPage);
+    }, 1000);
+  }, [currentPage]);
+    const GetProduct = async (page: number) => {
     try {
-      const response = await axios(api.getProducts);
-      const data = response.data;
-      setProducts(data);
-    } catch (error: any) {
-      console.log(error);
+      await axios.get(`http://localhost:3000/products?page=${page}&limit=${limit}`).then((res) => {
+        setProducts(res.data.products);
+        setTotalPages(res.data.totalPages);
+      });
+    } catch (error: any) { 
+      setError(error.response.data.message);
     } finally {
       setLoading(false);
     }
   };
-
-  if (loading) return <Loading />;
-  if (error) return <p>Error: {error}</p>;
+  //#endregion
+  if (loading) return <LoadingSkeleton />;
+  if (error) return <div className="bg-white text-red-600 font-semibold text-lg p-2 inline-block m-10 rounded-lg ">
+    Error: {error}
+  </div>;
   return (
     <>
       <div className="productSec">
         {products.map((product) => (
-          <Card
-            _id={product._id}
-            imageUrl={product.imageUrl}
-            name={product.name}
-            summary={product.summary}
-            description={product.description}
-            price={product.price}
-          />
+          <li key={product._id} className="list-none">
+            <Card
+              _id={product._id}
+              imageUrl={product.imageUrl}
+              name={product.name}
+              description={product.description}
+              price={product.price}
+            />
+          </li>
         ))}
       </div>
+      <Paganation currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
     </>
   );
 }

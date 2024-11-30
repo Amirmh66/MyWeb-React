@@ -1,10 +1,13 @@
 import "./Header.css";
-import Logo from "./nav/Logo";
-import Navbar from "./nav/Navbar";
-import SearchBox from "./nav/SearchBox";
-import Buttons from "./nav/Buttons";
+import SearchBox from "./navSection/SearchBox";
+import Buttons from "./navSection/Buttons";
+import Logo from "../../Elements/Logo";
+import Navbar from "./navSection/Navbar";
+import NavbarMobile from "../../Elements/NavbarMobile";
+
 
 function Header() {
+ 
   return (
     <>
       <nav className="header">
@@ -13,6 +16,7 @@ function Header() {
         <Navbar />
         <Buttons />
       </nav>
+      <NavbarMobile/>
     </>
   );
 }

@@ -1,9 +1,10 @@
+import { MoonIcon, SunIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
-import { Dark, Light } from "../../../Elements/Icons";
+
 
 export default function Theme() {
   const [theme, setTheme] = useState("light");
- 
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -22,8 +23,10 @@ export default function Theme() {
   return (
     <>
       <>
-        <button onClick={toggleTheme} className="themeB">
-          {theme === "light" ?  <Dark /> : <Light />}
+        <button onClick={toggleTheme}>
+          <span className="p-5">
+            {theme === "light" ? <MoonIcon /> : <SunIcon />}
+          </span>
         </button>
       </>
     </>

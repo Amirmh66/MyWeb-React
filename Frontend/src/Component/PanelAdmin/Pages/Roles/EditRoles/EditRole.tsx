@@ -5,7 +5,9 @@ import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
 import * as yup from "yup";
 import { Field, Form, Formik, ErrorMessage } from "formik";
-import { Warning } from "../../../../Elements/Icons";
+import "../Roles.css";
+import { LoadingText } from "../../../../Elements/Loading";
+import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 
 function EditRole() {
   const [initialValues, setinitialValues] = useState({
@@ -13,34 +15,45 @@ function EditRole() {
   });
   const [error, setError] = useState<string | null>(null);
   const { id } = useParams();
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  //#region GetRole
   useEffect(() => {
     getRole();
   }, [id]);
   const getRole = async () => {
     try {
-      const response = await axios.get(api.getRoleById(id));
-      const data = await response.data;
-      setinitialValues({
-        name: data.name,
+      await axios.get(api.getRoleById(id)).then((res) => {
+        setinitialValues({
+          name: res.data.name,
+        });
       });
     } catch (error: any) {
       setError(error.response.data);
+    } finally {
+      setLoading(false);
     }
   };
-
+  //#endregion 
+  //#region OnSubmit
   const onSave = async (values: any) => {
     try {
-      await axios.patch(api.updateRole(id), values);
-      navigate("/PanelAdmin/Roles");
-    } catch ({ error }: any) {
+      await axios.patch(api.updateRole(id), values).then(() => {
+        navigate("/PanelAdmin/Roles");
+      });
+    } catch (error: any) {
       setError(error);
     }
   };
+  //#endregion 
+
   const validRole = yup.object().shape({
-    name: yup.string().max(45).required("Name is required"),
+    name: yup.string().max(40).required("Name is required"),
   });
+
+  if (loading) return <LoadingText />;
+
   return (
     <>
       <Formik
@@ -50,24 +63,35 @@ function EditRole() {
         enableReinitialize={true}
       >
         <Form>
-          <div className="container mx-auto my-4 px-4 lg:px-20">
-            <div className="structure">
-              <h1 className="font-bold text-3xl">Edit Role</h1>
+          <div className="px-24">
+            <div className="structure-roles">
+              <h1 className="font-bold text-3xl">
+                <span className="underline underline-offset-4">Edit</span>Role
+              </h1>
               {error && (
-                <p className="error">
-                  <Warning />
-                  {error}
-                </p>
+                <div className="flex items-center gap-1 error">
+                  <span className='w-5 '>
+                    <ExclamationTriangleIcon />
+                  </span>
+                  <p>
+                    {error}
+                  </p>
+                </div>
               )}
-              <div className="mt-5">
-                <Field name="name" type="text" placeholder="Name(required)" />
+              <div className="my-5">
+                <Field
+                  name="name"
+                  type="text"
+                  className="input lowercase"
+                  placeholder="Name(required)"
+                />
                 <ErrorMessage
                   name="name"
                   className="text-red-600"
                   component="p"
                 />
               </div>
-              <div className="my-4">
+              <div>
                 <Button
                   onClick={useSubmit}
                   text="Edit"

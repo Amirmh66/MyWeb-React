@@ -2,48 +2,61 @@ import "../User.css";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import validLogin from "../../../Validations/LoginValidation";
-import { useState } from "react";
-import axios from "axios";
-import api from "../../../Constants/apiRoutes";
-import { Home, Warning } from "../../Elements/Icons";
 import { FaGithub, FaGoogle } from "react-icons/fa";
-import { EyeSlashIcon, EyeIcon } from "@heroicons/react/20/solid";
-import { LoginValues } from "../../../Types/Interfaces";
+import { ExclamationTriangleIcon, HomeIcon } from "@heroicons/react/20/solid";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../Features/Authentication/AuthSlice/AuthSlice";
+import { useLoginMutation } from "../../Features/Authentication/authApiSlice/authApiSlice";
+import { useEffect, useRef, useState } from "react";
 
+interface IUser {
+  email: string;
+  password: string;
+}
 function Login() {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const redirect = useNavigate();
-  const [error, setError] = useState("");
 
+  const userRef = useRef<HTMLInputElement>()
+  const errRef = useRef<HTMLInputElement>()
+  const [errMsg, setErrMsg] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const [login, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
   const initialValues = {
     email: "",
     password: "",
   };
-  function eyeOn() {
-    setIsVisible(true);
-  }
-  function eyeOff() {
-    setIsVisible(false);
-  }
 
-  const onSubmit = async (user: LoginValues) => {
+  useEffect(() => {
+    userRef.current?.focus();
+  }, []);
+
+
+  const handleLogin = async (values: IUser) => {
     try {
-      const res = await axios.post(api.Login, user);
-      const token = res.data.accessToken;
-      localStorage.setItem("token", token);
-      alert("Login Successfully");
-      redirect("/");
+      const userData = await login(values).unwrap();
+      dispatch(setCredentials({ ...userData }));
+      navigate("/");
     } catch (error: any) {
-      setError(error.response.data.message);
-    }
-  };
 
+      setErrMsg(error.data.message)
+      if (!error) {
+        setErrMsg('No Server Response');
+      } else if (error.status === 400) {
+        setErrMsg('Missing Username or Password');
+      } else if (error.status === 401) {
+        setErrMsg("Email Or Password is Not Valid!");
+      } else {
+        setErrMsg("login Failed");
+      }
+      errRef.current?.focus();
+    }
+  }
   return (
     <>
       <Formik
         initialValues={initialValues}
         validationSchema={validLogin}
-        onSubmit={onSubmit}
+        onSubmit={handleLogin}
       >
         <section className="boxlogin">
           <div className="struch">
@@ -52,19 +65,18 @@ function Login() {
                 <p className="text-xl md:text-xl font-bold leading-tight">
                   Login to your account
                 </p>
-                <span className="hidden md:block cursor-pointer rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition ">
-                  <Link to="/">
-                    <Home />
-                  </Link>
-                </span>
+                <Link to="/">
+                  <HomeIcon aria-label="Home Page" className="hidden md:block w-10 cursor-pointer rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 
+                  duration-150 transition ease-linear" />
+                </Link>
               </div>
-              {error && (
-                <p className="error">
-                  <Warning />
-                  {error}
-                </p>
+              {errMsg && (
+                <span className="text-lg text-red-500 flex gap-3">
+                  <ExclamationTriangleIcon className="w-6" />
+                  {errMsg}
+                </span>
               )}
-              <Form>
+              <Form autoComplete="off">
                 <div className="mt-3">
                   <label htmlFor="email" className="lable">
                     Email
@@ -72,8 +84,10 @@ function Login() {
                   <Field
                     name="email"
                     id="email"
+                    type="email"
                     placeholder="example@gmail.com"
                     className="inp"
+                    autoComplete="off"
                   />
                   <ErrorMessage
                     name="email"
@@ -87,19 +101,20 @@ function Login() {
                     Password
                   </label>
                   <div className="relative flex justify-center items-center">
-                    <div className="absolute cursor-pointer p-2 right-2 top-3">
+                    {/* <div className="absolute cursor-pointer p-2 right-2 top-3">
                       {isVisible ? (
                         <EyeSlashIcon onClick={eyeOff} className="w-5 h-6" />
                       ) : (
                         <EyeIcon onClick={eyeOn} className="w-5 h-6" />
                       )}
-                    </div>
+                    </div> */}
                     <Field
                       name="password"
                       id="password"
-                      type={isVisible ? "text" : "password"}
+                      type="password"
                       placeholder="********"
                       className="inp"
+                      autoComplete="off"
                     />
                   </div>
                   <ErrorMessage

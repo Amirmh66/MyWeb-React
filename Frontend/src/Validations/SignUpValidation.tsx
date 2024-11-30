@@ -1,11 +1,14 @@
 import * as yup from "yup";
+const validEmail = /^[a-zA-Z0-9._]+@gmail\.com$/;
 
 const validSignUp = yup.object().shape({
   userName: yup.string().required("Please Enter UserName"),
   email: yup
     .string()
-    .email("Please Enter a valid Email!")
-    .required("Plaese Enter Email"),
+    .matches(validEmail, "Email format is not valid!")
+    .email("Please enter a valid email address!")
+    .max(150)
+    .required("Please Enter Email"),
   password: yup.string().min(7).required("Please Enter Password"),
   confirmPassword: yup
     .string()
@@ -14,4 +17,4 @@ const validSignUp = yup.object().shape({
   role: yup.string().required(),
 });
 
-export default validSignUp
+export default validSignUp;

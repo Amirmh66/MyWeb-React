@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { IPageN } from "../../../../Types/Interfaces";
 import { pageContext } from "../../../Context/PageNContext";
 
 function PageName() {

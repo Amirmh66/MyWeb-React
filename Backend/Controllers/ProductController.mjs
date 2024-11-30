@@ -1,14 +1,23 @@
-import Product from "../Models/ProductModel.mjs";
+import Product from "../Models/Product.mjs";
 
 export const GetProduct = async (req, res) => {
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 5;
+  const skip = (page - 1) * limit;
   try {
-    const Products = await Product.find();
-    res.json(Products);
+    const products = await Product.find().skip(skip).limit(limit);
+    const totalCount = await Product.countDocuments();
+    const totalPages = Math.ceil(totalCount / limit);
+    res.json({
+      products,
+      totalCount,
+      totalPages,
+      currentPage: page,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
 export const GetProductById = async (req, res) => {
   try {
     const Products = await Product.findById(req.params.id);
@@ -17,7 +26,6 @@ export const GetProductById = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
-
 export const saveProduct = async (req, res) => {
   const prodcutName = req.body.name;
   const isExistProduct = await Product.findOne({ name: prodcutName });
@@ -35,7 +43,6 @@ export const saveProduct = async (req, res) => {
       .json("This Product with this name has already exist in database!!!");
   }
 };
-
 export const updateProduct = async (req, res) => {
   try {
     const updateProduct = await Product.updateOne(
@@ -55,7 +62,6 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 export const deleteAllProduct = async (req, res) => {
   try {
     const product = await Product.deleteMany({});

@@ -1,4 +1,4 @@
 .main{
-    @apply sm:mx-0 md:mx-10 flex flex-col justify-center my-5
+    @apply flex flex-col justify-center relative
     
 }

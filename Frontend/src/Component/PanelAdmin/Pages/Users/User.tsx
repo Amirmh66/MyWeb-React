@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import "./User.css";
 import type { IUser } from "../../../../Types/Interfaces";
 import Button from "../../../Elements/Buttons";
-import { ChebronDown, Search } from "../../../Elements/Icons";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../Constants/apiRoutes";
 import Alert from "../../../Elements/Alert";
-import Loading from "../../../Elements/Loading";
+import { ArrowPathIcon, ChevronDoubleRightIcon, ChevronDownIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
+import TablesSkeleton from "../../../Elements/TablesSkeleton";
 export default function User() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -18,7 +18,9 @@ export default function User() {
   const location = useLocation();
 
   useEffect(() => {
-    getUsers();
+    setTimeout(() => {
+      getUsers();
+    },2000);
   }, []);
 
   //#region GetAllUser
@@ -76,93 +78,88 @@ export default function User() {
   };
   //#endregion
 
-  if (loading) return <Loading />;
+  if (loading) return <TablesSkeleton />;
   if (error) return <p>Error: {error}</p>;
   return (
     <>
       {location.pathname === "/PanelAdmin/Users" ? (
-        <div className="theme rounded-md p-2 drop-shadow">
-          <div className="head-table">
-            <Link to="AddUser">
-              <Button text="Create User" className="bg-green-500" />
-            </Link>
-            <Button
-              text="Refresh Users Table"
-              className="bg-blue-500"
-              onClick={getUsers}
-            />
-            <Button
-              text="DeleteAllUsers"
-              className="bg-red-700"
-              onClick={handleDeleteAll}
-            />
+        <div>
+          <div className="drop-shadow mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg flex gap-5 items-center">
+            <div>
+              <Link to={"AddUser"}>
+                <Button text="New User" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
+              </Link>
+              <Button
+                text="Refresh Users Table"
+                icon={<ArrowPathIcon className="w-5" />}
+                className="bg-sky-500"
+                onClick={getUsers}
+              />
+              <Button
+                text="DeleteAll"
+                icon={<TrashIcon className="w-5" />}
+                className="bg-red-700"
+                onClick={handleDeleteAll}
+              />
+            </div>
             <button className="filterbtn">
               All Users
-              <ChebronDown />
-            </button>
-            <button className="filterbtn">
-              <Search />
+              <ChevronDownIcon />
             </button>
           </div>
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="th">
-                  <p>UserName</p>
-                </th>
-                <th className="th">
-                  <p>Role</p>
-                </th>
-
-                <th className="th">
-                  <p>Status</p>
-                </th>
-
-                <th className="th">
-                  <p>Command</p>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.length ? (
-                users.map((user) => (
-                  <tr key={user._id}>
-                    <td className="td">
-                      <h5>{user.userName}</h5>
-                    </td>
-                    <td className="td">
-                      <h5>{user.role}</h5>
-                    </td>
-                    <td className="td">
-                      <p className="text-green-500">Active</p>
-                    </td>
-                    <td className="td">
-                      <Button
-                        onClick={() => handleDelete(user._id)}
-                        text="Delete"
-                        className="bg-red-500"
-                      />
-                      <Link to={`EditUser/${user._id}`}>
-                        <Button text="Edit Info" className={"bg-blue-500"} />
-                      </Link>
-                      <Link to={`MoreInfoUser/${user._id}`}>
-                        <Button text="More Info" className={"bg-yellow-500"} />
-                      </Link>
-                    </td>
+          <div className="min-w-full overflow-x-hidden rounded-lg flex flex-col shadow-md">
+            <div className="overflow-auto" style={{ maxHeight: "490px" }}>
+              <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 ">
+                <thead className="bg-gray-200 dark:bg-gray-700">
+                  <tr>
+                    <th scope="col">UserName</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Command</th>
                   </tr>
-                ))
-              ) : (
-                <div className="m-10">
-                  <p className="text-lg font-semibold">No Users To Display</p>
-                </div>
-              )}
-            </tbody>
-          </table>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700 ">
+                  {users.length ? (
+                    users.map((user) => (
+                      <tr key={user._id} className="dark:hover:bg-gray-900 hover:bg-gray-200 shadow-inner">
+                        <td>
+                          <p>{user.userName}</p>
+                        </td>
+                        <td>
+                          <p>{user.role}</p>
+                        </td>
+                        <td>
+                          <p className="text-green-500">Active</p>
+                        </td>
+                        <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                          <Button
+                            onClick={() => handleDelete(user._id)}
+                            text="Delete"
+                            icon={<TrashIcon className="w-5" />}
+                            className="bg-red-500"
+                          />
+                          <Link to={`EditUser/${user._id}`}>
+                            <Button text="Edit Info" icon={<PencilSquareIcon className="w-5" />} className={"bg-blue-500"} />
+                          </Link>
+                          <Link to={`MoreInfoUser/${user._id}`}>
+                            <Button text="More Info" icon={<ChevronDoubleRightIcon className="w-5" />} className={"bg-yellow-500"} />
+                          </Link>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <div className="m-10">
+                      <p className="text-lg font-semibold">No Users To Display</p>
+                    </div>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       ) : (
         <Outlet />
       )}
-
       {showAlert && (
         <Alert
           message="Are You Sure You Want to Delete This User?"
@@ -180,3 +177,4 @@ export default function User() {
     </>
   );
 }
+

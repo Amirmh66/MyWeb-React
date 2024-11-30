@@ -1,139 +1,184 @@
+import { LoadingText } from "../Elements/Loading";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import AdminLayout from "./AdminLayout";
+import { lazy, Suspense } from 'react'
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from "../Authentication/ErrorFallback";
 import HomePage from "../OrgSite/HomePage";
-import AddProduct from "../PanelAdmin/Pages/Product/AddProduct/AddProduct";
-import EditProduct from "../PanelAdmin/Pages/Product/EditProduct/EditProduct";
-import AddUser from "../PanelAdmin/Pages/Users/AddUser/AddUser";
-import EditUser from "../PanelAdmin/Pages/Users/EditUser/EditUser";
-import MoreInfo from "../PanelAdmin/Pages/Users/MoreInfo/MoreInfo";
-import Order from "../PanelAdmin/Pages/Order/Order";
-import Dashboard from "../PanelAdmin/Pages/Dashboard/Dashboard";
-import Users from "../PanelAdmin/Pages/Users/User";
-import Leaderboard from "../PanelAdmin/Pages/Leaderboard/Leaderboard";
-import Product from "../PanelAdmin/Pages/Product/Product";
-import Categories from "../PanelAdmin/Pages/Categories/Categories";
-import AddCategory from "../PanelAdmin/Pages/Categories/AddCategory/AddCategory";
-import EditCategory from "../PanelAdmin/Pages/Categories/EditCategory/EditCategory";
-import Login from "../Authentication/Login/Login";
-import SignUp from "../Authentication/SignUp/SignUp";
-import AuthLayout from "./AuthLayout";
-import Roles from "../PanelAdmin/Pages/Roles/Roles";
-import AddRole from "../PanelAdmin/Pages/Roles/AddRoles/AddRole";
-import EditRole from "../PanelAdmin/Pages/Roles/EditRoles/EditRole";
-import ProductDetail from "../OrgSite/Sections/Product/ProductDetail/ProductDetail";
-import UserLayout from "./UserLayout";
-import PanelUser from "../PanelUser/PanelUser";
-import RequireAuth from "../Authentication/RequireAuth";
-import PanelEditor from "../PanelEditor/PanelEditor";
+const AdminLayout = lazy(() => import('./AdminLayout'))
+const UserLayout = lazy(() => import("./UserLayout"))
+const AuthLayout = lazy(() => import("./AuthLayout"))
+const AddProduct = lazy(() => import("../PanelAdmin/Pages/Product/AddProduct/AddProduct"))
+const EditProduct = lazy(() => import("../PanelAdmin/Pages/Product/EditProduct/EditProduct"))
+const AddUser = lazy(() => import("../PanelAdmin/Pages/Users/AddUser/AddUser"))
+const EditUser = lazy(() => import("../PanelAdmin/Pages/Users/EditUser/EditUser"))
+const MoreInfo = lazy(() => import("../PanelAdmin/Pages/Users/MoreInfo/MoreInfo"))
+const Order = lazy(() => import("../PanelAdmin/Pages/Order/Order"))
+const Dashboard = lazy(() => import("../PanelAdmin/Pages/Dashboard/Dashboard"))
+const Users = lazy(() => import("../PanelAdmin/Pages/Users/User"))
+const Leaderboard = lazy(() => import("../PanelAdmin/Pages/Leaderboard/Leaderboard"))
+const Product = lazy(() => import("../PanelAdmin/Pages/Product/Product"))
+const Categories = lazy(() => import("../PanelAdmin/Pages/Categories/Categories"))
+const AddCategory = lazy(() => import("../PanelAdmin/Pages/Categories/AddCategory/AddCategory"))
+const EditCategory = lazy(() => import("../PanelAdmin/Pages/Categories/EditCategory/EditCategory"))
+const Roles = lazy(() => import("../PanelAdmin/Pages/Roles/Roles"))
+const AddRole = lazy(() => import("../PanelAdmin/Pages/Roles/AddRoles/AddRole"))
+const EditRole = lazy(() => import("../PanelAdmin/Pages/Roles/EditRoles/EditRole"))
+const Brands = lazy(() => import("../PanelAdmin/Pages/Brands/Brands"))
+const EditBrand = lazy(() => import("../PanelAdmin/Pages/Brands/EditBrand/EditBrand"))
+const AddBrand = lazy(() => import("../PanelAdmin/Pages/Brands/AddBrand/AddBrand"))
+const Types = lazy(() => import("../PanelAdmin/Pages/Types/Types"))
+const AddType = lazy(() => import("../PanelAdmin/Pages/Types/AddType/AddType"))
+const EditType = lazy(() => import("../PanelAdmin/Pages/Types/EditType/EditType"))
+const ProductDetail = lazy(() => import("../OrgSite/Sections/Product/ProductDetail/ProductDetail"))
+const PanelUser = lazy(() => import("../PanelUser/PanelUser"))
+const Profile = lazy(() => import("../OrgSite/Sections/Profile/Profile"))
+const RequireAuth = lazy(() => import("../Authentication/RequireAuth"))
+const ShoppingCart = lazy(() => import("../OrgSite/Sections/ShoppingCart/ShoppingCart"))
+const Login = lazy(() => import("../Authentication/Login/Login"))
+const SignUp = lazy(() => import("../Authentication/SignUp/SignUp"))
 import Error404 from "../Authentication/unAuthorized/Error404";
 
 function Container() {
+
   return (
-      <BrowserRouter>
-        <Routes>
-          {/* Public */}
-          <Route path="/" element={<HomePage />}>
-            <Route path="/ProductDetail/:id" element={<ProductDetail />} />
-          </Route>
-          {/* Public */}
-          <Route
-            path="/login"
-            element={
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<HomePage />}>
+          <Route path="/ProductDetail/:id" element={
+            <Suspense fallback={<LoadingText />}>
+              <ProductDetail />
+            </Suspense>} />
+        </Route>
+        <Route
+          path="/login"
+          element={
+            <Suspense fallback={<LoadingText/>}>
               <AuthLayout>
                 <Login />
               </AuthLayout>
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              <AuthLayout>
-                <SignUp />
-              </AuthLayout>
-            }
-          />
-          <Route
-          path="/notFound"
+            </Suspense>
+          }
+        />
+        <Route
+          path="/signup"
           element={
             <AuthLayout>
-              <Error404/>
+              <SignUp />
             </AuthLayout>
           }
         />
-        
-          {/* ProtectedRoutes/private */}
-          {/* panelAdmin */}
-          <Route
-            path="/PanelAdmin"
-            element={
+        <Route
+          path="/notFound"
+          element={
+            <AuthLayout>
+              <Error404 />
+            </AuthLayout>
+          }
+        />
+        <Route path="ShoppingCart" element={
+          <Suspense fallback={<LoadingText />}>
+            <ShoppingCart />
+          </Suspense>} />
+
+        <Route
+          path="/PanelAdmin"
+          element={
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
               <RequireAuth requiredRole="admin">
-
-                <AdminLayout />
+                <Suspense fallback={<LoadingText />}>
+                  <AdminLayout />
+                </Suspense>
               </RequireAuth>
-           
-            }
-          >
-            <Route path="Dashboard" element={<Dashboard />} />
-            <Route path="Leaderboard" element={<Leaderboard />} />
-            <Route path="Order" element={<Order />} />
+            </ErrorBoundary>
+          }
+        >
+          <Route path="Dashboard" element={
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<LoadingText />}>
+                <Dashboard />
+              </Suspense>
+            </ErrorBoundary>
+          } />
+          <Route path="Leaderboard" element={<Leaderboard />} />
+          <Route path="Order" element={<Order />} />
 
-            <Route path="Product" element={<Product />}>
-              <Route path="AddProduct" element={<AddProduct />} />
-              <Route path="EditProduct/:id" element={<EditProduct />} />
-            </Route>
-
-            <Route path="Roles" element={<Roles />}>
-              <Route path="AddRole" element={<AddRole />} />
-              <Route path="EditRole/:id" element={<EditRole />} />
-            </Route>
-
-            <Route path="Users" element={<Users />}>
-              <Route path="AddUser" element={<AddUser />} />
-              <Route path="EditUser/:id" element={<EditUser />} />
-              <Route path="MoreInfoUser/:id" element={<MoreInfo />} />
-            </Route>
-
-            <Route path="Categories" element={<Categories />}>
-              <Route path="AddCategory" element={<AddCategory />} />
-              <Route path="EditCategory/:id" element={<EditCategory />} />
-            </Route>
+          <Route path="Product" element={
+            <Suspense fallback={<LoadingText />}>
+              <Product />
+            </Suspense>
+          }>
+            <Route path="AddProduct" element={<AddProduct />} />
+            <Route path="EditProduct/:id" element={<EditProduct />} />
           </Route>
 
-          {/* EditorPanel */}
-          <Route
-            path="/PanelEditor"
-            element={
-              <RequireAuth requiredRole="">
-                <PanelEditor />
-              </RequireAuth>
-            }
-          >
-            <Route path="Dashboard" element={<Dashboard />} />
-
-            <Route path="Categories" element={<Categories />}>
-              <Route path="EditCategory/:id" element={<EditCategory />} />
-            </Route>
-
-            <Route path="Product" element={<Product />}>
-              <Route path="EditProduct/:id" element={<EditProduct />} />
-            </Route>
+          <Route path="Roles" element={
+            <Suspense fallback={<LoadingText />}>
+              <Roles />
+            </Suspense>
+          }>
+            <Route path="AddRole" element={<AddRole />} />
+            <Route path="EditRole/:id" element={<EditRole />} />
           </Route>
 
-          {/* ProtectedRoutes/private */}
-          {/* PanelUser */}
+          <Route path="Users" element={
+            <Suspense fallback={<LoadingText />}>
+              <Users />
+            </Suspense>
+          }>
+            <Route path="AddUser" element={<AddUser />} />
+            <Route path="EditUser/:id" element={<EditUser />} />
+            <Route path="MoreInfoUser/:id" element={<MoreInfo />} />
+          </Route>
 
-          <Route
-            path="panelUser"
-            element={
-              <RequireAuth requiredRole="user">
+          <Route path="Brands" element={
+            <Suspense fallback={<LoadingText />}>
+              <Brands />
+            </Suspense>
+
+          }>
+            <Route path="AddBrand" element={<AddBrand />} />
+            <Route path="EditBrand/:id" element={<EditBrand />} />
+          </Route>
+
+          <Route path="Types" element={
+            <Suspense fallback={<LoadingText />}>
+              <Types />
+            </Suspense>
+          }>
+            <Route path="AddType" element={<AddType />} />
+            <Route path="EditType/:id" element={<EditType />} />
+          </Route>
+
+          <Route path="Categories" element={
+            <Suspense fallback={<LoadingText />}>
+              <Categories />
+            </Suspense>
+          }>
+            <Route path="AddCategory" element={<AddCategory />} />
+            <Route path="EditCategory/:id" element={<EditCategory />} />
+          </Route>
+        </Route>
+
+
+
+        <Route path="/Profile" element={<UserLayout>
+          <Profile />
+        </UserLayout>} />
+
+        <Route
+          path="panelUser"
+          element={
+            <RequireAuth requiredRole="user">
+              <Suspense fallback={<LoadingText />}>
                 <UserLayout>
                   <PanelUser />
                 </UserLayout>
-              </RequireAuth>
-            }
-          />
-        </Routes>
-      </BrowserRouter>
+              </Suspense>
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    </BrowserRouter >
   );
 }
 

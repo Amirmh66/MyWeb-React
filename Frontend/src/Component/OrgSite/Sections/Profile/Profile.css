@@ -1,0 +1,4 @@
+.login{
+    @apply inline-block py-3 px-7 bg-yellow-500 hover:bg-yellow-600 text-sm
+     text-white font-bold rounded-xl transition duration-200 cursor-pointer
+}
