@@ -10,6 +10,7 @@ import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@her
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
 
 function Categories() {
+
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -86,7 +87,7 @@ function Categories() {
     <>
       {location.pathname === "/PanelAdmin/Categories" ? (
         <div>
-          <div className="mb-1 bg-white dark:bg-gray-900 p-4 rounded-lg ">
+          <div className="table-nav">
             <Link to="addCategory">
               <Button text="Create Category" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
             </Link>
@@ -103,23 +104,23 @@ function Categories() {
               onClick={handleDeleteAll}
             />
           </div>
-          <div className="overflow-x-auto shadow-md sm:rounded-lg flex flex-col min-w-full ">
+          <div className="boxTable">
             <div className="overflow-auto" style={{ maxHeight: "490px" }}>
-              <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 ">
-                <thead className="bg-gray-200 dark:bg-gray-700">
+              <table className="table">
+                <thead className="thead">
                   <tr>
                     <th scope="col">Category Name</th>
                     <th scope="col">Command</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700 ">
+                <tbody className="tbody">
                   {categories.map((c) => (
                     <tr
                       key={c._id}
                       className="hover:bg-gray-300 dark:hover:bg-gray-900"
                     >
                       <td>{c.name}</td>
-                      <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                      <td className="btn-Sec-InForm">
                         <Button
                           onClick={() => handleDelete(c._id)}
                           text="Delete"

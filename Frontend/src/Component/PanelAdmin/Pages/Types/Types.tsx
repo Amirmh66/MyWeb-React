@@ -65,12 +65,13 @@ function Types() {
   //#endregion 
 
   if (error) return error
-  if (isSendRequest) return <TablesSkeleton />
+  if (isSendRequest) return <TablesSkeleton />;
+
   return (
     <>
       {location.pathname === "/PanelAdmin/Types" ? (
         <div>
-          <div className="mb-1 bg-white dark:bg-gray-900 p-4 rounded-lg ">
+          <div className="table-nav">
             <Link to="AddType">
               <Button text="CreateNewType" icon={<PlusCircleIcon className='w-5' />} className="bg-green-500" />
             </Link>
@@ -81,23 +82,23 @@ function Types() {
               onClick={getTypes}
             />
           </div>
-          <div className="overflow-x-auto flex flex-col shadow-md sm:rounded-lg min-w-full">
+          <div className="boxTable">
             <div className="overflow-auto" style={{ maxHeight: "490px" }}>
-              <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700">
-                <thead className="bg-gray-200 dark:bg-gray-700">
+              <table className="table">
+                <thead className="thead">
                   <tr>
                     <th scope="col">Type Name</th>
                     <th scope="col">Command</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700 ">
+                <tbody className="tbody">
                   {types.map((t) => (
                     <tr
                       key={t._id}
                       className="hover:bg-gray-300 dark:hover:bg-gray-900"
                     >
                       <td>{t.typeName}</td>
-                      <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                      <td className="btn-Sec-InForm">
                         <Button
                           onClick={() => handleDelete(t._id)}
                           text="Delete"

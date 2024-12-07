@@ -9,6 +9,7 @@ import { ICategories } from "../../../../../Types/Interfaces";
 import SusscessMes from "../../../../Elements/SuccessMes";
 import "../Product.css";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import QuillEditor from "../../../../Elements/QuillEditor";
 
 function AddProduct() {
   const [categories, setCategories] = useState<ICategories[]>([]);
@@ -30,17 +31,24 @@ function AddProduct() {
   };
   //#endregion 
   //#region OnSubmit
-  const onSubmit = async (values: any, { resetFrom }: any) => {
+  const onSubmit = async (values: any, { resetForm }: any) => {
     try {
       const res = await axios.post(api.createProduct, values);
       if (res.status === 200) {
-        setShowSuccess(true);
-        resetFrom();
         setError(null);
+        setShowSuccess(true);
+        resetForm();
       }
 
     } catch (error: any) {
-      setError(error.response.data);
+      if (error.message === "Network Error") {
+        setError("Server can't Response!")
+      }
+      else {
+        setError(error.response.data);
+      }
+
+      console.log(error);
     }
   };
   //#endregion
@@ -54,7 +62,7 @@ function AddProduct() {
     stock: "",
     description: "",
   };
-  
+
   return (
     <>
       <div className="px-10">
@@ -131,18 +139,17 @@ function AddProduct() {
                   <Field
                     id="textarea"
                     name="description"
-                    rows="6"
-                    as="textarea"
                     placeholder="Description"
+                    component={QuillEditor}
                   />
                   <ErrorMessage
                     name="description"
                     className="text-red-600"
                     component="p"
                   />
-                </div> 
-                {/* DropPicture */}
+                </div>
 
+                {/* DropPicture */}
                 <div className="extraOutline p-4 bg-gray-100 dark:bg-gray-800 w-max bg-whtie m-auto rounded-lg">
                   <div
                     className="file_upload p-5 relative border-4 border-dotted border-gray-300 dark:border-gray-950 rounded-lg"
@@ -199,7 +206,7 @@ function AddProduct() {
                     className="bg-green-700"
                     onClick={useSubmit}
                   /> */}
-                  <button type="submit">Click</button>
+                  <button type="submit">clikc</button>
                 </div>
               </div>
             </Form>

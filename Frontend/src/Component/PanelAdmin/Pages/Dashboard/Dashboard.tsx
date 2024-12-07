@@ -33,7 +33,7 @@ export default function Dashboard() {
         <Counter />
       </div>
       <div className="bg-white dark:bg-gray-900 p-4 mt-10 text rounded-lg text-center">
-        <h2 className="border py-2 rounded-full">UnitTest-test</h2>
+        <h2 className="border py-2 rounded-full" >UnitTest-test</h2>
       </div>
     </>
   );

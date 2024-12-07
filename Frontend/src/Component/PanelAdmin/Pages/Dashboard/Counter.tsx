@@ -2,10 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../Features/Store/Store";
 import Button from "../../../Elements/Buttons";
 import {
-  decrement,
-  increment,
   decrementByAmount,
-  incrementByAmount,
   incrementAsync,
 } from "../../../Features/Counter/CounterSlice";
 
@@ -15,8 +12,8 @@ function Counter() {
 
   return (
     <>
-      <div className="my-2">
-        <h2 className="bg-gray-600 rounded-full p-2 inline-block font-bold text-2xl">
+      <div className="my-2 counter">
+        <h2 data-testid="counter" className="bg-gray-600 rounded-full p-2 inline-block font-bold text-2xl ">
           {count}
         </h2>
       </div>

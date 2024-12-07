@@ -8,6 +8,7 @@ import api from "../../../../Constants/apiRoutes";
 import Alert from "../../../Elements/Alert";
 import { ArrowPathIcon, ChevronDoubleRightIcon, ChevronDownIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
+
 export default function User() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -80,11 +81,12 @@ export default function User() {
 
   if (loading) return <TablesSkeleton />;
   if (error) return <p>Error: {error}</p>;
+
   return (
     <>
       {location.pathname === "/PanelAdmin/Users" ? (
         <div>
-          <div className="drop-shadow mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg flex gap-5 items-center">
+          <div className="table-nav">
             <div>
               <Link to={"AddUser"}>
                 <Button text="New User" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
@@ -102,15 +104,15 @@ export default function User() {
                 onClick={handleDeleteAll}
               />
             </div>
-            <button className="filterbtn">
+            <button className="filterBtn">
               All Users
               <ChevronDownIcon />
             </button>
           </div>
-          <div className="min-w-full overflow-x-hidden rounded-lg flex flex-col shadow-md">
+          <div className="boxTable">
             <div className="overflow-auto" style={{ maxHeight: "490px" }}>
-              <table className="min-w-full divide-y divide-gray-200 table-fixed dark:divide-gray-700 ">
-                <thead className="bg-gray-200 dark:bg-gray-700">
+              <table className="table">
+                <thead className="thead">
                   <tr>
                     <th scope="col">UserName</th>
                     <th scope="col">Role</th>
@@ -118,10 +120,10 @@ export default function User() {
                     <th scope="col">Command</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700 ">
+                <tbody className="tbody">
                   {users.length ? (
                     users.map((user) => (
-                      <tr key={user._id} className="dark:hover:bg-gray-900 hover:bg-gray-200 shadow-inner">
+                      <tr key={user._id} className="dark:hover:bg-gray-900 hover:bg-gray-200">
                         <td>
                           <p>{user.userName}</p>
                         </td>
@@ -131,7 +133,7 @@ export default function User() {
                         <td>
                           <p className="text-green-500">Active</p>
                         </td>
-                        <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                        <td className="btn-Sec-InForm">
                           <Button
                             onClick={() => handleDelete(user._id)}
                             text="Delete"

@@ -33,7 +33,9 @@ export default function Product() {
       setProduct(response.data.products)
       setTotalPages(response.data.totalPages);
     } catch (error: any) {
-      setError(error.response.data.message);
+      if (error.message === 'Network Error') {
+        setError("Server Can't Response")
+      }
     } finally {
       setLoading(false);
     }
@@ -90,7 +92,7 @@ export default function Product() {
     <>
       {location.pathname === "/PanelAdmin/Product" ? (
         <div>
-          <div className="drop-shadow mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg flex justify-between items-center">
+          <div className="table-nav">
             <div>
               <Link to={"AddProduct"}>
                 <Button text="New Product" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
@@ -124,10 +126,10 @@ export default function Product() {
               <MagnifyingGlassIcon />
             </button>
           </div>
-          <div className="min-w-full overflow-x-hidden rounded-lg flex flex-col shadow-md">
-            <div className=" overflow-auto" style={{ maxHeight: "490px" }}>
-              <table className="min-w-full table-fixed dark:divide-gray-700 ">
-                <thead className="bg-gray-200 dark:bg-gray-700">
+          <div className="boxTable">
+            <div className=" overflow-auto" style={{ maxHeight: "500px" }}>
+              <table className="table">
+                <thead className="thead">
                   <tr>
                     <th scope="col">Image</th>
                     <th scope="col">Name</th>
@@ -137,11 +139,11 @@ export default function Product() {
                     <th scope="col">Command</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200 dark:bg-gray-950 dark:divide-gray-700">
+                <tbody className="tbody">
                   {products.map((p) => (
                     <tr
                       key={p._id}
-                      className="dark:hover:bg-gray-900 hover:bg-gray-200 shadow-inner"
+                      className="dark:hover:bg-gray-900 hover:bg-gray-200"
                     >
                       <td>
                         <img
@@ -168,7 +170,7 @@ export default function Product() {
                       <td>
                         <p>${p.price}</p>
                       </td>
-                      <td className="py-2 px-5 text-sm font-medium text-center whitespace-nowrap">
+                      <td className="btn-Sec-InForm">
                         <Button
                           onClick={() => handleDelete(p._id)}
                           icon={<TrashIcon className="w-5" />}

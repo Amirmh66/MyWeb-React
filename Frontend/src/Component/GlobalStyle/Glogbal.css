@@ -1,32 +1,62 @@
-.main {
-  @apply bg-gray-100 transition-colors duration-75 dark:bg-gray-800;
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+@layer base {
+  .main {
+    @apply bg-gray-100 transition-colors duration-75 dark:bg-gray-800;
+  }
+
+  ::-webkit-scrollbar {
+    @apply bg-white w-3 rounded-bl-sm rounded-br-sm;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-400  rounded-sm;
+  }
 }
 
-.btn {
-  @apply no-underline text-sm font-semibold rounded-md shadow-md
-    text-white cursor-pointer px-5 py-3 text-center mr-4 transition-transform
-      duration-300 hover:scale-105;
+@layer utilities {
+  #footer-btn {
+    @apply flex flex-col items-center;
+  }
+  .footer-txt {
+    @apply text-sm font-semibold;
+  }
 }
-.theme {
-  @apply bg-white dark:bg-gray-900 transition-colors duration-75 text-black dark:text-gray-100;
-}
-.error {
-  @apply my-2 text-red-500 font-semibold flex gap-2;
-}
-.slc {
-  @apply block appearance-none w-full bg-white border border-gray-300 rounded-md
-     py-2 pl-3 pr-10 text-base leading-5 text-gray-700
-     focus:outline-none focus:ring focus:ring-indigo-500 focus:border-indigo-500;
-}
-#footer-btn {
-  @apply flex flex-col items-center;
-}
-.footer-txt {
-  @apply text-sm font-semibold;
-}
-::-webkit-scrollbar {
-  @apply bg-white w-3 rounded-bl-sm rounded-br-sm;
-}
-::-webkit-scrollbar-thumb {
-  @apply bg-slate-400  rounded-sm;
+
+/* for buttons cards forms and etc... */
+@layer components {
+  .btn {
+    @apply no-underline text-sm font-semibold rounded-md shadow-md
+      text-white cursor-pointer px-5 py-3 text-center mr-4 transition-transform
+        duration-300 hover:scale-105;
+  }
+  th {
+    @apply p-5 text-sm tracking-wider text-center text-gray-700 uppercase dark:text-gray-400;
+  }
+  .filterBtn {
+    @apply flex items-center hover:bg-gray-300
+     hover:dark:bg-gray-600 p-1 rounded-lg  text-sm font-semibold;
+  }
+  .error {
+    @apply my-2 text-red-500 font-semibold flex gap-2;
+  }
+  .boxTable {
+    @apply overflow-x-auto shadow-md sm:rounded-lg flex flex-col min-w-full;
+  }
+  .table {
+    @apply min-w-full divide-gray-200 table-fixed dark:divide-gray-700;
+  }
+  .tbody {
+    @apply bg-white divide-gray-200  divide-y dark:bg-gray-950 shadow-inner dark:divide-gray-700;
+  }
+  .thead {
+    @apply bg-gray-200 dark:bg-gray-700;
+  }
+  .btn-Sec-InForm {
+    @apply py-2 px-5 text-sm font-medium text-center whitespace-nowrap;
+  }
+  .table-nav {
+    @apply drop-shadow mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg flex items-center gap-5;
+  }
 }
