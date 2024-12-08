@@ -3,7 +3,6 @@ import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import validProduct from "../../../../../Validations/ProductValidation";
-import { useSubmit } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ICategories } from "../../../../../Types/Interfaces";
 import SusscessMes from "../../../../Elements/SuccessMes";
@@ -201,12 +200,10 @@ function AddProduct() {
                   </div> */}
                 </div>
                 <div>
-                  {/* <Button
+                  <Button
                     text="Submit"
                     className="bg-green-700"
-                    onClick={useSubmit}
-                  /> */}
-                  <button type="submit">clikc</button>
+                  />
                 </div>
               </div>
             </Form>

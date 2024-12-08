@@ -1,5 +1,3 @@
-import { FaDeviantart } from "react-icons/fa"
-
 function TablesSkeleton() {
 
     return (
@@ -60,7 +58,8 @@ function TablesSkeleton() {
                             <div className='btn-skeleton'></div>
                         </div>
                     </div>
-                </div><div className="body-table">
+                </div>
+                <div className="body-table">
                     {/* nameOnTr   */}
                     <div className="py-4 px-5">
                         <div className='txt-name-On-Tr'></div>
@@ -75,7 +74,8 @@ function TablesSkeleton() {
                             <div className='btn-skeleton'></div>
                         </div>
                     </div>
-                </div><div className="body-table">
+                </div>
+                <div className="body-table">
                     {/* nameOnTr   */}
                     <div className="py-4 px-5">
                         <div className='txt-name-On-Tr'></div>
@@ -90,7 +90,8 @@ function TablesSkeleton() {
                             <div className='btn-skeleton'></div>
                         </div>
                     </div>
-                </div><div className="body-table">
+                </div>
+                <div className="body-table">
                     {/* nameOnTr   */}
                     <div className="py-4 px-5">
                         <div className='txt-name-On-Tr'></div>

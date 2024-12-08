@@ -8,13 +8,13 @@ function QuillEditor({ field, form, ...props }: any) {
 
     const modules = {
         toolbar: [
-            [{ header: [1, 2, 3, false] }],
+            [{ header: [1, 2, 3,,4, false] }],
             ["bold", "italic", "underline", "strike"],
             [
                 { list: "ordered" },
                 { list: "bullet" }
             ],
-            ["link", "image"],
+            ["link"],
         ]
     }
 
@@ -23,6 +23,7 @@ function QuillEditor({ field, form, ...props }: any) {
             onChange={handlChange}
             {...props}
             modules={modules}
+            className='dark:placeholder:text-gray-100'
         />
     )
 }

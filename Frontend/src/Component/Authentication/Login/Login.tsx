@@ -60,7 +60,6 @@ function Login() {
         onSubmit={handleLogin}
       >
         <section className="boxlogin">
-          <h1>Hello World</h1>
           <div className="struch">
             <div className="w-full h-max">
               <div className="md:flex justify-between">
