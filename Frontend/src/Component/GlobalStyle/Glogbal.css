@@ -31,48 +31,13 @@
       text-white cursor-pointer px-5 py-3 text-center mr-4 transition-transform
         duration-300 hover:scale-105;
   }
-  th {
-    @apply p-5 text-sm tracking-wider text-center text-gray-700 uppercase dark:text-gray-400;
+  
+  .btn:disabled{
+    @apply opacity-65 transform-none disabled:cursor-default
   }
-  .filterBtn {
-    @apply flex items-center hover:bg-gray-300
-     hover:dark:bg-gray-600 p-1 rounded-lg  text-sm font-semibold;
-  }
+
   .error {
     @apply my-2 text-red-500 font-semibold flex gap-2;
   }
-  .boxTable {
-    @apply overflow-x-auto shadow-md sm:rounded-lg flex flex-col min-w-full;
-  }
-  .table {
-    @apply min-w-full divide-gray-200 table-fixed dark:divide-gray-700;
-  }
-  .tbody {
-    @apply bg-white divide-gray-200  divide-y dark:bg-gray-950 shadow-inner dark:divide-gray-700;
-  }
-  .thead {
-    @apply bg-gray-200 dark:bg-gray-700;
-  }
-  .btn-Sec-InForm {
-    @apply py-2 px-5 text-sm font-medium text-center whitespace-nowrap;
-  }
-  .table-nav {
-    @apply drop-shadow mb-2 p-3 bg-white dark:bg-gray-900 rounded-lg flex items-center gap-5;
-  }
-  /* SkeletonTable */
-  .btn-skeleton {
-    @apply bg-gray-200 dark:bg-gray-700 rounded-lg p-2 w-28 cursor-default h-12
-  }
-  .txt-header-skeleton {
-    @apply bg-gray-100 dark:bg-gray-500 rounded-lg w-32 h-6 animate-pulse;
-  }
-  .txt-name-On-Tr {
-    @apply bg-gray-200 dark:bg-gray-500  w-28 h-8 rounded-lg animate-pulse;
-  }
-  .body-table {
-    @apply bg-gray-50 dark:bg-gray-600 border-b-2 border-gray-400 h-20 pl-10 flex gap-44 justify-start items-center;
-  }
-  .body-table:last-child {
-    @apply rounded-br-lg rounded-bl-lg border-none
-  }
+  
 }

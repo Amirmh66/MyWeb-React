@@ -8,11 +8,13 @@ import { HomeIcon, ExclamationTriangleIcon } from "@heroicons/react/16/solid";
 import validSignUp from "../../../Validations/SignUpValidation";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/20/solid";
 import { SignUpValues } from "../../../Types/Interfaces";
+import Button from "../../Elements/Buttons";
 
 function SignUp() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function eyeOn() {
     setIsVisible(true);
@@ -23,12 +25,15 @@ function SignUp() {
 
   const onSubmit = async (values: SignUpValues) => {
     try {
+      setIsSubmitting(true)
       await axios.post(api.SignUp, values);
       navigate("/login");
       alert("SignUp Succssefully. Please Login!");
     } catch (error: any) {
       console.log(error.response.data.message);
-
+      setError(error.response.data.message)
+    } finally {
+      setIsSubmitting(false);
     }
   };
   const initialValues = {
@@ -102,8 +107,8 @@ function SignUp() {
                   <label htmlFor="password" className="lable">
                     Password
                   </label>
-                  <div className="relative flex justify-center items-center">
-                    <div className="absolute cursor-pointer p-2 right-2 top-3">
+                  <div className="relative flex justify-end">
+                    <div className="absolute cursor-pointer py-3 right-5">
                       {isVisible ? (
                         <EyeSlashIcon onClick={eyeOff} className="w-5 h-6" />
                       ) : (
@@ -143,7 +148,9 @@ function SignUp() {
                   />
                 </div>
 
-                <button type="submit" className="logBtn">SignUp</button>
+                <div className="my-5 text-ceter">
+                  <Button text="SignUp" disable={isSubmitting} className="bg-orange-400 px-20"></Button>
+                </div>
 
                 <div className="text-center mt-6">
                   <p>

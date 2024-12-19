@@ -1,6 +1,6 @@
 import "./Profile.css";
 import Logo from "../../../Elements/Logo";
-import { ShoppingCartIcon, UserCircleIcon } from '@heroicons/react/20/solid'
+import { ShoppingCartIcon, UserCircleIcon, HeartIcon } from '@heroicons/react/20/solid'
 import AdminBtn from "../../../Elements/AdminBtn";
 import NavbarMobile from "../../../Elements/NavbarMobile";
 import { Link } from "react-router-dom";
@@ -24,14 +24,14 @@ function Profile() {
 
   return (
     <>
-      <div className="flex flex-col items-center my-2 justify-center gap-3 text-center">
+      <div className="flex flex-col items-center justify-center gap-3 my-2 text-center">
         <Logo />
         {role === "admin" && (
           <AdminBtn />
         )}
         {role === "user" && (
-          <Link to={"panelUser"}>
-          <div className="hover:text-orange-500 transition-all duration-150">
+          <Link to={"/panelUser"}>
+          <div className="transition-all duration-150 hover:text-orange-500">
             <span className="inline-block w-6 md:w-8">
               <UserCircleIcon />
             </span>
@@ -39,22 +39,28 @@ function Profile() {
         </Link>
         )}
       </div>
-      <div className="border-t-2 my-5 mx-3"></div>
+      <div className="mx-3 my-5 border-t-2"></div>
       <div className="mx-2">
-        <li className="my-1 text-sm font-semibold flex gap-2 cursor-pointer">
-          <span className="w-6">
+        <li className="flex gap-2 my-1 text-sm font-semibold cursor-pointer">
+          <span className="w-6 text-sky-800">
             <ShoppingCartIcon />
           </span>
           <p>ShoppingCart</p>
         </li>
+        <li className="flex gap-2 my-1 text-sm font-semibold cursor-pointer">
+          <span className="w-6 text-red-500">
+            <HeartIcon />
+          </span>
+          <p>Favorites</p>
+        </li>
       </div>
 
-      <div className="border-t-2 my-5 mx-3"></div>
+      <div className="mx-3 my-5 border-t-2"></div>
       <div className="mx-2">
         <div>
           {guidanceItem.map((item) => (
             <Link to="/ShoppingCart">
-              <li className="my-1 text-sm font-semibold flex gap-2 cursor-pointer" key={item.id}>
+              <li className="flex gap-2 my-1 text-sm font-semibold cursor-pointer" key={item.id}>
                 <span className="w-6">{item.icon}</span>
                 <p>{item.name}</p>
               </li>
@@ -62,7 +68,7 @@ function Profile() {
           ))}
         </div>
       </div>
-      <div className="border-t-2 my-5 mx-3"></div>
+      <div className="mx-3 my-5 border-t-2"></div>
       <NavbarMobile />
     </>
   );

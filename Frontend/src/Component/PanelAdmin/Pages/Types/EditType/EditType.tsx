@@ -1,10 +1,10 @@
 import { ErrorMessage, Field, Formik, Form } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useSubmit } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { validType } from "../../../../../Validations/TypeValidation";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import Button from "../../../../Elements/Buttons";
-import { LoadingText } from "../../../../Elements/Loading";
+import LoadingText from "../../../../Elements/LoadingText";
 import apiRoutes from "../../../../../Constants/apiRoutes";
 import axios from "axios";
 import '../Types.css'
@@ -20,6 +20,7 @@ function EditType() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [initialValues, setinitialValues] = useState<IType>({
     typeName: "",
     description: "",
@@ -48,10 +49,13 @@ function EditType() {
   //#region OnSubmit
   const onSave = async (values: IType) => {
     try {
+      setIsSubmitting(true)
       await axios.patch(apiRoutes.updateType(id), values);
       navigate("PanelAdmin/Types");
     } catch (error: any) {
       setError(error.response.data.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   //#endregion
@@ -106,8 +110,8 @@ function EditType() {
 
               <div className="my-4">
                 <Button
-                  onClick={useSubmit}
-                  text="Edit"
+                  disable={isSubmitting}
+                  text={isSubmitting ? "Loading..." : "Edit"}
                   className="bg-green-700"
                 />
               </div>

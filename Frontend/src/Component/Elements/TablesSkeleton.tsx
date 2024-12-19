@@ -1,3 +1,5 @@
+import "./styles/TablesSkeleton.css"
+
 function TablesSkeleton() {
 
     return (

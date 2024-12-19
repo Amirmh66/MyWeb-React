@@ -8,6 +8,7 @@ const apiRoutes: any = {
   updateProduct: (id: string) => `${baseURL}/products/${id}`,
   deleteProduct: (id: string) => `${baseURL}/products/${id}`,
   deleteAllProducts: `${baseURL}/products`,
+  getProductCount: `${baseURL}/productsCount`,
   // Users
   getUsers: `${baseURL}/users`,
   getUserById: (id: string) => `${baseURL}/users/${id}`,
@@ -15,6 +16,7 @@ const apiRoutes: any = {
   updateUser: (id: string) => `${baseURL}/users/${id}`,
   deleteUser: (id: string) => `${baseURL}/users/${id}`,
   deleteAllUsers: `${baseURL}/users`,
+  getUserCount: `${baseURL}/getUserCount`,
   // Categories
   getCategories: `${baseURL}/categories`,
   getCategoryById: (id: string) => `${baseURL}/categories/${id}`,

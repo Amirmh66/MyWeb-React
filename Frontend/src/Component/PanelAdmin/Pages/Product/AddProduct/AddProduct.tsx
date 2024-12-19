@@ -13,6 +13,7 @@ import QuillEditor from "../../../../Elements/QuillEditor";
 function AddProduct() {
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
   //#region GetCategories
@@ -32,13 +33,13 @@ function AddProduct() {
   //#region OnSubmit
   const onSubmit = async (values: any, { resetForm }: any) => {
     try {
+      setIsSubmitting(true)
       const res = await axios.post(api.createProduct, values);
       if (res.status === 200) {
         setError(null);
         setShowSuccess(true);
         resetForm();
       }
-
     } catch (error: any) {
       if (error.message === "Network Error") {
         setError("Server can't Response!")
@@ -46,8 +47,8 @@ function AddProduct() {
       else {
         setError(error.response.data);
       }
-
-      console.log(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   //#endregion
@@ -201,8 +202,9 @@ function AddProduct() {
                 </div>
                 <div>
                   <Button
-                    text="Submit"
-                    className="bg-green-700"
+                    disable={isSubmitting}
+                    text={isSubmitting ? "Loading..." : "Create"}
+                    className="bg-green-700 px-7"
                   />
                 </div>
               </div>

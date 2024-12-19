@@ -2,7 +2,7 @@ import Button from "../../../../Elements/Buttons";
 import { useState } from "react";
 import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
-import { useNavigate, useSubmit } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as yup from "yup";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid"
@@ -11,15 +11,19 @@ import "../Roles.css";
 function AddRole() {
   const [error, setError] = useState<string | null>(null);
   const redirect = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const onSave = async (values: any, resetForm: any) => {
     try {
+      setIsSubmitting(true)
       await axios.post(api.createRole, values).then(() => {
         redirect("/PanelAdmin/Roles");
         resetForm();
       });
     } catch (error: any) {
-      setError(error.response.data);
+      console.log(error)
+    } finally {
+      setIsSubmitting(false);
     }
   };
   const initialValues = {
@@ -72,9 +76,9 @@ function AddRole() {
               </div>
               <div>
                 <Button
-                  onClick={useSubmit}
-                  text="Create"
-                  className="bg-green-700"
+                  disable={isSubmitting}
+                  text={isSubmitting ? "Loading..." : "Create"}
+                  className="bg-green-700 px-5"
                 />
               </div>
             </div>

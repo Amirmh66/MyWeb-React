@@ -6,7 +6,7 @@ import api from "../../../../../Constants/apiRoutes";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import "../Categoryies.css";
 import { validCategory } from "../../../../../Validations/ValidCategoryies";
-import { LoadingText } from "../../../../Elements/Loading";
+import  LoadingText  from "../../../../Elements/LoadingText";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import apiRoutes from "../../../../../Constants/apiRoutes";
 

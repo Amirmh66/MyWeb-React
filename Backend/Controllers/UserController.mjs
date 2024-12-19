@@ -2,12 +2,22 @@ import User from "../Models/User.mjs";
 import bcrypt from "bcrypt";
 import moment from "moment-jalaali";
 
-export const GetAllUser = async (req, res) => {
+export const GetUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+export const getUsersByRole = async (req, res) => {
+  const { role } = req.query;
+  console.log(role);
+  try {
+    const filteredUsers = await User.find({ role });
+    res.status(200).json(filteredUsers);
+  } catch (error) {
+    console.log(error);
   }
 };
 export const GetUserById = async (req, res) => {
@@ -76,5 +86,13 @@ export const deleteAllUser = async (req, res) => {
     res.status(200).json("Users Deleted.");
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+export const getCountUsers = async (req, res) => {
+  try {
+    const userCount = await User.countDocuments();
+    res.status(200).json(userCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };

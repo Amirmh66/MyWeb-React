@@ -15,7 +15,7 @@ export const signUpUser = async (req, res) => {
       const passwordHash = await bcrypt.hash(user.password, 10);
       user.createdAt = currentData;
       user.password = passwordHash;
-      user.role = "6724becca75536beb34a66eb";
+      user.role = "675d80db73744f998ec49e22";
       const newUser = new User(user);
       await newUser.save();
       res.status(201).json({ message: "User Successfully SignUp." });
@@ -26,7 +26,6 @@ export const signUpUser = async (req, res) => {
     res.status(400).json({ message: "this email already SignUp!" });
   }
 };
-
 export const loginUser = async (req, res) => {
   const user = req.body;
 

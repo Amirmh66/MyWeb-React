@@ -17,23 +17,26 @@ interface IRoles {
 function AddUser() {
   const [showConfirm, setShowConfirm] = useState(false);
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [roles, setRoles] = useState<IRoles[]>([]);
   const redirect = useNavigate();
   const [isSendRequest, setIsSendRequest] = useState(true);
- 
+
   //#region OnSubmit
   const onSave = async (values: any) => {
     try {
+      setIsSubmitting(true)
       await axios.post(apiRoutes.createUser, values).then(() => {
         redirect("/PanelAdmin/Users");
         alert("Register Successfully.");
       });
     } catch (error: any) {
       setError(error.response.data.message);
+    } finally {
+      setIsSubmitting(false)
     }
   };
   //#endregion 
-  
   //#region GetRoles
   useEffect(() => {
     if (isSendRequest) {
@@ -185,9 +188,9 @@ function AddUser() {
               </div>
               <div className="my-4">
                 <Button
-                  onClick={useSubmit}
-                  text="Create"
-                  className="bg-green-700"
+                  disable={isSubmitting}
+                  text={isSubmitting ? "Loading..." : "Create"}
+                  className="bg-green-700 px-7"
                 />
               </div>
             </div>

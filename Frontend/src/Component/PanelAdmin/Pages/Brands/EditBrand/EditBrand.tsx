@@ -1,13 +1,14 @@
 import Button from "../../../../Elements/Buttons";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams, useSubmit } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import SuccessMes from "../../../../Elements/SuccessMes";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid"
 import apiRoutes from "../../../../../Constants/apiRoutes";
 import BrandValidation from "../../../../../Validations/BrandValidation";
-import { LoadingText } from "../../../../Elements/Loading";
+import LoadingText from "../../../../Elements/LoadingText";
+import '../Brand.css'
 
 interface IBrand {
   name: string;
@@ -24,6 +25,7 @@ interface ITypes {
 function EditBrand() {
   const [error, setError] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate();
   const [isSendRequest, setIsSendRequest] = useState(true);
   const [types, setTypes] = useState<ITypes[]>([]);
@@ -65,11 +67,15 @@ function EditBrand() {
   //#region OnSubmit
   const onSave = async (values: IBrand) => {
     try {
+      setIsSubmitting(true);
       await axios.patch(apiRoutes.updateBrand(id), values).then(() => {
         navigate("/PanelAdmin/Brands");
       })
     } catch (error: any) {
       console.log(error);
+      setError(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   //#endregion
@@ -103,9 +109,9 @@ function EditBrand() {
       >
         <Form>
           <div className="px-10">
-            <div className="structure-category">
+            <div className="structure-brand">
               <h1 className="font-bold text-3xl"><span className="underline underline-offset-4">Edit</span> Brand</h1>
-              <div className="structInp-category">
+              <div className="structInp-brand">
                 {error && (
                   <div className="flex items-center gap-1 error">
                     <span className='w-5 '>
@@ -205,8 +211,8 @@ function EditBrand() {
               </div>
               <div className="my-4">
                 <Button
-                  onClick={useSubmit}
-                  text="Edit"
+                  text={isSubmitting ? "Loading..." : "Edit"}
+                  disable={isSubmitting}
                   className="bg-green-700"
                 />
               </div>

@@ -45,7 +45,7 @@ export const saveProduct = async (req, res) => {
 };
 export const updateProduct = async (req, res) => {
   try {
-    const updateProduct = await Product.updateOne(
+     await Product.updateOne(
       { _id: req.params.id },
       { $set: req.body }
     );
@@ -68,5 +68,13 @@ export const deleteAllProduct = async (req, res) => {
     res.status(200).json("AllProduct Deleted.");
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+export const getProductCount = async (req, res) => {
+  try {
+    const productCount = await Product.countDocuments();
+    res.status(200).json(productCount);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 };

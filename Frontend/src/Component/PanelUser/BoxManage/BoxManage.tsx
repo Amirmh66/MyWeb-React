@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Alert from "../../Elements/Alert";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../Features/Authentication/AuthSlice/AuthSlice";

@@ -1,0 +1,15 @@
+.btn-skeleton {
+  @apply bg-gray-200 dark:bg-gray-700 rounded-lg p-2 w-28 cursor-default h-12;
+}
+.txt-header-skeleton {
+  @apply bg-gray-100 dark:bg-gray-500 rounded-lg w-32 h-6 animate-pulse;
+}
+.txt-name-On-Tr {
+  @apply bg-gray-200 dark:bg-gray-500  w-28 h-8 rounded-lg animate-pulse;
+}
+.body-table {
+  @apply bg-gray-50 dark:bg-gray-600 border-b-2 border-gray-400 h-20 pl-10 flex gap-44 justify-start items-center;
+}
+.body-table:last-child {
+  @apply rounded-br-lg rounded-bl-lg border-none;
+}

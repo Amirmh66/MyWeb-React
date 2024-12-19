@@ -2,7 +2,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import api from "../../../../../Constants/apiRoutes";
 import { useEffect, useState } from "react";
-import { LoadingText } from "../../../../Elements/Loading";
+import LoadingText from "../../../../Elements/LoadingText";
 import RelatedProduct from "../RelatedProduct/RelatedProduct";
 import Button from "../../../../Elements/Buttons";
 import { addToCart } from "../../../../Features/SoppingCart/CartSlice/Cart-Slice";
@@ -24,10 +24,12 @@ function ProductDetail() {
   function handleAddToCart() {
     dispatch(addToCart({ id: id, name: product.name, price: product.price }));
   }
-  
+
   //#region GetProduct
   useEffect(() => {
-    getProduct();
+    if (loading) {
+      getProduct();
+    }
   });
   const getProduct = async () => {
     try {

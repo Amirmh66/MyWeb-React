@@ -1,11 +1,11 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import SiteLogo from "./SiteLogo";
-
+import { useAuth0 } from '@auth0/auth0-react';
 import {
   ChartPieIcon, Bars3CenterLeftIcon, Squares2X2Icon, ShoppingBagIcon, DevicePhoneMobileIcon,
   ShoppingCartIcon, CurrencyDollarIcon, ChatBubbleLeftEllipsisIcon, PuzzlePieceIcon,
-  UsersIcon, Cog8ToothIcon, FingerPrintIcon, Bars3Icon, ArrowRightStartOnRectangleIcon
+  UserGroupIcon, Cog8ToothIcon, FingerPrintIcon, Bars3Icon, ArrowRightStartOnRectangleIcon
 } from '@heroicons/react/20/solid'
 import type { Item } from "../../../Types/Interfaces";
 import { pageContext } from "../../Context/PageNContext";
@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { logOut } from "../../Features/Authentication/AuthSlice/AuthSlice";
 
 function Sidebar() {
+  // const { logout, isAuthenticated } = useAuth0();
   const { setCurrentPage } = useContext(pageContext);
   const redirect = useNavigate();
   const dispatch = useDispatch()
@@ -24,7 +25,7 @@ function Sidebar() {
 
   const items: Item[] = [
     { icon: <ChartPieIcon />, name: "Dashboard", path: "Dashboard" },
-    { icon: <UsersIcon />, name: "Users", path: "Users" },
+    { icon: <UserGroupIcon />, name: "Users", path: "Users" },
     { icon: <FingerPrintIcon />, name: "Roles", path: "Roles" },
     { icon: <ShoppingBagIcon />, name: "Product", path: "Product" },
     { icon: <Squares2X2Icon />, name: "Categories", path: "Categories" },
@@ -63,7 +64,8 @@ function Sidebar() {
               </NavLink>
             </li>
           ))}
-          <li id="li" onClick={logout}>
+          
+          <li id="li" onClick={() => logout()}>
             <span className="w-6"> <ArrowRightStartOnRectangleIcon /></span> <p className="li-txt">Logout</p>
           </li>
         </div>

@@ -3,7 +3,7 @@ import { UserCircleIcon } from "@heroicons/react/20/solid";
 import { selectCurrentRole } from "../../../Features/Authentication/AuthSlice/AuthSlice";
 import { useSelector } from "react-redux";
 import { lazy, Suspense } from 'react'
-import { LoadingText } from "../../../Elements/Loading";
+import LoadingText from "../../../Elements/LoadingText";
 const AdminBtn = lazy(() => import("../../../Elements/AdminBtn"))
 
 
@@ -15,7 +15,7 @@ function Buttons() {
     <>
       <div>
         <div className="hidden md:flex">
-          <Suspense fallback={<LoadingText/>}>
+          <Suspense fallback={<LoadingText />}>
             {role === "admin" && (
               <AdminBtn />
             )}

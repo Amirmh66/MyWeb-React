@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import "../Product.css";
 import Button from "../../../../Elements/Buttons";
-import { useNavigate, useParams, useSubmit } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
 import validateSchima from "../../../../../Validations/ProductValidation";
 import SusscessMes from "../../../../Elements/SuccessMes";
 import { ErrorMessage, Field, Formik, Form } from "formik";
 import { ICategories } from "../../../../../Types/Interfaces";
-import { LoadingText } from "../../../../Elements/Loading";
-import { ExclamationCircleIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import LoadingText from "../../../../Elements/LoadingText";
+import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 
 function EditProduct() {
   const { id } = useParams();
@@ -17,6 +17,7 @@ function EditProduct() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [initialValues, setInitialValues] = useState({
     name: "",
@@ -26,6 +27,8 @@ function EditProduct() {
     category: "",
   });
 
+
+  //#region GetCategories
   useEffect(() => {
     getCategories();
   }, []);
@@ -38,7 +41,8 @@ function EditProduct() {
       setError(error.response.data);
     }
   };
-
+  //#endregion 
+  //#region GetProduct
   useEffect(() => {
     getProduct();
   }, [id]);
@@ -60,19 +64,25 @@ function EditProduct() {
       setLoading(false);
     }
   };
-
+  //#endregion
+  //#region UpdateProduct
   const updateProduct = async (values: any) => {
     try {
+      setIsSubmitting(true)
       await axios.patch(api.updateProduct(id), values).then((res) => {
         if (res.status === 200) {
           setShowSuccess(true);
-          navigate("/PanelAdmin/Products");
+          navigate("/PanelAdmin/Product");
         }
       });
     } catch (error: any) {
       setError(error.response.data);
+    } finally {
+      setIsSubmitting(false);
     }
   };
+  //#endregion 
+
   const onCancle = () => {
     setShowSuccess(false);
   };
@@ -215,9 +225,9 @@ function EditProduct() {
                 </div>
 
                 <Button
-                  text="Submit"
-                  className="bg-green-700"
-                  onClick={useSubmit}
+                  text={isSubmitting ? "Loading..." : "Edit"}
+                  className="bg-blue-600 px-7"
+                  disable={isSubmitting}
                 />
               </div>
             </Form>

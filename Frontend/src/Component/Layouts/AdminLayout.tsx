@@ -3,6 +3,7 @@ import { useState } from "react";
 import { pageContext } from "../Context/PageNContext";
 import Header from "../PanelAdmin/Header/Header";
 import Sidebar from "../PanelAdmin/Sidebar/Sidebar";
+import "../PanelAdmin/PanelAdminStyle/Styles.css";
 
 function AdminLayout() {
   const [currentPage, setCurrentPage] = useState<string>("Dashboard");

@@ -24,6 +24,7 @@ interface IBrand {
 function AddBrand() {
     const [error, setError] = useState(null);
     const [showConfirm, setShowConfirm] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
     const [isSendRequest, setIsSendRequest] = useState(true);
     const [types, setTypes] = useState<ITypes[]>([]);
@@ -31,10 +32,13 @@ function AddBrand() {
     //#region OnSubmit
     const onSave = async (values: IBrand) => {
         try {
+            setIsSubmitting(true)
             await axios.post(apiRoutes.createBrand, values);
             navigate("/PanelAdmin/Brands");
         } catch (error: any) {
             setError(error.response.data.messages);
+        } finally {
+            setIsSubmitting(false);
         }
     };
     //#endregion
@@ -180,9 +184,9 @@ function AddBrand() {
                             </div>
                             <div className="my-4">
                                 <Button
-                                    onClick={useSubmit}
-                                    text="Create"
-                                    className="bg-green-700"
+                                    text={isSubmitting ? ("Loading...") : ("Create")}
+                                    disable={isSubmitting}
+                                    className="bg-green-700 px-7"
                                 />
                             </div>
                         </div>

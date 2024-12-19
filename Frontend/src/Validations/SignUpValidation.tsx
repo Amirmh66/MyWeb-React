@@ -14,7 +14,6 @@ const validSignUp = yup.object().shape({
     .string()
     .oneOf([yup.ref("password")], "ConfirmPassword must Match the Password!")
     .required("Please Enter ConfirmPassword"),
-  role: yup.string().required(),
 });
 
 export default validSignUp;

@@ -13,7 +13,7 @@ function Products() {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [limit] = useState(12);
+  const [limit] = useState(8);
 
   //#region GetProduct
   useEffect(() => {

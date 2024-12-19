@@ -38,13 +38,19 @@ const User = mongoose.Schema({
     ref: "roles",
     required: true,
   },
+  favorites: [{
+    type: Schema.Types.ObjectId,
+    ref: "products",
+    required: false,
+  }],
   createdAt: {
-    type: String,
+    type: Date,
     required: true,
     immutable: true,
   },
   updateAt: {
-    type: String,
+    type: Date,
+    required: false,
   },
 });
 

@@ -6,7 +6,7 @@ import api from "../../../../../Constants/apiRoutes";
 import * as yup from "yup";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import "../Roles.css";
-import { LoadingText } from "../../../../Elements/Loading";
+import LoadingText  from "../../../../Elements/LoadingText";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 
 function EditRole() {

@@ -3,7 +3,7 @@ import {
   UserCircleIcon,
   ShoppingCartIcon,
   Squares2X2Icon,
-} from "@heroicons/react/16/solid";
+} from "@heroicons/react/20/solid";
 import { NavLink } from "react-router-dom";
 
 interface IItems {
@@ -32,8 +32,8 @@ function NavbarMobile() {
   ];
   return (
     <>
-      <footer className="md:hidden fixed bottom-0 w-full z-20 border-t border-gray-300">
-        <div className="bg-white py-1 px-1 ">
+      <footer className="fixed bottom-0 z-20 w-full border-t border-gray-300 md:hidden">
+        <div className="px-1 py-1 bg-white ">
           <div className="flex justify-around gap-5">
             {items.map((i) => (
               <NavLink

@@ -6,8 +6,49 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../Constants/apiRoutes";
 import Alert from "../../../Elements/Alert";
-import { ArrowPathIcon, ChevronDoubleRightIcon, ChevronDownIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
+import Select, { components } from "react-select";
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
+import {
+  ArrowPathIcon, ChevronDoubleRightIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon
+} from "@heroicons/react/20/solid";
+
+//#region Select
+const CustomSelect = (props: any) => {
+  return (
+    <components.Option {...props}>
+      <div className="flex items-center">
+        <span>{props.data.label}</span>
+      </div>
+    </components.Option>
+  )
+}
+const customStyle = {
+  control: (provided: any) => ({
+    ...provided,
+    width: "140px",
+    borderRadius: "8px",
+    color: "black",
+    boxShadow: "none",
+    textAlign: "left",
+    backgroundColor: "transparent",
+    border: "none",
+  }),
+  option: (provided: any, state: any) => ({
+    ...provided,
+    color: state.isSelected ? "black" : "grey",
+    fontWeight: "bold",
+    backgroundColor: state.isSelected ? "lightgrey" : "white",
+    '&:hover': {
+      backgroundColor: '#e6e6e6',
+    }
+  })
+}
+//#endregion 
+
+interface IRole {
+  _id: string;
+  name: string;
+}
 
 export default function User() {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -17,26 +58,56 @@ export default function User() {
   const [showAlertAll, setShowAlertAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
-
+  const [roles, setRoles] = useState<IRole[]>();
   useEffect(() => {
     setTimeout(() => {
       getUsers();
-    },2000);
+    }, 2000);
+    GetRoles();
   }, []);
 
-  //#region GetAllUser
+  //#region GetRoles
+  const GetRoles = async () => {
+    try {
+      await axios.get(api.getRoles).then((response) => {
+        setRoles(response.data);
+      })
+    } catch (error) {
+      console.log(error);
+
+    }
+  }
+  const roleOptions = roles?.map(role => ({
+    value: role._id,
+    label: role.name
+  }))
+
+  //#endregion 
+  //#region GetUsers
   const getUsers = async () => {
     try {
       const res = await axios.get(api.getUsers);
       const data = res.data;
       setUsers(data);
     } catch (error: any) {
-      setError(error.response.data);
+      console.log(error)
     } finally {
       setLoading(false);
     }
   };
   //#endregion
+  //#region GetUsersByRole
+  const getUsersByRole = async (pickedOptId?: any) => {
+    const role = pickedOptId || null;
+    try {
+      await axios.get(`http://localhost:3000/usersById?role=${role}`).then((res) => {
+        setUsers(res.data);
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  //#endregion 
   //#region DeleteUser
   const handleDelete = (productId: string) => {
     setSelectedId(productId);
@@ -104,13 +175,19 @@ export default function User() {
                 onClick={handleDeleteAll}
               />
             </div>
-            <button className="filterBtn">
-              All Users
-              <ChevronDownIcon />
-            </button>
+
+            <Select
+              styles={customStyle}
+              options={roleOptions}
+              components={{ Option: CustomSelect }}
+              onChange={(opt) => getUsersByRole(opt?.value)}
+              placeholder="All Users"
+              noOptionsMessage={() => "No Users Found!"}
+              isSearchable={false}
+            />
           </div>
           <div className="boxTable">
-            <div className="overflow-auto" style={{ maxHeight: "490px" }}>
+            <div className="overflow-auto" style={{ maxHeight: "560px" }}>
               <table className="table">
                 <thead className="thead">
                   <tr>

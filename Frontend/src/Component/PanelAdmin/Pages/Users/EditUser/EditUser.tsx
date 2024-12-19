@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "../User.css";
-import { useNavigate, useParams, useSubmit } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../../../Elements/Buttons";
 import api from "../../../../../Constants/apiRoutes";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -18,6 +18,7 @@ function EditUser() {
   const { id } = useParams();
   const [roles, setRoles] = useState<IRoles[]>([]);
   const redirect = useNavigate();
+  const [isSubmiting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isSendRequest, setIsSendRequest] = useState(true);
   const [initialValues, setInitialValues] = useState({
@@ -51,7 +52,6 @@ function EditUser() {
     }
   };
   //#endregion 
-
   //#region GetRoles
   useEffect(() => {
     if (isSendRequest) {
@@ -70,16 +70,18 @@ function EditUser() {
     }
   }
   //#endregion  
-
   //#region OnSubmit
   const onSave = async (values: any) => {
     try {
+      setIsSubmitting(true)
       await axios.patch(api.updateUser(id), values).then(() => {
         redirect("/PanelAdmin/Users");
         setError(null);
       });
     } catch (error: any) {
       setError(error.response.data.message);
+    } finally {
+      setIsSubmitting(false);
     }
   };
   //#endregion  
@@ -166,7 +168,7 @@ function EditUser() {
                 <div>
                   <Field
                     name="password"
-                    type="text"
+                    type="password"
                     className="input"
                     placeholder="Password(required)"
                   />
@@ -179,7 +181,7 @@ function EditUser() {
                 <div>
                   <Field
                     name="confirmPassword"
-                    type="text"
+                    type="password"
                     className="input"
                     placeholder="ConfirmPassword(required)"
                   />
@@ -194,7 +196,8 @@ function EditUser() {
                   <label htmlFor="Roles">Roles</label>
                   <div className="flex">
                     {roles.map((r) => (
-                      <div key={r._id} className="m-1 border p-1 rounded-lg flex gap-2 hover:bg-gray-50 dark:hover:bg-gray-800">
+                      <div key={r._id} className="m-1 border p-1 rounded-lg flex gap-2
+                       hover:bg-gray-50 dark:hover:bg-gray-800">
                         <Field type="radio" name="role" value={r._id} />
                         <label>{r.name}</label>
                       </div>
@@ -205,9 +208,9 @@ function EditUser() {
 
               <div className="my-4">
                 <Button
-                  onClick={useSubmit}
-                  text="Edit"
-                  className="bg-blue-700"
+                  disable={isSubmiting}
+                  text={isSubmiting ? "Loading..." : "Edit"}
+                  className="bg-blue-700 px-7"
                 />
               </div>
             </div>

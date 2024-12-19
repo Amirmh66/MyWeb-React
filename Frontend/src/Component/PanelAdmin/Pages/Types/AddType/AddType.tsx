@@ -16,11 +16,13 @@ interface IType {
 function AddType() {
   const [error, setError] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
   //#region HandleSubmit
   const onSave = async (values: IType) => {
     try {
+      setIsSubmitting(true)
       await axios.post(apiRoutes.createType, values).then((res) => {
         if (res.status === 200) {
           setShowConfirm(true);
@@ -29,6 +31,8 @@ function AddType() {
       })
     } catch (error: any) {
       setError(error.response.data.message)
+    } finally {
+      setIsSubmitting(false)
     }
   }
   //#endregion 
@@ -93,8 +97,8 @@ function AddType() {
               </div>
               <div className="my-4">
                 <Button
-                  onClick={useSubmit}
-                  text="Create"
+                disable={isSubmitting}
+                  text={isSubmitting ? "Loading..." : "Create"}
                   className="bg-green-700"
                 />
               </div>

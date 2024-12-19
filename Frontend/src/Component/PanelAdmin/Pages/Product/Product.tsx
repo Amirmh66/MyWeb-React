@@ -112,22 +112,22 @@ export default function Product() {
             </div>
             <button className="filterbtn">
               All Category
-              <ChevronDownIcon />
+              <ChevronDownIcon className="w-5" />
             </button>
             <button className="filterbtn">
               All Product
-              <ChevronDownIcon />
+              <ChevronDownIcon className="w-5" />
             </button>
             <button className="filterbtn">
               All Brands
-              <ChevronDownIcon />
+              <ChevronDownIcon className="w-5" />
             </button>
             <button className="filterbtn">
               <MagnifyingGlassIcon />
             </button>
           </div>
           <div className="boxTable">
-            <div className=" overflow-auto" style={{ maxHeight: "500px" }}>
+            <div className=" overflow-auto" style={{ maxHeight: "479px" }}>
               <table className="table">
                 <thead className="thead">
                   <tr>
@@ -187,9 +187,7 @@ export default function Product() {
               </table>
             </div>
           </div>
-          <div className="mt-1">
-            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-          </div>
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </div>
       ) : (
         <Outlet />

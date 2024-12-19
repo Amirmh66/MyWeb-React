@@ -1,4 +1,4 @@
-import { LoadingText } from "../Elements/Loading";
+import LoadingText from "../Elements/LoadingText";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary';
@@ -52,7 +52,7 @@ function Container() {
         <Route
           path="/login"
           element={
-            <Suspense fallback={<LoadingText/>}>
+            <Suspense fallback={<LoadingText />}>
               <AuthLayout>
                 <Login />
               </AuthLayout>
@@ -62,9 +62,11 @@ function Container() {
         <Route
           path="/signup"
           element={
-            <AuthLayout>
-              <SignUp />
-            </AuthLayout>
+            <Suspense fallback={<LoadingText />}>
+              <AuthLayout>
+                <SignUp />
+              </AuthLayout>
+            </Suspense>
           }
         />
         <Route
@@ -161,9 +163,17 @@ function Container() {
 
 
 
-        <Route path="/Profile" element={<UserLayout>
-          <Profile />
-        </UserLayout>} />
+        <Route path="/Profile" element={
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <RequireAuth requiredRole="user">
+              <Suspense fallback={<LoadingText />}>
+                <UserLayout>
+                  <Profile />
+                </UserLayout>
+              </Suspense>
+            </RequireAuth>
+          </ErrorBoundary>
+        } />
 
         <Route
           path="panelUser"
