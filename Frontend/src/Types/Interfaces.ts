@@ -12,10 +12,16 @@ export interface IUser {
   password: string;
   phoneNumber: number;
   pictureProf: string;
-  role: string;
+  role: IRole | null;
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IRole {
+  _id: string;
+  name: string;
+}
+
 export interface IButton {
   icon?: JSX.Element;
   text: React.ReactNode;

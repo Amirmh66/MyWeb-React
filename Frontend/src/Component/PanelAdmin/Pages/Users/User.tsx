@@ -8,6 +8,7 @@ import api from "../../../../Constants/apiRoutes";
 import Alert from "../../../Elements/Alert";
 import Select, { components } from "react-select";
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
+import { IRole } from "../../../../Types/Interfaces";
 import {
   ArrowPathIcon, ChevronDoubleRightIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon
 } from "@heroicons/react/20/solid";
@@ -44,11 +45,6 @@ const customStyle = {
   })
 }
 //#endregion 
-
-interface IRole {
-  _id: string;
-  name: string;
-}
 
 export default function User() {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -205,7 +201,7 @@ export default function User() {
                           <p>{user.userName}</p>
                         </td>
                         <td>
-                          <p>{user.role}</p>
+                          <p>{user.role ? user.role.name : "No Role"}</p>
                         </td>
                         <td>
                           <p className="text-green-500">Active</p>

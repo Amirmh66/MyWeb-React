@@ -4,7 +4,7 @@ import moment from "moment-jalaali";
 
 export const GetUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await User.find({}, "userName _id role").populate({path : "role", select: 'name _id' });
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
