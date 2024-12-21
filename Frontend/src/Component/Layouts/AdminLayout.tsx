@@ -11,14 +11,11 @@ function AdminLayout() {
     <>
       <div className="flex">
         <pageContext.Provider value={{ currentPage, setCurrentPage }}>
-          <div className="aside">
-            <Sidebar />
-          </div>
-
+          <Sidebar />
           <div className="flex-1">
             <Header />
 
-            <main className="main p-3">
+            <main className="p-3 main">
               <Outlet />
             </main>
           </div>

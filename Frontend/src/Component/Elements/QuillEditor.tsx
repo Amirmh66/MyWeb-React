@@ -1,5 +1,6 @@
 import ReactQuill from 'react-quill'
 import "react-quill/dist/quill.snow.css"
+
 function QuillEditor({ field, form, ...props }: any) {
 
     const handlChange = (value: any) => {
@@ -8,7 +9,7 @@ function QuillEditor({ field, form, ...props }: any) {
 
     const modules = {
         toolbar: [
-            [{ header: [1, 2, 3,,4, false] }],
+            [{ header: [1, 2, false] }],
             ["bold", "italic", "underline", "strike"],
             [
                 { list: "ordered" },

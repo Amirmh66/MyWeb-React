@@ -5,16 +5,21 @@ export interface Item {
   name: string;
   path: string;
 }
+
+type Status = "Active" | "InActive" | "Pending" | "Blocked" | "Expired";
+
 export interface IUser {
   _id: string;
+  fullName: string;
   userName: string;
   email: string;
   password: string;
   phoneNumber: number;
+  status: Status;
   pictureProf: string;
-  role: IRole | null;
+  role: IRole;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt: Date | null;
 }
 
 export interface IRole {
@@ -63,7 +68,7 @@ export interface IAlert {
 export interface ICategories {
   _id: string;
   name: string;
-  types:[string];
+  types: [string];
   description: string;
 }
 

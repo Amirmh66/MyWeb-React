@@ -10,7 +10,7 @@ import Select, { components } from "react-select";
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
 import { IRole } from "../../../../Types/Interfaces";
 import {
-  ArrowPathIcon, ChevronDoubleRightIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon
+  ArrowPathIcon, ChevronDoubleRightIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon, EllipsisHorizontalIcon
 } from "@heroicons/react/20/solid";
 
 //#region Select
@@ -50,6 +50,7 @@ export default function User() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isVisibleBtnNav, setVisibleBtnNav] = useState<Boolean>(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertAll, setShowAlertAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -154,7 +155,7 @@ export default function User() {
       {location.pathname === "/PanelAdmin/Users" ? (
         <div>
           <div className="table-nav">
-            <div>
+            <div className="hidden xl:block">
               <Link to={"AddUser"}>
                 <Button text="New User" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
               </Link>
@@ -171,19 +172,50 @@ export default function User() {
                 onClick={handleDeleteAll}
               />
             </div>
-
-            <Select
-              styles={customStyle}
-              options={roleOptions}
-              components={{ Option: CustomSelect }}
-              onChange={(opt) => getUsersByRole(opt?.value)}
-              placeholder="All Users"
-              noOptionsMessage={() => "No Users Found!"}
-              isSearchable={false}
-            />
+            <div>
+              <Select
+                styles={customStyle}
+                options={roleOptions}
+                components={{ Option: CustomSelect }}
+                onChange={(opt) => getUsersByRole(opt?.value)}
+                placeholder="All Users"
+                noOptionsMessage={() => "No Users Found!"}
+                isSearchable={false}
+              />
+            </div>
+            <div className="lg:hidden relative">
+              <EllipsisHorizontalIcon className="w-9 rounded-full hover:text-gray-200 hover:bg-gray-600"
+                onClick={() => setVisibleBtnNav(!isVisibleBtnNav)}
+              />
+              {isVisibleBtnNav && (
+                <div className="bg-gray-100 dark:bg-neutral-900 drop-shadow-xl z-30 select-none 
+                absolute right-0 rounded-lg transition-all duration-150  p-2 ">
+                  <div className="flex flex-col gap-2">
+                    <Link to={"AddUser"}>
+                      <Button text="New User"
+                        className="bg-green-500 w-full"
+                        icon={<PlusCircleIcon className="w-5" />}
+                      />
+                    </Link>
+                    <Button
+                      text="RefreshTable"
+                      className="bg-sky-500 w-full"
+                      icon={<ArrowPathIcon className="w-5" />}
+                      onClick={getUsers}
+                    />
+                    <Button
+                      text="Delete All"
+                      className="bg-red-700 w-full"
+                      icon={<TrashIcon className="w-5" />}
+                      onClick={handleDeleteAll}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           <div className="boxTable">
-            <div className="overflow-auto" style={{ maxHeight: "560px" }}>
+            <div className="overflow-hidden md:overflow-auto" style={{ maxHeight: "560px" }}>
               <table className="table">
                 <thead className="thead">
                   <tr>
@@ -200,25 +232,32 @@ export default function User() {
                         <td>
                           <p>{user.userName}</p>
                         </td>
-                        <td>
+                        <td className="">
                           <p>{user.role ? user.role.name : "No Role"}</p>
                         </td>
                         <td>
                           <p className="text-green-500">Active</p>
                         </td>
                         <td className="btn-Sec-InForm">
-                          <Button
-                            onClick={() => handleDelete(user._id)}
-                            text="Delete"
-                            icon={<TrashIcon className="w-5" />}
-                            className="bg-red-500"
-                          />
-                          <Link to={`EditUser/${user._id}`}>
-                            <Button text="Edit Info" icon={<PencilSquareIcon className="w-5" />} className={"bg-blue-500"} />
-                          </Link>
-                          <Link to={`MoreInfoUser/${user._id}`}>
-                            <Button text="More Info" icon={<ChevronDoubleRightIcon className="w-5" />} className={"bg-yellow-500"} />
-                          </Link>
+                          <div className="hidden md:block">
+                            <Button
+                              onClick={() => handleDelete(user._id)}
+                              text="Delete"
+                              icon={<TrashIcon className="w-5" />}
+                              className="bg-red-500"
+                            />
+                            <Link to={`EditUser/${user._id}`}>
+                              <Button text="Edit Info" icon={<PencilSquareIcon className="w-5" />} className={"bg-blue-500"} />
+                            </Link>
+                            <Link to={`MoreInfoUser/${user._id}`}>
+                              <Button text="More Info" icon={<ChevronDoubleRightIcon className="w-5" />} className={"bg-yellow-500"} />
+                            </Link>
+                          </div>
+                          <div className="block md:hidden">
+                            <EllipsisHorizontalIcon title="Show Commands"
+                              className="w-10 cursor-pointer hover:text-gray-600" />
+                          </div>
+
                         </td>
                       </tr>
                     ))

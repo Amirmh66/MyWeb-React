@@ -8,7 +8,7 @@ function Profile() {
 
   return (
     <>
-    <div className="basis-4/5 md:cursor-pointer xs:hidden sm:flex color-txt">
+    <div className="basis-4/5 cursor-pointer hidden md:flex color-txt">
       <img src="/Images/PicUser.png" className="size-12 rounded-md"  />
 
       <div className="User-AL">

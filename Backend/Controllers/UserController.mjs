@@ -4,7 +4,10 @@ import moment from "moment-jalaali";
 
 export const GetUsers = async (req, res) => {
   try {
-    const users = await User.find({}, "userName _id role").populate({path : "role", select: 'name _id' });
+    const users = await User.find({}, "userName _id role").populate({
+      path: "role",
+      select: "name _id",
+    });
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -12,9 +15,11 @@ export const GetUsers = async (req, res) => {
 };
 export const getUsersByRole = async (req, res) => {
   const { role } = req.query;
-  console.log(role);
   try {
-    const filteredUsers = await User.find({ role });
+    const filteredUsers = await User.find({ role }).populate({
+      path: "role",
+      select: "name _id",
+    });
     res.status(200).json(filteredUsers);
   } catch (error) {
     console.log(error);
@@ -23,7 +28,13 @@ export const getUsersByRole = async (req, res) => {
 export const GetUserById = async (req, res) => {
   const userid = req.params.id;
   try {
-    const user = await User.findById(userid);
+    const user = await User.findById(userid)
+      .populate({
+        path: "role",
+        select: "name _id",
+      })
+      .select("-password");
+    console.log(user);
     res.json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });

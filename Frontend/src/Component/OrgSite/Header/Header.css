@@ -8,7 +8,6 @@
 
 .navli{
     @apply text-sm font-normal text-gray-700 hover:text-neutral-500 cursor-pointer
-    
 }
 .header{
     @apply bg-none px-4 py-3 flex flex-col justify-center gap-7 md:gap-0 md:flex-row md:justify-between items-center 

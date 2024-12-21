@@ -1,9 +1,10 @@
-import LoadingText from "../Elements/LoadingText";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
-import HomePage from "../OrgSite/HomePage";
+import PanelAdminSkeleton from "../Elements/PanelAdminSkeleton";
+const HomePage = lazy(() => import("../OrgSite/HomePage"));
+const LoadingText = lazy(() => import("../Elements/LoadingText"));
 const AdminLayout = lazy(() => import('./AdminLayout'))
 const UserLayout = lazy(() => import("./UserLayout"))
 const AuthLayout = lazy(() => import("./AuthLayout"))
@@ -36,14 +37,18 @@ const RequireAuth = lazy(() => import("../Authentication/RequireAuth"))
 const ShoppingCart = lazy(() => import("../OrgSite/Sections/ShoppingCart/ShoppingCart"))
 const Login = lazy(() => import("../Authentication/Login/Login"))
 const SignUp = lazy(() => import("../Authentication/SignUp/SignUp"))
-import Error404 from "../Authentication/unAuthorized/Error404";
+const Error404 = lazy(() => import("../Authentication/unAuthorized/Error404"));
 
-function Container() {
+const Container = () => {
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />}>
+        <Route path="/" element={
+          <Suspense>
+            <HomePage />
+          </Suspense>
+        }>
           <Route path="/ProductDetail/:id" element={
             <Suspense fallback={<LoadingText />}>
               <ProductDetail />
@@ -52,7 +57,7 @@ function Container() {
         <Route
           path="/login"
           element={
-            <Suspense fallback={<LoadingText />}>
+            <Suspense>
               <AuthLayout>
                 <Login />
               </AuthLayout>
@@ -62,7 +67,7 @@ function Container() {
         <Route
           path="/signup"
           element={
-            <Suspense fallback={<LoadingText />}>
+            <Suspense>
               <AuthLayout>
                 <SignUp />
               </AuthLayout>
@@ -87,7 +92,7 @@ function Container() {
           element={
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <RequireAuth requiredRole="admin">
-                <Suspense fallback={<LoadingText />}>
+                <Suspense fallback={<PanelAdminSkeleton />}>
                   <AdminLayout />
                 </Suspense>
               </RequireAuth>
@@ -96,7 +101,7 @@ function Container() {
         >
           <Route path="Dashboard" element={
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <Suspense fallback={<LoadingText />}>
+              <Suspense>
                 <Dashboard />
               </Suspense>
             </ErrorBoundary>

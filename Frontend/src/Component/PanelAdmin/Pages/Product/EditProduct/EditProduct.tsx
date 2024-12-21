@@ -10,6 +10,7 @@ import { ErrorMessage, Field, Formik, Form } from "formik";
 import { ICategories } from "../../../../../Types/Interfaces";
 import LoadingText from "../../../../Elements/LoadingText";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
+import QuillEditor from "../../../../Elements/QuillEditor";
 
 function EditProduct() {
   const { id } = useParams();
@@ -167,8 +168,7 @@ function EditProduct() {
                     id="textarea"
                     name="description"
                     type="textarea"
-                    rows="3"
-                    as="textarea"
+                    component={QuillEditor}
                     placeholder="Description"
                   />
                   <ErrorMessage
@@ -200,7 +200,7 @@ function EditProduct() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center">
+                {/* <div className="flex items-center">
                   <div>
                     <label htmlFor="Category">Category:</label>
                     <br />
@@ -222,13 +222,14 @@ function EditProduct() {
                       component="p"
                     />
                   </div>
+                </div> */}
+                <div>
+                  <Button
+                    text={isSubmitting ? "Loading..." : "Edit"}
+                    className="bg-blue-600 px-10"
+                    disable={isSubmitting}
+                  />
                 </div>
-
-                <Button
-                  text={isSubmitting ? "Loading..." : "Edit"}
-                  className="bg-blue-600 px-7"
-                  disable={isSubmitting}
-                />
               </div>
             </Form>
           </Formik>

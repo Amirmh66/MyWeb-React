@@ -22,13 +22,13 @@ export default function Theme() {
   }, []);
   return (
     <>
-      <>
+      <div className="hidden lg:block">
         <button onClick={toggleTheme}>
           <span className="p-5">
             {theme === "light" ? <MoonIcon /> : <SunIcon />}
           </span>
         </button>
-      </>
+      </div>
     </>
   );
 }

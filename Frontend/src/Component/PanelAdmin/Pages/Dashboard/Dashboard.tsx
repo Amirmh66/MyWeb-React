@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import "./Dashboard.css";
 import Counter from "./Counter";
 import { ClockIcon, ShoppingBagIcon, UsersIcon, UserGroupIcon, ShoppingCartIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import apiRoutes from "../../../../Constants/apiRoutes";
 
-
 export default function Dashboard() {
   const [time, setTime] = useState(new Date());
   const [userCount, setUserCount] = useState<number | null>(null);
   const [productCount, setProductCount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -26,7 +26,9 @@ export default function Dashboard() {
   const getUsersCount = async () => {
     try {
       await axios.get(apiRoutes.getUserCount).then((res) => {
-        setUserCount(res.data);
+        startTransition(() => {
+          setUserCount(res.data);
+        })
       })
     } catch (error: any) {
       if (error.data) {
@@ -40,7 +42,9 @@ export default function Dashboard() {
   const GetProductCount = async () => {
     try {
       await axios.get(apiRoutes.getProductCount).then((res) => {
-        setProductCount(res.data);
+        startTransition(() => {
+          setProductCount(res.data);
+        })
       });
     } catch (error: any) {
       if (error.data) {
@@ -54,10 +58,10 @@ export default function Dashboard() {
 
   return (
     <>
-      <div className="flex gap-5">
+      <div className="flex flex-col-reverse md:flex-row gap-5">
 
-        <div className="p-4 text-center bg-white rounded-lg shadow-md dark:bg-gray-900">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="p-4 text-center bg-white rounded-lg flex justify-center shadow-md dark:bg-gray-900">
+          <div className="grid grid-cols-2 gap-10 md:gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <div className="w-32 h-32 p-2 bg-orange-100 rounded-lg dark:bg-orange-400">
               <UserGroupIcon className="w-8 p-1 text-white bg-orange-400 rounded-full" />
               <p className="text-xl font-extrabold text-sky-800" title="">{userCount}</p>
@@ -91,13 +95,10 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
       </div>
-
-      <div className="p-4 mt-10 text-center bg-white rounded-lg dark:bg-gray-900 text">
+      {/* <div className="p-4 mt-10 text-center bg-white rounded-lg dark:bg-gray-900 text">
         <Counter />
-      </div>
-
+      </div> */}
     </>
   );
 }
