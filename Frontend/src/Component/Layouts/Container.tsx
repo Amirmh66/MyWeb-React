@@ -3,7 +3,7 @@ import { lazy, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
 import PanelAdminSkeleton from "../Elements/PanelAdminSkeleton";
-const HomePage = lazy(() => import("../OrgSite/HomePage"));
+import HomePage from "../OrgSite/HomePage";
 const LoadingText = lazy(() => import("../Elements/LoadingText"));
 const AdminLayout = lazy(() => import('./AdminLayout'))
 const UserLayout = lazy(() => import("./UserLayout"))
@@ -34,10 +34,11 @@ const ProductDetail = lazy(() => import("../OrgSite/Sections/Product/ProductDeta
 const PanelUser = lazy(() => import("../PanelUser/PanelUser"))
 const Profile = lazy(() => import("../OrgSite/Sections/Profile/Profile"))
 const RequireAuth = lazy(() => import("../Authentication/RequireAuth"))
-const ShoppingCart = lazy(() => import("../OrgSite/Sections/ShoppingCart/ShoppingCart"))
+const ShoppingCart = lazy(() => import("../OrgSite/Sections/ShoppingCart/ShoppingCart"));
 const Login = lazy(() => import("../Authentication/Login/Login"))
 const SignUp = lazy(() => import("../Authentication/SignUp/SignUp"))
 const Error404 = lazy(() => import("../Authentication/unAuthorized/Error404"));
+const ProductsLoadingSkeleton = lazy(() => import("../Elements/ProductsLoadingSkeleton"));
 
 const Container = () => {
 
@@ -45,19 +46,19 @@ const Container = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={
-          <Suspense>
-            <HomePage />
-          </Suspense>
-        }>
+<HomePage />}>
+
           <Route path="/ProductDetail/:id" element={
             <Suspense fallback={<LoadingText />}>
-              <ProductDetail />
+              <UserLayout>
+                <ProductDetail />
+              </UserLayout>
             </Suspense>} />
         </Route>
         <Route
           path="/login"
           element={
-            <Suspense>
+            <Suspense fallback={<LoadingText />}>
               <AuthLayout>
                 <Login />
               </AuthLayout>
@@ -84,7 +85,9 @@ const Container = () => {
         />
         <Route path="ShoppingCart" element={
           <Suspense fallback={<LoadingText />}>
-            <ShoppingCart />
+            <UserLayout>
+              <ShoppingCart />
+            </UserLayout>
           </Suspense>} />
 
         <Route
@@ -166,17 +169,13 @@ const Container = () => {
           </Route>
         </Route>
 
-
-
         <Route path="/Profile" element={
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <RequireAuth requiredRole="user">
-              <Suspense fallback={<LoadingText />}>
-                <UserLayout>
-                  <Profile />
-                </UserLayout>
-              </Suspense>
-            </RequireAuth>
+            <Suspense fallback={<LoadingText />}>
+              <UserLayout>
+                <Profile />
+              </UserLayout>
+            </Suspense>
           </ErrorBoundary>
         } />
 

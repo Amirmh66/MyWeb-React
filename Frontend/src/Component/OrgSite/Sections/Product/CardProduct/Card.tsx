@@ -1,6 +1,7 @@
 import { ICardProduct } from "../../../../../Types/Interfaces";
 import { Link } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/20/solid";
+
 function Card({ _id, name, price }: ICardProduct) {
   return (
     <>

@@ -1,6 +1,8 @@
 import Button from "../../../Elements/Buttons";
 import "./Product.css";
-import { ArrowPathIcon, ChevronDownIcon, CurrencyDollarIcon, MagnifyingGlassIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
+import { ArrowPathIcon, ChevronDownIcon,
+   MagnifyingGlassIcon, PencilSquareIcon,
+    PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
 import Alert from "../../../Elements/Alert.tsx";
 import type { IProduct } from "../../../../Types/Interfaces";
 import { useEffect, useState } from "react";
@@ -127,7 +129,7 @@ export default function Product() {
             </button>
           </div>
           <div className="boxTable">
-            <div className=" overflow-auto" style={{ maxHeight: "479px" }}>
+            <div className="overflow-auto" style={{ maxHeight: "479px" }}>
               <table className="table">
                 <thead className="thead">
                   <tr>
@@ -195,14 +197,14 @@ export default function Product() {
 
       {showAlert && (
         <Alert
-          message="Are You Sure You Want to Delete This Product?"
+          message="Are you sure you want to delete this product?"
           onCancle={CancelDelete}
           onConfirm={ConfirmDelete}
         />
       )}
       {showAlertAll && (
         <Alert
-          message="Warning: This action will delete all data, but do you want to do it?"
+          message="Warning: this action will erase all data.Are you sure you want to proceed?"
           onCancle={CancelDeleteAll}
           onConfirm={ConfirmDeleteAll}
         />

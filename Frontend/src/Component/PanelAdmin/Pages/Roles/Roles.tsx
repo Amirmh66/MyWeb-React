@@ -90,7 +90,7 @@ function Roles() {
     <>
       {location.pathname === "/PanelAdmin/Roles" ? (
         <div>
-          <div className="table-nav">
+          <div className="table-nav justify-start">
             <Link to="AddRole">
               <Button text="Create Role" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
             </Link>

@@ -46,11 +46,12 @@ const customStyle = {
 }
 //#endregion 
 
-export default function User() {
+function User() {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isVisibleBtnNav, setVisibleBtnNav] = useState<Boolean>(false);
+  const [isOpenUserDetil, setIsOpenUserDetil] = useState<string | null>(null);
   const [showAlert, setShowAlert] = useState(false);
   const [showAlertAll, setShowAlertAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -62,6 +63,10 @@ export default function User() {
     }, 2000);
     GetRoles();
   }, []);
+
+  const toggleMenu = (userId: string) => {
+    setIsOpenUserDetil(isOpenUserDetil === userId ? null : userId);
+  }
 
   //#region GetRoles
   const GetRoles = async () => {
@@ -149,12 +154,12 @@ export default function User() {
 
   if (loading) return <TablesSkeleton />;
   if (error) return <p>Error: {error}</p>;
-
+  // onClick={(e) => e.stopPropagation()} 
   return (
     <>
       {location.pathname === "/PanelAdmin/Users" ? (
         <div>
-          <div className="table-nav">
+          <div className="table-nav justify-between">
             <div className="hidden xl:block">
               <Link to={"AddUser"}>
                 <Button text="New User" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
@@ -183,29 +188,29 @@ export default function User() {
                 isSearchable={false}
               />
             </div>
-            <div className="lg:hidden relative">
-              <EllipsisHorizontalIcon className="w-9 rounded-full hover:text-gray-200 hover:bg-gray-600"
+            <div className="relative lg:hidden">
+              <EllipsisHorizontalIcon title="Show commands" className="rounded-full w-9 dark:hover:bg-gray-700 cursor-pointer hover:bg-gray-100"
                 onClick={() => setVisibleBtnNav(!isVisibleBtnNav)}
               />
               {isVisibleBtnNav && (
-                <div className="bg-gray-100 dark:bg-neutral-900 drop-shadow-xl z-30 select-none 
-                absolute right-0 rounded-lg transition-all duration-150  p-2 ">
+                <div className="absolute right-0 z-30 p-2 bg-gray-100 rounded-lg 
+                select-none top-10 dark:bg-neutral-900 drop-shadow-xl">
                   <div className="flex flex-col gap-2">
                     <Link to={"AddUser"}>
                       <Button text="New User"
-                        className="bg-green-500 w-full"
+                        className="w-full bg-green-500"
                         icon={<PlusCircleIcon className="w-5" />}
                       />
                     </Link>
                     <Button
                       text="RefreshTable"
-                      className="bg-sky-500 w-full"
+                      className="w-full bg-sky-500"
                       icon={<ArrowPathIcon className="w-5" />}
                       onClick={getUsers}
                     />
                     <Button
                       text="Delete All"
-                      className="bg-red-700 w-full"
+                      className="w-full bg-red-700"
                       icon={<TrashIcon className="w-5" />}
                       onClick={handleDeleteAll}
                     />
@@ -214,25 +219,25 @@ export default function User() {
               )}
             </div>
           </div>
-          <div className="boxTable">
-            <div className="overflow-hidden md:overflow-auto" style={{ maxHeight: "560px" }}>
-              <table className="table">
-                <thead className="thead">
-                  <tr>
-                    <th scope="col">UserName</th>
-                    <th scope="col">Role</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Command</th>
-                  </tr>
-                </thead>
-                <tbody className="tbody">
-                  {users.length ? (
-                    users.map((user) => (
+          {users.length ? (
+            <div className="boxTable">
+              <div className="overflow-auto md:overflow-auto" style={{ maxHeight: "560px"}}>
+                <table className="table">
+                  <thead className="thead">
+                    <tr>
+                      <th scope="col">UserName</th>
+                      <th scope="col">Role</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Command</th>
+                    </tr>
+                  </thead>
+                  <tbody className="tbody">
+                    {users.map((user) => (
                       <tr key={user._id} className="dark:hover:bg-gray-900 hover:bg-gray-200">
                         <td>
                           <p>{user.userName}</p>
                         </td>
-                        <td className="">
+                        <td>
                           <p>{user.role ? user.role.name : "No Role"}</p>
                         </td>
                         <td>
@@ -253,23 +258,45 @@ export default function User() {
                               <Button text="More Info" icon={<ChevronDoubleRightIcon className="w-5" />} className={"bg-yellow-500"} />
                             </Link>
                           </div>
-                          <div className="block md:hidden">
-                            <EllipsisHorizontalIcon title="Show Commands"
-                              className="w-10 cursor-pointer hover:text-gray-600" />
-                          </div>
 
+                          <div className="block md:hidden relative">
+                            <EllipsisHorizontalIcon onClick={() => toggleMenu(user._id)} className="w-9 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all 
+                          duration-100 cursor-pointer rounded-full p-1" />
+
+                            {isOpenUserDetil === user._id && (
+                              <div className="absolute z-50 dark:bg-gray-800 transition-all duration-300
+                               bg-gray-200 right-2 top-full p-2 rounded-lg">
+                                <div className="flex flex-col gap-1">
+                                  < Button
+                                    onClick={() => handleDelete(user._id)}
+                                    icon={<TrashIcon className="w-5" />}
+                                    className="bg-red-500 w-full"
+                                    text="Delete"
+                                  />
+                                  <Link to={`EditUser/${user._id}`}>
+                                    <Button icon={<PencilSquareIcon className="w-5 " />} text="Edit" className="bg-blue-500 w-full" />
+                                  </Link>
+                                  <Link to={`MoreInfoUser/${user._id}`}>
+                                    <Button icon={<ChevronDoubleRightIcon className="w-5 " />} text="Info" className="bg-yellow-500 w-full" />
+                                  </Link>
+                                </div>
+                              </div>
+                            )}
+
+                          </div>
                         </td>
                       </tr>
-                    ))
-                  ) : (
-                    <div className="m-10">
-                      <p className="text-lg font-semibold">No Users To Display</p>
-                    </div>
-                  )}
-                </tbody>
-              </table>
+                    ))}
+
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="m-10">
+              <p className="text-lg font-semibold">No Users To Display</p>
+            </div>
+          )}
         </div>
       ) : (
         <Outlet />
@@ -292,3 +319,4 @@ export default function User() {
   );
 }
 
+export default User;

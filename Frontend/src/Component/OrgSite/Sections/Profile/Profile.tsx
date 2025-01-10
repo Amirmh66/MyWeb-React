@@ -69,7 +69,6 @@ function Profile() {
         </div>
       </div>
       <div className="mx-3 my-5 border-t-2"></div>
-      <NavbarMobile />
     </>
   );
 }

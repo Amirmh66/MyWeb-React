@@ -69,7 +69,6 @@ function ShoppingCart() {
         </div>
 
       </div>
-      <NavbarMobile />
     </>
   );
 }

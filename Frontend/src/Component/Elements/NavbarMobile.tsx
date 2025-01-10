@@ -32,17 +32,18 @@ function NavbarMobile() {
   ];
   return (
     <>
-      <footer className="fixed bottom-0 z-20 w-full border-t border-gray-300 md:hidden">
-        <div className="px-1 py-1 bg-white ">
-          <div className="flex justify-around gap-5">
+      <footer className="fixed bottom-0 z-30 w-full border-t border-gray-300 dark:border-gray-950  md:hidden"
+        style={{ boxShadow: "0 -2px 19px rgba(0,0,0,0.2)" }}>
+        <div className="px-1 py-1 bg-white dark:bg-gray-800 opacity-85">
+          <div className="flex justify-around gap-5 ">
             {items.map((i) => (
               <NavLink
                 key={i.id}
                 to={i.path}
                 id="footer-btn"
-                className={({ isActive }) => (isActive ? "text-red-500" : "")}
+                className={({ isActive }) => (isActive ? "text-orange-600" : "")}
               >
-                <span className="w-7">{i.icon}</span>
+                <span className="w-7 ">{i.icon}</span>
                 <span className="footer-txt">{i.name}</span>
               </NavLink>
             ))}

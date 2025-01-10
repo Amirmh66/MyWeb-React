@@ -34,7 +34,6 @@ export const GetUserById = async (req, res) => {
         select: "name _id",
       })
       .select("-password");
-    console.log(user);
     res.json(user);
   } catch (error) {
     res.status(404).json({ message: error.message });

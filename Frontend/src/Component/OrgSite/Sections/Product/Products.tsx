@@ -13,7 +13,7 @@ function Products() {
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [limit] = useState(8);
+  const [limit] = useState(12);
 
   //#region GetProduct
   useEffect(() => {
@@ -35,6 +35,8 @@ function Products() {
   };
   //#endregion
 
+ 
+
   if (loading) return <ProductsLoadingSkeleton />;
   if (error) return <div className="bg-white text-red-600 font-semibold text-lg p-2 inline-block m-10 rounded-lg ">
     Error: {error}
@@ -49,7 +51,6 @@ function Products() {
               _id={product._id}
               imageUrl={product.imageUrl}
               name={product.name}
-              description={product.description}
               price={product.price}
             />
           </li>

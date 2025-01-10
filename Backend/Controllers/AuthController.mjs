@@ -29,7 +29,7 @@ export const signUpUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const user = req.body;
 
-  if (!user.email || !user.password) {
+   if (!user.email || !user.password) {
     res.status(400).json({ message: "information is not valid!" });
   }
   const userIsExsit = await User.findOne({ email: user.email }).populate(

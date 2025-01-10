@@ -29,7 +29,7 @@ export interface IRole {
 
 export interface IButton {
   icon?: JSX.Element;
-  text: React.ReactNode;
+  text?: React.ReactNode;
   onClick?: () => void | any;
   disable?: any;
   className?: string;
@@ -52,8 +52,7 @@ export interface ICardProduct {
   _id: string;
   imageUrl: string;
   name: string;
-  description: string;
-  price: number;
+  price: any;
 }
 export interface IDropDown {
   value?: string;

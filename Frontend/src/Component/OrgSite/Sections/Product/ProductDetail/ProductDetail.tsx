@@ -7,16 +7,19 @@ import RelatedProduct from "../RelatedProduct/RelatedProduct";
 import Button from "../../../../Elements/Buttons";
 import { addToCart } from "../../../../Features/SoppingCart/CartSlice/Cart-Slice";
 import { useCartDispatch } from "../../../../Features/hooks";
+import { IProduct } from "../../../../../Types/Interfaces";
 
 function ProductDetail() {
   const dispatch = useCartDispatch();
   const { id } = useParams();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [product, setProduct] = useState({
+  const [product, setProduct] = useState<IProduct>({
+    _id: "",
     imageUrl: "",
     name: "",
     description: "",
+    status: false,
     stock: 0,
     price: 0,
     category: "",
@@ -67,7 +70,7 @@ function ProductDetail() {
               <div>
                 <p className="text-xl font-medium">{product.name}</p>
               </div>
-              <div className="bg-gray-200 dark:bg-gray-950 p-2 rounded-lg text-lg font-medium">
+              <div className="bg-gray-100 dark:bg-gray-950 p-2 rounded-xl text-lg font-medium">
                 <p>${product.price}</p>
               </div>
             </div>
