@@ -7,7 +7,7 @@ function Alert({ message, onConfirm, onCancle }: IAlert) {
     <>
       <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
 
-        <div className="bg-white dark:bg-gray-900 rounded-2xl py-3 shadow-lg flex flex-col justify-center">
+        <div className="bg-white dark:bg-gray-900 rounded-2xl py-3 shadow-lg flex flex-col justify-center w-[350px]">
           <div className="flex justify-end pr-3">
             <XMarkIcon className="w-6 text-gray-500 cursor-pointer" onClick={onCancle} />
           </div>

@@ -32,13 +32,13 @@
        transition-transform mr-3
         duration-300 hover:scale-105;
   }
-  
   .btn:disabled{
     @apply opacity-65 transform-none disabled:cursor-default
   }
-
   .error {
     @apply my-2 text-red-500 font-semibold flex gap-2;
   }
-  
+  .Panel-btn{
+    @apply bg-gray-800 text-white p-2 rounded-lg cursor-pointer font-bold  text-sm relative px-10 py-3
+  }
 }

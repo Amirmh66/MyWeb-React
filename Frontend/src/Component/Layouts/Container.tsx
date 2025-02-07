@@ -2,9 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { lazy, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
-import PanelAdminSkeleton from "../Elements/PanelAdminSkeleton";
 import HomePage from "../OrgSite/HomePage";
+import PanelAdminSkeleton from "../Elements/PanelAdminSkeleton";
+const AdminProfile = lazy(() => import("../PanelAdmin/Pages/AdminProfile/AdminProfile"));
 const LoadingText = lazy(() => import("../Elements/LoadingText"));
+const Setting = lazy(() => import("../PanelAdmin/Pages/Setting/Setting"))
 const AdminLayout = lazy(() => import('./AdminLayout'))
 const UserLayout = lazy(() => import("./UserLayout"))
 const AuthLayout = lazy(() => import("./AuthLayout"))
@@ -38,15 +40,13 @@ const ShoppingCart = lazy(() => import("../OrgSite/Sections/ShoppingCart/Shoppin
 const Login = lazy(() => import("../Authentication/Login/Login"))
 const SignUp = lazy(() => import("../Authentication/SignUp/SignUp"))
 const Error404 = lazy(() => import("../Authentication/unAuthorized/Error404"));
-const ProductsLoadingSkeleton = lazy(() => import("../Elements/ProductsLoadingSkeleton"));
 
 const Container = () => {
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={
-<HomePage />}>
+        <Route path="/" element={<HomePage />}>
 
           <Route path="/ProductDetail/:id" element={
             <Suspense fallback={<LoadingText />}>
@@ -58,11 +58,13 @@ const Container = () => {
         <Route
           path="/login"
           element={
-            <Suspense fallback={<LoadingText />}>
-              <AuthLayout>
-                <Login />
-              </AuthLayout>
-            </Suspense>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<LoadingText />}>
+                <AuthLayout>
+                  <Login />
+                </AuthLayout>
+              </Suspense>
+            </ErrorBoundary>
           }
         />
         <Route
@@ -167,6 +169,25 @@ const Container = () => {
             <Route path="AddCategory" element={<AddCategory />} />
             <Route path="EditCategory/:id" element={<EditCategory />} />
           </Route>
+
+          <Route path="Setting" element={
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<LoadingText />}>
+                <Setting />
+              </Suspense>
+            </ErrorBoundary>
+          }>
+
+          </Route>
+
+          <Route path="AdminProfile" element={
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <Suspense fallback={<LoadingText />}>
+                <AdminProfile />
+              </Suspense>
+            </ErrorBoundary>
+          }></Route>
+
         </Route>
 
         <Route path="/Profile" element={

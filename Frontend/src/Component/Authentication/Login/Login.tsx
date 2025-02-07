@@ -63,6 +63,7 @@ const Login = () => {
     try {
       setIsSubmitting(true);
       const userData = await login(values).unwrap();
+      console.log(userData);
       dispatch(setCredentials({ ...userData }));
       navigate("/");
     } catch (error: any) {

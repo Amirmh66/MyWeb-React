@@ -38,6 +38,9 @@ function AddProduct() {
       if (res.status === 200) {
         setError(null);
         setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+        }, 4000);
         resetForm();
       }
     } catch (error: any) {
@@ -56,6 +59,7 @@ function AddProduct() {
   const onCancle = () => {
     setShowSuccess(false);
   };
+
   const initialValues = {
     name: "",
     price: "",
@@ -214,8 +218,8 @@ function AddProduct() {
       </div>
       {showSuccess && (
         <SusscessMes
-          onCancle={onCancle}
-          message="Create Product Successfully!"
+          onClose={onCancle}
+          message="Product added successfully"
         />
       )}
     </>

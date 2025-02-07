@@ -6,11 +6,8 @@ import { lazy, Suspense } from 'react'
 import LoadingText from "../../../Elements/LoadingText";
 const AdminBtn = lazy(() => import("../../../Elements/AdminBtn"))
 
-
-
 function Buttons() {
   const role = useSelector(selectCurrentRole);
-
   return (
     <>
       <div>

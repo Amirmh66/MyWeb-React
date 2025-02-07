@@ -36,11 +36,10 @@ function Products() {
   //#endregion
 
  
-
   if (loading) return <ProductsLoadingSkeleton />;
   if (error) return <div className="bg-white text-red-600 font-semibold text-lg p-2 inline-block m-10 rounded-lg ">
     Error: {error}
-  </div>;
+  </div>
 
   return (
     <>

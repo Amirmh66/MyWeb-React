@@ -1,34 +1,22 @@
-import Button from "./Buttons";
 import { ISuccessMes } from "../../Types/Interfaces";
 import { CheckBadgeIcon, XMarkIcon } from "@heroicons/react/20/solid";
 
-function SusscessMes({ onCancle, message }: ISuccessMes) {
+function SusscessMes({ onClose, message }: ISuccessMes) {
+
   return (
     <>
-      <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-
-        <div className="bg-white dark:bg-gray-900 rounded-lg shadow-2xl flex flex-col py-3">
-
-          <div className="flex justify-end pr-3">
-            <XMarkIcon className="text-gray-400 cursor-pointer w-5" onClick={onCancle}/>
+      <div className={`p-2 w-3/12 rounded-lg border border-gray-200 dark:border-gray-800 bg-white drop-shadow-xl
+       dark:bg-gray-950 fixed top-16 z-50 right-3 transition-opacity duration-1000 ${onClose ? ("opacity-100") : ("opacity-0")}`}>
+        <div className="flex justify-between">
+          <CheckBadgeIcon className="w-5 text-green-600 pb-6" />
+          <div className="flex flex-col  text-start gap-1">
+            <p className="font-semibold">{message}</p>
+            <p className="font-medium text-sm text-slate-400">Now everyone can see the product</p>
           </div>
-
-          <div className="flex flex-col items-center">
-            <CheckBadgeIcon className="w-12 text-green-600" />
-            <div className="w-3/4">
-              <p className="text-black dark:text-gray-300 font-semibold break-before-auto text-center">{message}</p>
-            </div>
-          </div>
-
-          <div className="flex justify-center items-center mt-3">
-            <Button
-              onClick={onCancle}
-              text="Close"
-              className="bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300"
-            />
-          </div>
-          
+          <XMarkIcon onClick={onClose} className="w-4 text-gray-400 cursor-pointer hover:text-red-600
+          transition-all pb-6 inline-block" />
         </div>
+
       </div>
     </>
   );

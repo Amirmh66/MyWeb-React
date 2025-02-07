@@ -6,6 +6,7 @@ export default {
     extend: {
       animation: {
         tilt: "tilt 10s infinite linear",
+        "border-spin": "border-spin 7s linear infinite",
       },
       keyframes: {
         tilt: {
@@ -17,6 +18,11 @@ export default {
           },
           "75%": {
             transform: "rotate(-3deg)",
+          },
+        },
+        "border-spin": {
+          "100%": {
+            transform: "rotate(-360deg)",
           },
         },
       },

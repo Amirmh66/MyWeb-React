@@ -1,0 +1,34 @@
+@tailwind utilities;
+
+@layer utilities {
+    .card-wrapper {
+        @apply relative bg-gradient-to-b from-slate-700 to-slate-800 rounded-2xl overflow-hidden
+    }
+
+    .card-wrapper::before {
+        background: conic-gradient(rgba(244, 114, 182, 0.4) 0deg,
+                rgba(192, 132, 252, 0.4) 0deg,
+                transparent 80deg);
+        @apply absolute h-[150%] w-[150%] left-[-25%] top-[-25%] content-[''] animate-border-spin
+    }
+
+    .card-content {
+        @apply absolute w-[calc(100%-1px)] h-[calc(100%-1px)] bg-gradient-to-b from-slate-800 to-slate-900 rounded-2xl top-[1px] left-[1px]
+    }
+}
+
+input{
+ @apply p-2 rounded-lg font-bold focus:outline-none bg-white dark:bg-gray-950 m-0 appearance-none
+}
+.inpText{
+    @apply absolute -top-3 left-4 z-30 bg-white dark:bg-gray-950 font-semibold rounded-full
+}
+
+.inpIcon{
+    @apply w-7 text-gray-600 absolute top-2 left-1
+}
+
+.inpBox{
+    @apply relative border rounded-xl py-3 px-10
+}
+

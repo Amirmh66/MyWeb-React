@@ -72,8 +72,9 @@ export interface ICategories {
 }
 
 export interface ISuccessMes {
-  onCancle?: () => void;
+  onClose?: () => void;
   message: string;
+  isVisible?: boolean;
 }
 
 export interface LoginValues {
