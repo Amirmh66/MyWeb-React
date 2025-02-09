@@ -4,9 +4,11 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
 import HomePage from "../OrgSite/HomePage";
 import PanelAdminSkeleton from "../Elements/PanelAdminSkeleton";
+const Setting = lazy(() => import("../PanelAdmin/Pages/Setting/Setting"));
+const StoreSetting = lazy(() => import("../PanelAdmin/Pages/Setting/Componenets/StoreSetting"));
+const AppearanceSetting = lazy(() => import("../PanelAdmin/Pages/Setting/Componenets/AppearanceSetting"));
 const AdminProfile = lazy(() => import("../PanelAdmin/Pages/AdminProfile/AdminProfile"));
 const LoadingText = lazy(() => import("../Elements/LoadingText"));
-const Setting = lazy(() => import("../PanelAdmin/Pages/Setting/Setting"))
 const AdminLayout = lazy(() => import('./AdminLayout'))
 const UserLayout = lazy(() => import("./UserLayout"))
 const AuthLayout = lazy(() => import("./AuthLayout"))
@@ -171,12 +173,20 @@ const Container = () => {
           </Route>
 
           <Route path="Setting" element={
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <Suspense fallback={<LoadingText />}>
-                <Setting />
-              </Suspense>
-            </ErrorBoundary>
+            <Suspense fallback={<LoadingText />}>
+              <Setting />
+            </Suspense>
           }>
+            <Route path="Store" element={
+              <Suspense fallback={<LoadingText />}>
+                <StoreSetting />
+              </Suspense>
+            } />
+            <Route path="Design" element={
+              <Suspense fallback={<LoadingText />}>
+                <AppearanceSetting />
+              </Suspense>
+            } />
 
           </Route>
 

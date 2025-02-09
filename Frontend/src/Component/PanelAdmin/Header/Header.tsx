@@ -16,9 +16,9 @@ export default function Header() {
         <SearchBox />
 
         {/* <Language /> */}
-        <HomePage/>
+        {/* <HomePage/>
 
-        <Theme />
+        <Theme /> */}
 
         <Notification />
 
