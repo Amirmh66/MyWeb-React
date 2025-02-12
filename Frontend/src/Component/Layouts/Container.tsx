@@ -4,9 +4,15 @@ import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
 import HomePage from "../OrgSite/HomePage";
 import PanelAdminSkeleton from "../Elements/PanelAdminSkeleton";
+const SEOSetting = lazy(() => import("../PanelAdmin/Pages/Setting/SEOSetting/SEOSetting"));
+const APISetting = lazy(() => import("../PanelAdmin/Pages/Setting/APISetting/APISetting"))
+const Notification = lazy(() => import("../PanelAdmin/Pages/Setting/NotificationSetting/Notification"));
+const DeliverySetting = lazy(() => import("../PanelAdmin/Pages/Setting/DeliverySetting/DeliverySetting"))
+const BackUpsSetting = lazy(() => import("../PanelAdmin/Pages/Setting/BackUpsSetting/BackUpsSetting"))
+const SecuritySetting = lazy(() => import("../PanelAdmin/Pages/Setting/SecuritySetting/SecuritySetting"));
 const Setting = lazy(() => import("../PanelAdmin/Pages/Setting/Setting"));
-const StoreSetting = lazy(() => import("../PanelAdmin/Pages/Setting/Componenets/StoreSetting"));
-const AppearanceSetting = lazy(() => import("../PanelAdmin/Pages/Setting/Componenets/AppearanceSetting"));
+const StoreSetting = lazy(() => import("../PanelAdmin/Pages/Setting/StoreSetting/StoreSetting"));
+const AppearanceSetting = lazy(() => import("../PanelAdmin/Pages/Setting/AppearanceSetting/AppearanceSetting"));
 const AdminProfile = lazy(() => import("../PanelAdmin/Pages/AdminProfile/AdminProfile"));
 const LoadingText = lazy(() => import("../Elements/LoadingText"));
 const AdminLayout = lazy(() => import('./AdminLayout'))
@@ -172,6 +178,12 @@ const Container = () => {
             <Route path="EditCategory/:id" element={<EditCategory />} />
           </Route>
 
+          <Route path="AdminProfile" element={
+            <Suspense fallback={<LoadingText />}>
+              <AdminProfile />
+            </Suspense>
+          } />
+
           <Route path="Setting" element={
             <Suspense fallback={<LoadingText />}>
               <Setting />
@@ -182,21 +194,57 @@ const Container = () => {
                 <StoreSetting />
               </Suspense>
             } />
-            <Route path="Design" element={
+            <Route path="Theme&Design" element={
               <Suspense fallback={<LoadingText />}>
                 <AppearanceSetting />
               </Suspense>
             } />
 
-          </Route>
-
-          <Route path="AdminProfile" element={
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <Route path="Theme&Design" element={
               <Suspense fallback={<LoadingText />}>
-                <AdminProfile />
+                <AppearanceSetting />
               </Suspense>
-            </ErrorBoundary>
-          }></Route>
+            } />
+
+            <Route path="SEO" element={
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <Suspense fallback={<LoadingText />}>
+                  <SEOSetting />
+                </Suspense>
+              </ErrorBoundary>
+            } />
+
+            <Route path="Security" element={
+              <Suspense fallback={<LoadingText />}>
+                <SecuritySetting />
+              </Suspense>
+            } />
+
+            <Route path="API" element={
+              <Suspense fallback={<LoadingText />}>
+                <APISetting />
+              </Suspense>
+            } />
+
+            <Route path="Notification" element={
+              <Suspense fallback={<LoadingText />}>
+                <Notification />
+              </Suspense>
+            } />
+
+            <Route path="Delivery" element={
+              <Suspense fallback={<LoadingText />}>
+                <DeliverySetting />
+              </Suspense>
+            } />
+
+            <Route path="BackUps" element={
+              <Suspense fallback={<LoadingText />}>
+                <BackUpsSetting />
+              </Suspense>
+            } />
+
+          </Route>
 
         </Route>
 

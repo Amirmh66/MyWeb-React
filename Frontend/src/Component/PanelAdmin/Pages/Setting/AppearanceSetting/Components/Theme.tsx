@@ -25,7 +25,7 @@ function Theme() {
     }, []);
     return (
         <>
-            <div className='bg-white dark:bg-gray-950 border border-gray-700 rounded-lg p-2 flex justify-between items-center'>
+            <div className='bg-white dark:bg-gray-950 border border-gray-700 rounded-lg p-2 my-2 flex justify-between items-center'>
                 <div>
                     <p className='font-bold text-sm'>Theme</p>
                 </div>

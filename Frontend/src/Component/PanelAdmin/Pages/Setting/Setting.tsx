@@ -16,7 +16,7 @@ const settingItems: ISettingItems[] = [
     { id: 1, title: "Store", description: "Logo,Site Name", icon: <BuildingStorefrontIcon />, path: "Store" },
     { id: 2, title: "SEO", description: "Describe Meta, Keywords", icon: <PresentationChartLineIcon />, path: "SEO" },
     { id: 3, title: "Security", description: "Two-factor authentication activition", icon: <ShieldCheckIcon />, path: "Security" },
-    { id: 4, title: "Themes & Design", description: "Theme,Fonts,Background", icon: <PaintBrushIcon />, path: "Design" },
+    { id: 4, title: "Themes & Design", description: "Theme,Fonts,Background", icon: <PaintBrushIcon />, path: "Theme&Design" },
     { id: 5, title: "API ", description: "APIKeyes,Social Media", icon: <ServerStackIcon />, path: "API" },
     { id: 6, title: "Notification ", description: "EmailNotificate", icon: <BellIcon />, path: "Notification" },
     { id: 7, title: "Delivery", description: "Shipping & Delivery", icon: <TruckIcon />, path: "Delivery" },
