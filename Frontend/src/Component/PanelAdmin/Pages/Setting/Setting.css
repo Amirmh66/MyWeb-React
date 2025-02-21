@@ -1,4 +1,6 @@
 .Setting-box {
-    @apply bg-slate-200 dark:bg-slate-900 w-52 h-52 rounded-xl p-5 border-b-8 border-slate-400 dark:border-slate-700
-     flex flex-col items-center justify-center text-center cursor-pointer hover:shadow-lg transition-shadow duration-200
+    @apply bg-slate-200 dark:bg-slate-900 w-52 h-52
+     rounded-xl p-5 border-b-8 border-slate-400 dark:border-slate-700
+     flex flex-col items-center justify-center relative text-center cursor-pointer
+      hover:shadow-lg transition-shadow duration-200 overflow-hidden
 }

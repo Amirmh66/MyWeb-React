@@ -45,6 +45,10 @@ const apiRoutes: any = {
   createBrand: `${baseURL}/brands`,
   updateBrand: (id: string) => `${baseURL}/brands/${id}`,
   deleteBrand: (id: string) => `${baseURL}/brands/${id}`,
+  // Settings
+  defaultSetting: (group: string) =>
+    `${baseURL}/applyDefaultSetting?group=${group}`,
+  getSettings: (group: string) => `${baseURL}/getSettings?group=${group}`,
   // Authentication
   Login: `${baseURL}/login`,
   SignUp: `${baseURL}/signUp`,

@@ -1,0 +1,14 @@
+[
+  {
+    "key": "siteName",
+    "value": "MyWeb",
+    "description": "WebSiteName",
+    "group": "Store"
+  },
+  {
+    "key": "logo",
+    "value": "https://cloud.com/logo.png",
+    "description": "Logo Address",
+    "group": "Store"
+  }
+]

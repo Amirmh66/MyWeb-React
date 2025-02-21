@@ -12,6 +12,7 @@ import bodyParser from "body-parser";
 import middlewareRoute from "./Routes/middlewareRoute.mjs";
 import TypeRoute from "./Routes/TypeRoute.mjs";
 import BrandRoute from "./Routes/BrandRoute.mjs";
+import SettingRoute from "./Routes/SettingRoute.mjs";
 
 const PORT = process.env.PORT;
 const app = express();
@@ -26,7 +27,7 @@ const corsOptions = {
 };
 
 db.on("erorr", (erorr) => console.log(erorr));
-db.once("open", () => console.log("Server Is Running."));
+db.once("open", () => console.log("Database Is Running."));
 
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
@@ -39,5 +40,6 @@ app.use(LoginRoute);
 app.use(middlewareRoute);
 app.use(TypeRoute);
 app.use(BrandRoute);
+app.use(SettingRoute);
 
 app.listen(PORT, console.log(`Server Running On Port ${PORT}`));

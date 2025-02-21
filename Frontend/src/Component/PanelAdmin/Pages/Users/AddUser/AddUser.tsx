@@ -198,7 +198,7 @@ function AddUser() {
         </Form>
       </Formik>
       {showConfirm && (
-        <SuccessMes onCancle={onCancle} message={"Create User Successfully!"} />
+        <SuccessMes onClose={onCancle} message={"Create User Successfully!"} />
       )}
     </>
   );

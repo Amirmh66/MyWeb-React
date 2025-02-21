@@ -1,0 +1,12 @@
+[
+  {
+    "key": "socialLinks",
+    "value": [
+      "https://facebook.com/example",
+      "https://x.com/example",
+      "https://instagram.com/example"
+    ],
+    "description": "socialLinks Instagram, X and Facebook",
+    "group": "APISetting"
+  }
+]
