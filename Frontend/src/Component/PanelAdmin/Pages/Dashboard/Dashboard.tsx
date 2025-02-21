@@ -93,9 +93,6 @@ import apiRoutes from "../../../../Constants/apiRoutes";
           </div>
         </div>
       </div>
-      {/* <div className="p-4 mt-10 text-center bg-white rounded-lg dark:bg-gray-900 text">
-        <Counter />
-      </div> */}
     </>
   );
 }

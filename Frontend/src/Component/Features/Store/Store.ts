@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "../Counter/CounterSlice";
 import { cartSlice } from "../SoppingCart/CartSlice/Cart-Slice";
 import { apiSlice } from "../api/apiSlice";
 import authReducer from "../Authentication/AuthSlice/AuthSlice";
@@ -16,7 +15,6 @@ const persistedReducer = persistReducer(persistConfig, authReducer);
 export  const store = configureStore({
   reducer: {
     cart: cartSlice.reducer,
-    counter: counterReducer,
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: persistedReducer,
   },
