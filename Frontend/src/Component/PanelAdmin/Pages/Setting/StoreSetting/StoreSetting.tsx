@@ -3,8 +3,9 @@ import Button from "../../../../Elements/Buttons"
 import PageName from "../../../../Elements/PageName"
 import apiRoutes from "../../../../../Constants/apiRoutes"
 import { useEffect, useState } from "react"
-import { PencilSquareIcon } from "@heroicons/react/20/solid"
-import Alert from "../../../../Elements/Alert"
+import { ExclamationTriangleIcon, PencilSquareIcon, WrenchScrewdriverIcon } from "@heroicons/react/20/solid"
+import Modal from "../../../../Elements/Modal"
+import SuccessMes from "../../../../Elements/SuccessMes"
 
 interface IType {
   key: string;
@@ -15,13 +16,15 @@ interface IType {
 
 function StoreSetting() {
   const [settings, setSettins] = useState<IType[]>([]);
-  const [showAlert, setShowAlert] = useState<Boolean>(false);
+  const [showModal, setShowModal] = useState(false);
+  const [applyDefSet, setApplyDefSet] = useState(false);
 
   //#region DefaultSetting
   const defaultSetting = async () => {
     try {
       await axios.get(apiRoutes.defaultSetting("Store")).then((res) => {
-        console.log(res.data);
+        setShowModal(false);
+        setApplyDefSet(true)
       })
     } catch (error) {
       console.log(error)
@@ -57,13 +60,17 @@ function StoreSetting() {
         ))}
       </div>
       <div>
-        <Button text="DefaultSetting" onClick={() => setShowAlert(true)} className="bg-orange-500 my-10" />
+        <Button text="DefaultSetting" icon={<WrenchScrewdriverIcon className="w-4" />} onClick={() => setShowModal(true)} className="bg-orange-500 my-10" />
       </div>
-      {showAlert && (
-        <Alert message="Are you sure you want to reset the settings to default?" onCancle={() => setShowAlert(false)} onConfirm={defaultSetting} />
+
+      <Modal title="Are you sure you want to reset the settings to default?" icon={<ExclamationTriangleIcon className="w-14 text-red-600" />} isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Button onClick={defaultSetting} text="Yes" className="bg-green-500" />
+        <Button onClick={() => setShowModal(false)} text="No" className="bg-slate-400" />
+      </Modal>
+      {applyDefSet && (
+        <SuccessMes message="Successfully apply default settings" onClose={() => setApplyDefSet(false)} />
       )}
     </>
   )
 }
-
-export default StoreSetting;
+export default StoreSetting

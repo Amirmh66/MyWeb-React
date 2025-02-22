@@ -1,24 +1,19 @@
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentRole, selectCurrentUserName, logOut } from "../../../Features/Authentication/AuthSlice/AuthSlice";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Alert from "../../../Elements/Alert";
+import Modal from "../../../Elements/Modal";
+import Button from "../../../Elements/Buttons";
 
 function Profile() {
   const userName = useSelector(selectCurrentUserName);
   const role = useSelector(selectCurrentRole);
   const [isOpen, setIsOpen] = useState(false);
-  const [showMes, setShowMes] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleCancle = async () => {
-    setShowMes(false);
-  };
-  const showMessage = async () => {
-    setShowMes(true);
-  };
   const handleConfirm = async () => {
     dispatch(logOut());
     navigate("/")
@@ -52,24 +47,18 @@ function Profile() {
                 </li>
               </Link>
               <li className="hover:bg-gray-200 dark:hover:bg-gray-900 p-2 transition duration-200 text-start"
-                onClick={showMessage}>
+                onClick={() => setShowModal(true)}>
                 <p className="text-sm font-semibold">Logout</p>
               </li>
             </ul>
           </div>
         </div>
       </div>
-      {
-        showMes && (
-          <Alert
-            message="Are you sure logout?"
-            onCancle={handleCancle}
-            onConfirm={handleConfirm}
-          />
-        )
-      }
+      <Modal title="Are you sure logout?" icon={<ExclamationTriangleIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
+        <Button className="bg-slate-700" text="Logout" onClick={handleConfirm} />
+        <Button className="bg-slate-400" text="Close" onClick={() => setShowModal(false)} />
+      </Modal>
     </>
   )
 }
-
 export default Profile;

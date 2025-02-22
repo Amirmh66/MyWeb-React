@@ -5,13 +5,13 @@ import Button from "../../../Elements/Buttons";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../Constants/apiRoutes";
-import Alert from "../../../Elements/Alert";
 import Select, { components } from "react-select";
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
 import { IRole } from "../../../../Types/Interfaces";
 import {
   ArrowPathIcon, ChevronDoubleRightIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon, EllipsisHorizontalIcon
 } from "@heroicons/react/20/solid";
+import Modal from "../../../Elements/Modal";
 
 //#region Select
 const CustomSelect = (props: any) => {
@@ -52,8 +52,8 @@ function User() {
   const [error, setError] = useState<string | null>(null);
   const [isVisibleBtnNav, setVisibleBtnNav] = useState<Boolean>(false);
   const [isOpenUserDetil, setIsOpenUserDetil] = useState<string | null>(null);
-  const [showAlert, setShowAlert] = useState(false);
-  const [showAlertAll, setShowAlertAll] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showModalAll, setShowModalAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
   const [roles, setRoles] = useState<IRole[]>();
@@ -112,43 +112,31 @@ function User() {
   //#endregion 
   //#region DeleteUser
   const handleDelete = (productId: string) => {
+    setShowModal(true);
     setSelectedId(productId);
-    setShowAlert(true);
   };
-
   const ConfirmDelete = async () => {
     if (selectedId) {
       try {
         await axios.delete(api.deleteUser(selectedId));
-        setShowAlert(false);
+        setShowModal(false);
         setSelectedId(null);
         getUsers();
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        setError(error)
       }
     }
   };
-  const CancelDelete = () => {
-    setShowAlert(false);
-    setSelectedId(null);
-  };
   //#endregion
   //#region DeleteAllUsers
-
-  const handleDeleteAll = () => {
-    setShowAlertAll(true);
-  };
   const ConfirmDeleteAll = async () => {
     try {
       await axios.delete(api.deleteAllUsers);
-      setShowAlertAll(false);
+      setShowModalAll(false);
       getUsers();
     } catch (error) {
       console.log(error);
     }
-  };
-  const CancelDeleteAll = () => {
-    setShowAlertAll(false);
   };
   //#endregion
 
@@ -158,7 +146,7 @@ function User() {
   return (
     <>
       {location.pathname === "/PanelAdmin/Users" ? (
-        <div>
+        <>
           <div className="table-nav justify-between">
             <div className="hidden xl:block">
               <Link to={"AddUser"}>
@@ -174,7 +162,7 @@ function User() {
                 text="DeleteAll"
                 icon={<TrashIcon className="w-5" />}
                 className="bg-red-700"
-                onClick={handleDeleteAll}
+                onClick={() => setShowModalAll(true)}
               />
             </div>
             <div>
@@ -212,7 +200,7 @@ function User() {
                       text="Delete All"
                       className="w-full bg-red-700"
                       icon={<TrashIcon className="w-5" />}
-                      onClick={handleDeleteAll}
+                      onClick={() => setShowModalAll(true)}
                     />
                   </div>
                 </div>
@@ -221,7 +209,7 @@ function User() {
           </div>
           {users.length ? (
             <div className="boxTable">
-              <div className="overflow-auto md:overflow-auto" style={{ maxHeight: "560px"}}>
+              <div className="overflow-auto md:overflow-auto" style={{ maxHeight: "560px" }}>
                 <table className="table">
                   <thead className="thead">
                     <tr>
@@ -297,24 +285,18 @@ function User() {
               <p className="text-lg font-semibold">No Users To Display</p>
             </div>
           )}
-        </div>
+        </>
       ) : (
         <Outlet />
       )}
-      {showAlert && (
-        <Alert
-          message="Are You Sure You Want to Delete This User?"
-          onCancle={CancelDelete}
-          onConfirm={ConfirmDelete}
-        />
-      )}
-      {showAlertAll && (
-        <Alert
-          message="Warning: This action will delete all data, but do you want to do it?"
-          onCancle={CancelDeleteAll}
-          onConfirm={ConfirmDeleteAll}
-        />
-      )}
+      <Modal title="Are You Sure You Want to Delete This User?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDelete} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModal(false)} />
+      </Modal>
+      <Modal title="Warning: This action will delete all data, but do you want to do it?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModalAll} onClose={() => showModalAll}>
+        <Button className="bg-red-800" text="Delete" onClick={ConfirmDeleteAll} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModalAll(false)} />
+      </Modal>
     </>
   );
 }

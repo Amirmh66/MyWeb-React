@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import Button from "../../../Elements/Buttons";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
-import api from "../../../../Constants/apiRoutes";
-import Alert from "../../../Elements/Alert";
+import api from "../../../../Constants/apiRoutes"
 import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
+import Modal from "../../../Elements/Modal";
 
 
 
@@ -19,8 +19,8 @@ function Roles() {
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [showAlert, setShowAlert] = useState(false);
-  const [showAlertAll, setShowAlertAll] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showModalAll, setShowModalAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
 
@@ -43,14 +43,14 @@ function Roles() {
   //#region DeleteRole
   const handleDelete = (roleId: string) => {
     setSelectedId(roleId);
-    setShowAlert(true);
+    setShowModal(true);
   };
 
   const ConfirmDelete = async () => {
     if (selectedId) {
       try {
         await axios.delete(api.deleteRole(selectedId));
-        setShowAlert(false);
+        setShowModal(false);
         setSelectedId(null);
         getRoles();
       } catch ({ error }: any) {
@@ -58,28 +58,18 @@ function Roles() {
       }
     }
   };
-  const CancelDelete = () => {
-    setShowAlert(false);
-    setSelectedId(null);
-  };
   //#endregion
   //#region DeleteRoles
-  const handleDeleteAll = () => {
-    setShowAlertAll(true);
-  };
 
   const ConfirmDeleteAll = async () => {
     try {
       await axios.delete(api.deleteAllRoles).then(() => {
-        setShowAlertAll(false);
+        setShowModalAll(false);
         getRoles();
       });
     } catch (error: any) {
       setError(error);
     }
-  };
-  const CancelDeleteAll = () => {
-    setShowAlertAll(false);
   };
   //#endregion
 
@@ -104,7 +94,7 @@ function Roles() {
               text="Delete All Roles"
               icon={<TrashIcon className="w-5" />}
               className="bg-red-800"
-              onClick={handleDeleteAll}
+              onClick={() => setShowModalAll(true)}
             />
           </div>
           <div className="boxTable">
@@ -150,21 +140,14 @@ function Roles() {
       ) : (
         <Outlet />
       )}
-
-      {showAlert && (
-        <Alert
-          message="Are You Sure You Want to Delete This Role?"
-          onCancle={CancelDelete}
-          onConfirm={ConfirmDelete}
-        />
-      )}
-      {showAlertAll && (
-        <Alert
-          message="Warning: This action will delete all data, but do you want to do it?"
-          onCancle={CancelDeleteAll}
-          onConfirm={ConfirmDeleteAll}
-        />
-      )}
+      <Modal title="Are You Sure You Want to Delete This Role?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDelete} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModal(false)} />
+      </Modal>
+      <Modal title="Warning: This action will delete all data, but do you want to do it?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModalAll} onClose={() => setShowModalAll}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDeleteAll} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModalAll(false)} />
+      </Modal>
     </>
   );
 }

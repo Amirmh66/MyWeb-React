@@ -2,10 +2,10 @@ import { Link, Outlet, useLocation } from 'react-router-dom'
 import Button from '../../../Elements/Buttons'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
-import apiRoutes from '../../../../Constants/apiRoutes';
-import Alert from '../../../Elements/Alert';
+import apiRoutes from '../../../../Constants/apiRoutes'
 import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from '@heroicons/react/20/solid';
 import TablesSkeleton from '../../../Elements/TablesSkeleton';
+import Modal from '../../../Elements/Modal';
 
 interface ITypes {
   _id: string;
@@ -17,7 +17,7 @@ function Types() {
   const [isSendRequest, setIsSendRequest] = useState(true);
   const [types, setTypes] = useState<ITypes[]>([])
   const [error, setError] = useState<string | null>(null);
-  const [showAlert, setShowAlert] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
 
@@ -43,24 +43,20 @@ function Types() {
   //#region HandlDelete
   const handleDelete = (typeId: string) => {
     setSelectedId(typeId);
-    setShowAlert(true);
+    setShowModal(true);
   };
 
   const ConfirmDelete = async () => {
     if (selectedId) {
       try {
         await axios.delete(apiRoutes.deleteTypeById(selectedId));
-        setShowAlert(false);
+        setShowModal(false);
         setSelectedId(null);
         getTypes();
       } catch (error: any) {
         setError(error.response.data.message);
       }
     }
-  };
-  const CancelDelete = () => {
-    setShowAlert(false);
-    setSelectedId(null);
   };
   //#endregion 
 
@@ -119,14 +115,10 @@ function Types() {
       ) : (
         <Outlet />
       )}
-
-      {showAlert && (
-        <Alert
-          message="Are You Sure You Want to Delete This Type?"
-          onCancle={CancelDelete}
-          onConfirm={ConfirmDelete}
-        />
-      )}
+      <Modal title="Are You Sure You Want to Delete This Type?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDelete} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModal(false)} />
+      </Modal>
     </>
   )
 }

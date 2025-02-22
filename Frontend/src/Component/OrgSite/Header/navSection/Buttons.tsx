@@ -19,6 +19,13 @@ function Buttons() {
           </Suspense>
         </div>
         <div className="hidden md:flex">
+          <Suspense fallback={<LoadingText />}>
+            {role === "Owner" && (
+              <AdminBtn />
+            )}
+          </Suspense>
+        </div>
+        <div className="hidden md:flex">
           {role === "user" && (
             <Link to={"/panelUser"}>
               <div className="hover:text-orange-500 transition-all duration-150">

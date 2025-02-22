@@ -3,9 +3,9 @@ import Button from "../../../Elements/Buttons"
 import { useEffect, useState } from "react"
 import axios from "axios";
 import apiRoutes from "../../../../Constants/apiRoutes";
-import Alert from "../../../Elements/Alert";
 import { ArrowPathIcon, DevicePhoneMobileIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
+import Modal from "../../../Elements/Modal";
 
 interface IType {
   _id: string;
@@ -25,22 +25,21 @@ function Brands() {
   const [isSendRequest, setIsSendRequest] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const location = useLocation();
-  const [isShowAlert, setIsShowAlert] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [isShowModal, setIsShowModal] = useState(false);
   const [types, setTypes] = useState<IType[]>([])
 
   //#region ShowModal
-  const handleShowModal = async (id: string) => {
-    setIsShowModal(true);
-    try {
-      await axios.get(apiRoutes.getBrandTypes(id)).then((res) => {
-        setTypes(res.data);
-      })
-    } catch (error: any) {
-      setError(error.response.data.message);
-    }
-  }
+  // const handleShowModal = async (id: string) => {
+  //   setIsShowModal(true);
+  //   try {
+  //     await axios.get(apiRoutes.getBrandTypes(id)).then((res) => {
+  //       setTypes(res.data);
+  //     })
+  //   } catch (error: any) {
+  //     setError(error.response.data.message);
+  //   }
+  // }
   //#endregion
   //#region GetBrands
   useEffect(() => {
@@ -64,25 +63,20 @@ function Brands() {
   //#endregion
   //#region HandleDelete
   const handleDelete = (brandId: string) => {
+    setShowModal(true);
     setSelectedId(brandId);
-    setIsShowAlert(true);
   };
-
   const ConfirmDelete = async () => {
     if (selectedId) {
       try {
         await axios.delete(apiRoutes.deleteBrand(selectedId));
-        setIsShowAlert(false);
+        setShowModal(false);
         setSelectedId(null);
         getBrands();
       } catch (error: any) {
         setError(error.response.data.message)
       }
     }
-  };
-  const CancelDelete = () => {
-    setIsShowAlert(false);
-    setSelectedId(null);
   };
   //#endregion 
 
@@ -133,12 +127,12 @@ function Brands() {
                         <Link to={`Editbrand/${b._id}`}>
                           <Button text="Edit" icon={<PencilSquareIcon className="w-5" />} className="bg-blue-600" />
                         </Link>
-                        <Button
+                        {/* <Button
                           icon={<DevicePhoneMobileIcon className="w-5" />}
                           text="ShowTypes"
                           onClick={() => handleShowModal(b._id)}
                           className="bg-yellow-500"
-                        />
+                        /> */}
                       </td>
                     </tr>
                   ))}
@@ -151,7 +145,7 @@ function Brands() {
         <Outlet />
       )}
 
-      {isShowModal && (
+      {/* {isShowModal && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
           <div className="rounded-lg w-72 flex flex-col justify-start gap-5 bg-white">
             <div className="py-1 px-2 flex justify-between gap-10 ">
@@ -170,10 +164,12 @@ function Brands() {
             </div>
           </div>
         </div>
-      )}
-      {isShowAlert && (
-        <Alert message="Are You Sure You Want To Delete This Brand?" onCancle={CancelDelete} onConfirm={ConfirmDelete} />
-      )}
+      )} */}
+
+      <Modal title="Are You Sure You Want To Delete This Brand?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDelete} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModal(false)} />
+      </Modal>
     </>
   )
 }

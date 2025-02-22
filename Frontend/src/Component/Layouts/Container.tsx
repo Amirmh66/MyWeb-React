@@ -104,7 +104,7 @@ const Container = () => {
           path="/PanelAdmin"
           element={
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <RequireAuth requiredRole="admin">
+              <RequireAuth requiredRole="admin" >
                 <Suspense fallback={<PanelAdminSkeleton />}>
                   <AdminLayout />
                 </Suspense>

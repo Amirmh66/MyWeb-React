@@ -1,9 +1,10 @@
 import Button from "../../../Elements/Buttons";
 import "./Product.css";
-import { ArrowPathIcon, ChevronDownIcon,
-   MagnifyingGlassIcon, PencilSquareIcon,
-    PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
-import Alert from "../../../Elements/Alert.tsx";
+import {
+  ArrowPathIcon, ChevronDownIcon,
+  MagnifyingGlassIcon, PencilSquareIcon,
+  PlusCircleIcon, TrashIcon
+} from "@heroicons/react/20/solid"
 import type { IProduct } from "../../../../Types/Interfaces";
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
@@ -11,13 +12,14 @@ import axios from "axios";
 import api from "../../../../Constants/apiRoutes.ts";
 import TablesSkeleton from "../../../Elements/TablesSkeleton.tsx";
 import Pagination from "../../../Elements/Paganation.tsx";
+import Modal from "../../../Elements/Modal.tsx";
 
 export default function Product() {
   const [products, setProduct] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [showAlert, setShowAlert] = useState(false);
-  const [showAlertAll, setShowAlertAll] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showModalAll, setShowModalAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -46,14 +48,13 @@ export default function Product() {
   //#region DeleteProduct
   const handleDelete = (productId: string) => {
     setSelectedId(productId);
-    setShowAlert(true);
+    setShowModal(true);
   };
-
   const ConfirmDelete = async () => {
     if (selectedId) {
       try {
         await axios.delete(api.deleteProduct(selectedId));
-        setShowAlert(false);
+        setShowModal(false);
         setSelectedId(null);
         getProduct(currentPage);
       } catch (error) {
@@ -61,29 +62,18 @@ export default function Product() {
       }
     }
   };
-  const CancelDelete = () => {
-    setShowAlert(false);
-    setSelectedId(null);
-  };
   //#endregion
   //#region DeleteAll
   const ConfirmDeleteAll = async () => {
     try {
       await axios.delete(api.deleteAllProducts);
-      setShowAlertAll(false);
+      setShowModalAll(false);
       getProduct(currentPage);
     } catch ({ error }: any) {
       console.log(error.message);
     } finally {
       setLoading(false);
     }
-  };
-  const CancelDeleteAll = () => {
-    setShowAlertAll(false);
-  };
-
-  const handleDeleteAll = async () => {
-    setShowAlertAll(true);
   };
   //#endregion
 
@@ -109,7 +99,7 @@ export default function Product() {
                 text="DeleteAll"
                 icon={<TrashIcon className="w-5" />}
                 className="bg-red-700"
-                onClick={handleDeleteAll}
+                onClick={() => setShowModalAll(true)}
               />
             </div>
             <button className="filterbtn">
@@ -194,21 +184,14 @@ export default function Product() {
       ) : (
         <Outlet />
       )}
-
-      {showAlert && (
-        <Alert
-          message="Are you sure you want to delete this product?"
-          onCancle={CancelDelete}
-          onConfirm={ConfirmDelete}
-        />
-      )}
-      {showAlertAll && (
-        <Alert
-          message="Warning: this action will erase all data.Are you sure you want to proceed?"
-          onCancle={CancelDeleteAll}
-          onConfirm={ConfirmDeleteAll}
-        />
-      )}
+      <Modal title="Are you sure you want to delete this product?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDelete} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModal(false)} />
+      </Modal>
+      <Modal title="Warning: this action will erase all data.Are you sure you want to proceed?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModalAll} onClose={() => setShowModalAll}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDeleteAll} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModalAll(false)} />
+      </Modal>
     </>
   );
 }

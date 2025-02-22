@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
-import type { ICategories } from "../../../../Types/Interfaces";
-import Button from "../../../Elements/Buttons";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import axios from "axios";
-import api from "../../../../Constants/apiRoutes";
-import Alert from "../../../Elements/Alert";
+import { useEffect, useState } from "react"
+import type { ICategories } from "../../../../Types/Interfaces"
+import Button from "../../../Elements/Buttons"
+import { Link, Outlet, useLocation } from "react-router-dom"
+import axios from "axios"
+import api from "../../../../Constants/apiRoutes"
 import "./Categoryies.css";
-import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
-import TablesSkeleton from "../../../Elements/TablesSkeleton";
+import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
+import TablesSkeleton from "../../../Elements/TablesSkeleton"
+import Modal from "../../../Elements/Modal"
 
 function Categories() {
-
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [showAlert, setShowAlert] = useState(false);
-  const [showAlertAll, setShowAlertAll] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [showModalAll, setShowModalAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
 
@@ -40,15 +39,14 @@ function Categories() {
   //#endregion
   //#region DeleteCategory
   const handleDelete = (productId: string) => {
+    setShowModal(true);
     setSelectedId(productId);
-    setShowAlert(true);
   };
-
   const ConfirmDelete = async () => {
     if (selectedId) {
       try {
         await axios.delete(api.deleteCategory(selectedId));
-        setShowAlert(false);
+        setShowModal(false);
         setSelectedId(null);
         getCategories();
       } catch (error) {
@@ -56,27 +54,16 @@ function Categories() {
       }
     }
   };
-  const CancelDelete = () => {
-    setShowAlert(false);
-    setSelectedId(null);
-  };
   //#endregion
   //#region DeleteCategories
-  const handleDeleteAll = () => {
-    setShowAlertAll(true);
-  };
-
   const ConfirmDeleteAll = async () => {
     try {
       await axios.delete(api.deleteAllCategories);
-      setShowAlertAll(false);
+      setShowModalAll(false);
       getCategories();
     } catch (error) {
       console.log(error);
     }
-  };
-  const CancelDeleteAll = () => {
-    setShowAlertAll(false);
   };
   //#endregion
 
@@ -86,7 +73,7 @@ function Categories() {
   return (
     <>
       {location.pathname === "/PanelAdmin/Categories" ? (
-        <div>
+        <>
           <div className="table-nav">
             <Link to="addCategory">
               <Button text="Create Category" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
@@ -101,7 +88,7 @@ function Categories() {
               text="DeleteAllCategories"
               icon={<TrashIcon className="w-5" />}
               className="bg-red-800 "
-              onClick={handleDeleteAll}
+              onClick={() => setShowModalAll(true)}
             />
           </div>
           <div className="boxTable">
@@ -137,24 +124,18 @@ function Categories() {
               </table>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <Outlet />
       )}
-      {showAlert && (
-        <Alert
-          message="Are You Sure You Want to Delete This Categories?"
-          onCancle={CancelDelete}
-          onConfirm={ConfirmDelete}
-        />
-      )}
-      {showAlertAll && (
-        <Alert
-          message="Warning: This action will delete all data, but do you want to do it?"
-          onCancle={CancelDeleteAll}
-          onConfirm={ConfirmDeleteAll}
-        />
-      )}
+      <Modal title="Are You Sure You Want to Delete This Categories?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDelete} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModal(false)} />
+      </Modal>
+      <Modal title="Warning: This action will delete all data, but do you want to do it?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModalAll} onClose={() => setShowModalAll}>
+        <Button className="bg-red-600" text="Delete" onClick={ConfirmDeleteAll} />
+        <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModalAll(false)} />
+      </Modal>
     </>
   );
 }
