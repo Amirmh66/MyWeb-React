@@ -5,12 +5,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
 import validateSchima from "../../../../../Validations/ProductValidation";
-import SusscessMes from "../../../../Elements/SuccessMes";
 import { ErrorMessage, Field, Formik, Form } from "formik";
 import { ICategories } from "../../../../../Types/Interfaces";
 import LoadingText from "../../../../Elements/LoadingText";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import QuillEditor from "../../../../Elements/QuillEditor";
+import Notification from "../../../../Elements/Notification";
 
 function EditProduct() {
   const { id } = useParams();
@@ -83,10 +83,6 @@ function EditProduct() {
     }
   };
   //#endregion 
-
-  const onCancle = () => {
-    setShowSuccess(false);
-  };
 
   if (loading) return <LoadingText />;
 
@@ -235,9 +231,7 @@ function EditProduct() {
           </Formik>
         </div>
       </div>
-      {showSuccess && (
-        <SusscessMes onCancle={onCancle} message="Edit Product Successfully!" />
-      )}
+      <Notification title="Edit Product Successfully!" show={showSuccess} />
     </>
   );
 }

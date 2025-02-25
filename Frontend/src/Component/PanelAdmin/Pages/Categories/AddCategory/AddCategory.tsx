@@ -4,7 +4,7 @@ import axios from "axios";
 import api from "../../../../../Constants/apiRoutes";
 import { useNavigate, useSubmit } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import SuccessMes from "../../../../Elements/SuccessMes";
+import Notification from "../../../../Elements/Notification";
 import "../Categoryies.css";
 import { validCategory } from "../../../../../Validations/ValidCategoryies";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid"
@@ -141,12 +141,9 @@ function AddCategory() {
           </div>
         </Form>
       </Formik>
-      {showConfirm && (
-        <SuccessMes
-          onCancle={onCancle}
-          message={"Create Category Successfully!"}
-        />
-      )}
+      <Notification
+        title={"Create Category Successfully!"} show={showConfirm}
+      />
     </>
   );
 }

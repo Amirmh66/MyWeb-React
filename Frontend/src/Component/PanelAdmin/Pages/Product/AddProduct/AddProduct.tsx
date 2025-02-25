@@ -5,10 +5,10 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import validProduct from "../../../../../Validations/ProductValidation";
 import { useEffect, useState } from "react";
 import { ICategories } from "../../../../../Types/Interfaces";
-import SusscessMes from "../../../../Elements/SuccessMes";
 import "../Product.css";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import QuillEditor from "../../../../Elements/QuillEditor";
+import Notification from "../../../../Elements/Notification";
 
 function AddProduct() {
   const [categories, setCategories] = useState<ICategories[]>([]);
@@ -55,10 +55,6 @@ function AddProduct() {
     }
   };
   //#endregion
-
-  const onCancle = () => {
-    setShowSuccess(false);
-  };
 
   const initialValues = {
     name: "",
@@ -216,12 +212,11 @@ function AddProduct() {
           </Formik>
         </div>
       </div>
-      {showSuccess && (
-        <SusscessMes
-          onClose={onCancle}
-          message="Product added successfully"
-        />
-      )}
+      <Notification
+        show={showSuccess}
+        title="Product added successfully."
+        explanations="Now everyone can see the product"
+      />
     </>
   );
 }

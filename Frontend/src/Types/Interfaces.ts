@@ -71,12 +71,6 @@ export interface ICategories {
   description: string;
 }
 
-export interface ISuccessMes {
-  onClose?: () => void;
-  message: string;
-  isVisible?: boolean;
-}
-
 export interface LoginValues {
   email: string;
   password: string;

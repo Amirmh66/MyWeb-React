@@ -9,7 +9,7 @@
         background: conic-gradient(rgba(244, 114, 182, 0.4) 0deg,
                 rgba(192, 132, 252, 0.4) 0deg,
                 transparent 80deg);
-        @apply absolute h-[150%] w-[150%] left-[-25%] top-[-25%] content-[''] animate-border-spin
+        @apply absolute h-[150%] w-[150%] left-[-25%] top-[-25%] content-[''] animate-borderSpin
     }
 
     .card-content {

@@ -1,13 +1,13 @@
-import { useNavigate, useSubmit } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../../../Elements/Buttons";
 import "../User.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import SuccessMes from "../../../../Elements/SuccessMes";
 import validateUser from "../../../../../Validations/UserValidation";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import apiRoutes from "../../../../../Constants/apiRoutes";
+import Notification from "../../../../Elements/Notification";
 
 interface IRoles {
   _id: string;
@@ -27,8 +27,8 @@ function AddUser() {
     try {
       setIsSubmitting(true)
       await axios.post(apiRoutes.createUser, values).then(() => {
+        setShowConfirm(true);
         redirect("/PanelAdmin/Users");
-        alert("Register Successfully.");
       });
     } catch (error: any) {
       setError(error.response.data.message);
@@ -55,10 +55,6 @@ function AddUser() {
     }
   }
   //#endregion 
-
-  const onCancle = () => {
-    setShowConfirm(false);
-  };
 
   const initialValues = {
     fullName: "",
@@ -197,9 +193,11 @@ function AddUser() {
           </div>
         </Form>
       </Formik>
-      {showConfirm && (
-        <SuccessMes onClose={onCancle} message={"Create User Successfully!"} />
-      )}
+      <Notification
+        show={showConfirm}
+        title="Register user successfully."
+        explanations="This user can now login."
+      />
     </>
   );
 }

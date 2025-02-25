@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import SuccessMes from "../../../../Elements/SuccessMes";
+import Notification from "../../../../Elements/Notification";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid"
 import apiRoutes from "../../../../../Constants/apiRoutes";
 import BrandValidation from "../../../../../Validations/BrandValidation";
@@ -220,12 +220,10 @@ function EditBrand() {
           </div>
         </Form>
       </Formik>
-      {showConfirm && (
-        <SuccessMes
-          onCancle={onCancle}
-          message="Edit Brand Successfully!"
-        />
-      )}
+      <Notification
+        show={showConfirm}
+        title="Edit Brand Successfully!"
+      />
     </>
   );
 }

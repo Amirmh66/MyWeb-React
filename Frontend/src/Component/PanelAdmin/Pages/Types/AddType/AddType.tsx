@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { useState } from 'react'
-import { useNavigate, useSubmit } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import apiRoutes from '../../../../../Constants/apiRoutes';
-import SuccessMes from '../../../../Elements/SuccessMes';
+import Notification from "../../../../Elements/Notification";
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import Button from '../../../../Elements/Buttons';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
@@ -36,10 +36,6 @@ function AddType() {
     }
   }
   //#endregion 
-
-  function handleCancle() {
-    setShowConfirm(false)
-  }
 
   const initialValues = {
     typeName: "",
@@ -97,7 +93,7 @@ function AddType() {
               </div>
               <div className="my-4">
                 <Button
-                disable={isSubmitting}
+                  disable={isSubmitting}
                   text={isSubmitting ? "Loading..." : "Create"}
                   className="bg-green-700"
                 />
@@ -106,12 +102,10 @@ function AddType() {
           </div>
         </Form>
       </Formik>
-      {showConfirm && (
-        <SuccessMes
-          onCancle={handleCancle}
-          message={"Create Category Successfully!"}
-        />
-      )}
+      <Notification
+        show={showConfirm}
+        title="Create Type Successfully!"
+      />
     </>
   )
 }

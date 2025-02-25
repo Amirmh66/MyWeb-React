@@ -5,7 +5,7 @@ import apiRoutes from "../../../../../Constants/apiRoutes"
 import { useEffect, useState } from "react"
 import { ExclamationTriangleIcon, PencilSquareIcon, WrenchScrewdriverIcon } from "@heroicons/react/20/solid"
 import Modal from "../../../../Elements/Modal"
-import SuccessMes from "../../../../Elements/SuccessMes"
+import Notification from "../../../../Elements/Notification"
 
 interface IType {
   key: string;
@@ -67,9 +67,8 @@ function StoreSetting() {
         <Button onClick={defaultSetting} text="Yes" className="bg-green-500" />
         <Button onClick={() => setShowModal(false)} text="No" className="bg-slate-400" />
       </Modal>
-      {applyDefSet && (
-        <SuccessMes message="Successfully apply default settings" onClose={() => setApplyDefSet(false)} />
-      )}
+      <Notification
+        title="Successfully apply default settings" show={applyDefSet} />
     </>
   )
 }

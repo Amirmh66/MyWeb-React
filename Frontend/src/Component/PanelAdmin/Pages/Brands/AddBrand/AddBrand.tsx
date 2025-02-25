@@ -1,9 +1,9 @@
 import Button from "../../../../Elements/Buttons";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useSubmit } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import SuccessMes from "../../../../Elements/SuccessMes";
+import Notification from "../../../../Elements/Notification";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid"
 import apiRoutes from "../../../../../Constants/apiRoutes";
 import BrandValidation from "../../../../../Validations/BrandValidation";
@@ -34,6 +34,7 @@ function AddBrand() {
         try {
             setIsSubmitting(true)
             await axios.post(apiRoutes.createBrand, values);
+            setShowConfirm(true)
             navigate("/PanelAdmin/Brands");
         } catch (error: any) {
             setError(error.response.data.messages);
@@ -68,9 +69,6 @@ function AddBrand() {
         description: "",
         createdAt: "",
         types: [],
-    };
-    const onCancle = () => {
-        setShowConfirm(false);
     };
 
     return (
@@ -152,6 +150,7 @@ function AddBrand() {
                                         placeholder="Description(optional)"
                                     />
                                 </div>
+                                {/* upload Logo here */}
                                 <div>
                                     <label className="mb-2">UploadLogo</label>
                                     <div className="extraOutline p-4 bg-gray-100 dark:bg-gray-800 w-max bg-whtie m-auto rounded-lg">
@@ -193,12 +192,7 @@ function AddBrand() {
                     </div>
                 </Form>
             </Formik>
-            {showConfirm && (
-                <SuccessMes
-                    onCancle={onCancle}
-                    message={"Create Category Successfully!"}
-                />
-            )}
+            <Notification title={"Add brand successfully"} show={showConfirm} />
         </>
     );
 }
