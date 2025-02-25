@@ -1,17 +1,14 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 import SiteLogo from "./SiteLogo";
-import { useAuth0 } from '@auth0/auth0-react';
 import {
   ChartPieIcon, Bars3CenterLeftIcon, Squares2X2Icon, ShoppingBagIcon, DevicePhoneMobileIcon,
   ShoppingCartIcon, CurrencyDollarIcon, ChatBubbleLeftEllipsisIcon, PuzzlePieceIcon, ChevronDownIcon,
-  UserGroupIcon, Cog8ToothIcon, FingerPrintIcon, Bars3Icon, ArrowRightStartOnRectangleIcon, UserIcon
+  UserGroupIcon, Cog8ToothIcon, FingerPrintIcon, Bars3Icon, UserIcon
 } from '@heroicons/react/20/solid'
 import type { Item } from "../../../Types/Interfaces";
 import { pageContext } from "../../Context/PageNContext";
 import { useContext, useState } from "react";
-import { useDispatch } from "react-redux";
-import { logOut } from "../../Features/Authentication/AuthSlice/AuthSlice";
 
 const items: Item[] = [
   { icon: <ChartPieIcon />, name: "Dashboard", path: "Dashboard" },
@@ -42,15 +39,8 @@ const SettingItem: Item[] = [
 const Sidebar = () => {
   const [isOpenProductSec, setIsOpenProductSec] = useState(false);
   const [isOpenUserSec, setIsOpenUserSec] = useState(false);
-  // const { logout, isAuthenticated } = useAuth0();
   const { setCurrentPage } = useContext(pageContext);
-  const redirect = useNavigate();
-  const dispatch = useDispatch();
   const [isCloseSidebar, setIsCloseSidebar] = useState<Boolean>(false);
-  const logout = async () => {
-    dispatch(logOut())
-    redirect("/");
-  };
   return (
     <>
       <div id="aside" style={{
@@ -141,10 +131,10 @@ const Sidebar = () => {
               ))}
             </div>
           </div>
-          {/* OtherTxt */}
+          {/* OtherText */}
           <div className="flex items-center gap-1">
             <p className="text-gray-400 text-sm font-bold">Other</p>
-            <div className="border-b-2 flex-grow text-gray-400 opacity-20 rounded-bl-full rounded-tl-full"></div>
+            <div className="border-b-2 flex-grow mt-1 opacity-30 rounded-bl-full rounded-tl-full"></div>
           </div>
           {/* Setting */}
           <div>

@@ -2,14 +2,14 @@
   @apply rounded-full pl-10 pr-2 py-3 w-full focus:outline-none 
   focus:outline-indigo-500 
    bg-gray-100 dark:bg-gray-600 
-    font-semibold shadow-lg
+    font-semibold shadow-lg;
 }
 .theme {
   @apply bg-white dark:bg-gray-900 transition-colors duration-75 text-black dark:text-gray-100;
 }
 
 .nav {
-  @apply p-4 h-20 flex items-center gap-5 theme;
+  @apply p-4 h-20 flex items-center gap-5 theme select-none;
 }
 
 .User-AL {
@@ -27,7 +27,7 @@ body {
 }
 
 .pg-Name {
-  @apply font-bold text-lg md:text-xl lg:text-2xl;
+  @apply font-bold text-lg md:text-xl lg:text-2xl select-none;
 }
 
 .Lang {

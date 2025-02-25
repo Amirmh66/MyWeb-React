@@ -83,7 +83,7 @@ export default function Product() {
   return (
     <>
       {location.pathname === "/PanelAdmin/Product" ? (
-        <div>
+        <>
           <div className="table-nav">
             <div>
               <Link to={"AddProduct"}>
@@ -102,21 +102,6 @@ export default function Product() {
                 onClick={() => setShowModalAll(true)}
               />
             </div>
-            <button className="filterbtn">
-              All Category
-              <ChevronDownIcon className="w-5" />
-            </button>
-            <button className="filterbtn">
-              All Product
-              <ChevronDownIcon className="w-5" />
-            </button>
-            <button className="filterbtn">
-              All Brands
-              <ChevronDownIcon className="w-5" />
-            </button>
-            <button className="filterbtn">
-              <MagnifyingGlassIcon />
-            </button>
           </div>
           <div className="boxTable">
             <div className="overflow-auto" style={{ maxHeight: "479px" }}>
@@ -180,7 +165,7 @@ export default function Product() {
             </div>
           </div>
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-        </div>
+        </>
       ) : (
         <Outlet />
       )}

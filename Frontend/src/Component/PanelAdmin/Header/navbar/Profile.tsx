@@ -21,7 +21,7 @@ function Profile() {
 
   return (
     <>
-      <div className="basis-4/5 relative cursor-pointer hidden md:flex color-txt" onClick={() => setIsOpen(!isOpen)} >
+      <div className="basis-4/5 relative cursor-pointer hidden md:flex color-txt select-none" onClick={() => setIsOpen(!isOpen)} >
         <img src="/Images/PicUser.png" className="size-12 rounded-md" />
 
         <div className="User-AL">
@@ -54,7 +54,7 @@ function Profile() {
           </div>
         </div>
       </div>
-      <Modal title="Are you sure logout?" icon={<ExclamationTriangleIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
+      <Modal title="Are you sure you want to logout?" icon={<ExclamationTriangleIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
         <Button className="bg-slate-700" text="Logout" onClick={handleConfirm} />
         <Button className="bg-slate-400" text="Close" onClick={() => setShowModal(false)} />
       </Modal>

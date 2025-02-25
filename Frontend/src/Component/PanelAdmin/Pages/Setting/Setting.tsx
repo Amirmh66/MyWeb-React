@@ -32,15 +32,14 @@ const Setting = () => {
                 <div className="w-full">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 w-5/6 mx-auto">
                         {settingItems.map((i) => (
-                            <Link to={i.path}>
-                                <div key={i.id} className="Setting-box group">
-                                    <div className="w-12 h-12 bg-violet-400/80 blur-2xl top-0 right-0 absolute rounded-full"></div>
-                                    <p key={i.id} className="size-1/3 mb-3 text-sky-700 dark:text-sky-600 group-hover:rotate-12 transition-all duration-300">
-                                        {i.icon}
-                                    </p>
-                                    <p className="font-bold text-lg text-sky-950 dark:text-sky-300">{i.title}</p>
-                                    <p className="font-semibold text-sm text-sky-800 dark:text-sky-500 opacity-80">{i.description}</p>
-                                </div>
+                            <Link to={i.path} key={i.id} className="Setting-box group">
+                                <div className="w-28 h-28 bg-violet-400/80 opacity-50 blur-3xl -top-10 -right-10 absolute rounded-full"></div>
+                                <div className="w-28 h-28 bg-red-400/80 opacity-50 blur-3xl -button-10 -left-10 absolute rounded-full"></div>
+                                <p key={i.id} className="size-1/4 mb-3 text-sky-700 dark:text-sky-600 group-hover:rotate-6 transition-all duration-300">
+                                    {i.icon}
+                                </p>
+                                <p className="font-bold text-lg text-sky-950 dark:text-sky-300">{i.title}</p>
+                                <p className="font-semibold text-sm text-sky-800 dark:text-sky-500 opacity-80">{i.description}</p>
                             </Link>
                         ))}
                     </div>

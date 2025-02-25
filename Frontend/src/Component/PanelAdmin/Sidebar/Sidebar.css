@@ -1,6 +1,6 @@
 #aside {
     @apply fixed md:relative z-30 shadow-lg md:shadow-none md:rounded-none rounded-r-2xl h-full
-     md:translate-x-0 lg:pt-4 md:w-44 lg:w-48 xl:w-52 theme p-0 md:p-2 lg:p-5
+     md:translate-x-0 lg:pt-4 md:w-44 lg:w-48 xl:w-52 theme p-0 md:p-2 lg:p-5 select-none
 }
 #aside{
     min-height: 850px;

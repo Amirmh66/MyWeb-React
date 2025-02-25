@@ -1,34 +1,28 @@
-import { useEffect, useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import "./Dashboard.css";
-import Counter from "./Counter";
 import { ClockIcon, ShoppingBagIcon, UsersIcon, UserGroupIcon, ShoppingCartIcon } from "@heroicons/react/20/solid";
 import axios from "axios";
 import apiRoutes from "../../../../Constants/apiRoutes";
 
- function Dashboard() {
+function Dashboard() {
   const [time, setTime] = useState(new Date());
   const [userCount, setUserCount] = useState<number | null>(null);
   const [productCount, setProductCount] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
+  //#region GetUsersCount
   useEffect(() => {
     getUsersCount();
-    GetProductCount();
   }, []);
-
-  //#region GetUsersCount
   const getUsersCount = async () => {
     try {
       await axios.get(apiRoutes.getUserCount).then((res) => {
-        startTransition(() => {
-          setUserCount(res.data);
-        })
+        setUserCount(res.data);
       })
     } catch (error: any) {
       if (error.data) {
@@ -39,12 +33,13 @@ import apiRoutes from "../../../../Constants/apiRoutes";
   }
   //#endregion
   //#region GetProductCount
+  useEffect(() => {
+    GetProductCount();
+  }, []);
   const GetProductCount = async () => {
     try {
       await axios.get(apiRoutes.getProductCount).then((res) => {
-        startTransition(() => {
-          setProductCount(res.data);
-        })
+        setProductCount(res.data);
       });
     } catch (error: any) {
       if (error.data) {
@@ -60,22 +55,26 @@ import apiRoutes from "../../../../Constants/apiRoutes";
       <div className="flex flex-col-reverse md:flex-row gap-5">
         <div className="p-4 text-center bg-white rounded-lg flex justify-center shadow-md dark:bg-gray-900">
           <div className="grid grid-cols-2 gap-10 md:gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <div className="box bg-orange-100 dark:bg-orange-400">
+            <div className="box bg-orange-100 dark:bg-orange-400" title={`The number of users is equal to ${userCount}`}>
+              <p className="sr-only">the number of users is equal to {userCount}</p>
               <UserGroupIcon className="iconInCountBox bg-orange-400" />
-              <p className="textCount" title="">{userCount}</p>
-              <p className="text-lg font-bold text-sky-950" title="All Users Registered In MyWeb">Users</p>
+              <p className="textCount">{userCount}</p>
+              <p className="text-lg font-bold text-sky-950">Users</p>
             </div>
-            <div className="box bg-yellow-100 dark:bg-yellow-400 ">
+            <div className="box bg-yellow-100 dark:bg-yellow-400" title={`The number of products is equal to ${productCount}`}>
+              <p className="sr-only">The number of products is equal to {productCount}</p>
               <ShoppingBagIcon className="iconInCountBox bg-yellow-400" />
               <p className="textCount" title="">{productCount}</p>
-              <p className="text-lg font-bold text-sky-950" title="All Users Registered In MyWeb">Products</p>
+              <p className="text-lg font-bold text-sky-950">Products</p>
             </div>
-            <div className="box bg-green-100 dark:bg-green-400 ">
+            <div className="box bg-green-100 dark:bg-green-400" title={`The number of Orders is equal to ${"0"}`}>
+              <p className="sr-only">The number of Orders is equal to {"0"}</p>
               <ShoppingCartIcon className="iconInCountBox bg-green-400" />
               <p className="textCount" title="">0</p>
               <p className="text-lg font-bold text-sky-950" title="All Users Registered In MyWeb">Orders</p>
             </div>
-            <div className="box bg-violet-100 dark:bg-violet-400 ">
+            <div className="box bg-violet-100 dark:bg-violet-400" title={`The number of Customers is equal to ${"0"}`}>
+              <p className="sr-only">The number of Customers is equal to {"0"}</p>
               <UsersIcon className="iconInCountBox bg-violet-400" />
               <p className="textCount" title="">0</p>
               <p className="text-lg font-bold text-sky-950" title="All Users Registered In MyWeb">Customers</p>

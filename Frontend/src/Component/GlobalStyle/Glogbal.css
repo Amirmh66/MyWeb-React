@@ -3,9 +3,9 @@
 @tailwind components;
 
 @layer base {
-  .main {
+  .main { 
     @apply bg-gray-100 transition-colors duration-75 relative overflow-hidden
-     dark:bg-gray-800 text-gray-900 dark:text-gray-100;
+     dark:bg-gray-800 text-gray-900 dark:text-gray-100 select-none
   }
 
   ::-webkit-scrollbar {
@@ -30,7 +30,7 @@
   .btn {
     @apply no-underline text-sm font-semibold rounded-md shadow-md
       text-white cursor-pointer px-5 py-3 text-center
-       transition-transform mr-3
+       transition-transform mr-3 
         duration-300 hover:scale-105;
   }
   .btn:disabled{
