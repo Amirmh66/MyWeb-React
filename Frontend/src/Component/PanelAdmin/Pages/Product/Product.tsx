@@ -170,11 +170,11 @@ export default function Product() {
         <Outlet />
       )}
       <Modal title="Are you sure you want to delete this product?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
-        <Button className="bg-red-600" text="Delete" onClick={ConfirmDelete} />
+        <Button className="bg-red-600 hover:bg-red-700" text="Delete" onClick={ConfirmDelete} />
         <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModal(false)} />
       </Modal>
       <Modal title="Warning: this action will erase all data.Are you sure you want to proceed?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModalAll} onClose={() => setShowModalAll}>
-        <Button className="bg-red-600" text="Delete" onClick={ConfirmDeleteAll} />
+        <Button className="bg-red-600 hover:bg-red-700" text="Delete" onClick={ConfirmDeleteAll} />
         <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModalAll(false)} />
       </Modal>
     </>

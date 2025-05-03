@@ -3,6 +3,7 @@ import Button from "../../../Elements/Buttons";
 import "./AdminProfile.css";
 import { useSelector } from "react-redux";
 import { PencilSquareIcon, UserIcon } from "@heroicons/react/20/solid"
+import { CameraIcon } from "@heroicons/react/24/outline"
 import { Form, Field, Formik } from "formik";
 import apiRoutes from "../../../../Constants/apiRoutes";
 import { selectCurrentUserName, selectCurrentRole } from '../../../Features/Authentication/AuthSlice/AuthSlice';
@@ -34,8 +35,10 @@ function AdminProfile() {
 
         <div className="bg-white dark:bg-gray-950 flex flex-col items-center py-4 gap-3 rounded-xl w-3/12 relative overflow-hidden">
 
+          <div className="bg-slate-200/90 dark:bg-violet-800/85 p-2 rounded-full inline-block absolute ml-20 mt-24 z-50 cursor-pointer hover:scale-105 transition duration-300">
+            <CameraIcon className="w-5"/></div>
           <img srcSet="/Images/DarwinLowQuality.webp" loading='lazy'
-            className='w-20 md:w-6/12 border-4 rounded-full border-gray-200 dark:border-slate-700 z-50' />
+            className='w-20 md:w-6/12 border-4 rounded-full border-gray-100 dark:border-slate-800 z-40' />
 
           <div className="flex flex-col items-center justify-center bg-white dark:bg-slate-950 text-white">
             <div className="card-wrapper h-[50px] w-[90px]">
@@ -91,7 +94,7 @@ function AdminProfile() {
           <div className=" mt-3">
             <Button
               text="Update Profile"
-              className="bg-blue-600"
+              className="bg-blue-600 hover:bg-blue-700"
               icon={<PencilSquareIcon className="w-5" />} />
           </div>
         </div>

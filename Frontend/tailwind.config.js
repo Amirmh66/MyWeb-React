@@ -6,7 +6,7 @@ export default {
     extend: {
       animation: {
         tilt: "tilt 10s infinite linear",
-        borderSpin: "border-spin 7s linear infinite",
+        borderSpin: "borderSpin 7s linear infinite",
         progress: "progress 3800ms linear forwards",
       },
       keyframes: {

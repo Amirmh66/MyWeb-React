@@ -1,9 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 
 const Product = mongoose.Schema({
-  category: {
-    type: String,
-  },
   name: {
     type: String,
   },

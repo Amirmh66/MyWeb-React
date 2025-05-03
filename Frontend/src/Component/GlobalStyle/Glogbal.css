@@ -30,8 +30,7 @@
   .btn {
     @apply no-underline text-sm font-semibold rounded-md shadow-md
       text-white cursor-pointer px-5 py-3 text-center
-       transition-transform mr-3 
-        duration-300 hover:scale-105;
+       transition-transform mr-3 hover:opacity-80
   }
   .btn:disabled{
     @apply opacity-65 transform-none disabled:cursor-default

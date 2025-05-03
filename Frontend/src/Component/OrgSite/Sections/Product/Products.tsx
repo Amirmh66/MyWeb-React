@@ -43,6 +43,8 @@ function Products() {
 
   return (
     <>
+    
+
       <div className="productSec">
         {products.map((product) => (
           <li key={product._id} className="list-none">
