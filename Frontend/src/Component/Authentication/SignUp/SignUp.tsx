@@ -49,14 +49,15 @@ function SignUp() {
         validationSchema={validSignUp}
         onSubmit={onSubmit}
       >
-        <section className="flex flex-col md:flex-row h-screen items-center justify-center drop-shadow-lg my-12 md:my-28">
+        <section className="flex flex-col md:flex-row h-screen items-center justify-center drop-shadow-lg
+         my-12 md:my-28">
           <div className="struch">
             <div className="w-full h-100">
               <div className="flex justify-between">
                 <p className="text-xl md:text-xl font-bold leading-tight">
                   SignUp
                 </p>
-                <span className="hidden md:block cursor-pointer rounded-full p-2 hover:bg-gray-100 transition ">
+                <span className="hidden md:block cursor-pointer rounded-full p-2 hover:bg-gray-100 transition">
                   <Link to="/">
                     <HomeIcon />
                   </Link>
@@ -65,7 +66,7 @@ function SignUp() {
 
               {error && (
                 <p className="error">
-                  <ExclamationTriangleIcon />
+                  <ExclamationTriangleIcon className="w-5"/>
                   {error}
                 </p>
               )}

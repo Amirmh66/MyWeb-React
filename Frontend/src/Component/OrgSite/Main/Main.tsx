@@ -6,8 +6,7 @@ function Main() {
   return (
     <>
       <main className="main">
-        <Border name="Products" />
-        <Products />
+        
       </main>
     </>
   );

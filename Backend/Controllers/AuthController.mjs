@@ -11,15 +11,15 @@ export const signUpUser = async (req, res) => {
 
   if (!isUserExsit) {
     try {
-      const currentData = moment().format("jYYYY/jM/jD HH:MM");
+      
+      await newUser.save();
+      res.status(201).json({ message: "User Successfully SignUp." });
+    } catch (error) {const currentData = moment().format("jYYYY/jM/jD HH:MM");
       const passwordHash = await bcrypt.hash(user.password, 10);
       user.createdAt = currentData;
       user.password = passwordHash;
-      user.role = "675d80db73744f998ec49e22";
+      user.role = "68187ad79e5a167f5f3f2a5b";
       const newUser = new User(user);
-      await newUser.save();
-      res.status(201).json({ message: "User Successfully SignUp." });
-    } catch (error) {
       res.status(500).json({ message: error });
     }
   } else {
