@@ -1,19 +1,10 @@
 import Product from "../Models/Product.mjs";
 
 export const GetProduct = async (req, res) => {
-  const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 5;
-  const skip = (page - 1) * limit;
+  const limit = parseInt(req.query.limit) || 7;
   try {
-    const products = await Product.find().skip(skip).limit(limit);
-    const totalCount = await Product.countDocuments();
-    const totalPages = Math.ceil(totalCount / limit);
-    res.json({
-      products,
-      totalCount,
-      totalPages,
-      currentPage: page,
-    });
+    const products = await Product.find().limit(limit);
+    res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -45,10 +36,7 @@ export const saveProduct = async (req, res) => {
 };
 export const updateProduct = async (req, res) => {
   try {
-     await Product.updateOne(
-      { _id: req.params.id },
-      { $set: req.body }
-    );
+    await Product.updateOne({ _id: req.params.id }, { $set: req.body });
     res.status(200).json("Product Edited");
   } catch (error) {
     res.status(500).json({ message: error.message });

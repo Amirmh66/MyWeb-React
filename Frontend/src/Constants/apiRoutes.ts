@@ -2,7 +2,7 @@ const baseURL = "http://localhost:3000";
 
 const apiRoutes: any = {
   // Products
-  getProducts: `${baseURL}/products`,
+  getProducts: (limit: number) => `${baseURL}/products?limit=${limit}`,
   getProductById: (id: string) => `${baseURL}/products/${id}`,
   createProduct: `${baseURL}/products/`,
   updateProduct: (id: string) => `${baseURL}/products/${id}`,

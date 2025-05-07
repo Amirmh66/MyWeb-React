@@ -1,18 +1,14 @@
 import Button from "../../../Elements/Buttons";
 import "./Product.css";
-import {
-  ArrowPathIcon, ChevronDownIcon,
-  MagnifyingGlassIcon, PencilSquareIcon,
-  PlusCircleIcon, TrashIcon
-} from "@heroicons/react/20/solid"
+import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
 import type { IProduct } from "../../../../Types/Interfaces";
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import axios from "axios";
 import api from "../../../../Constants/apiRoutes.ts";
 import TablesSkeleton from "../../../Elements/TablesSkeleton.tsx";
-import Pagination from "../../../Elements/Paganation.tsx";
 import Modal from "../../../Elements/Modal.tsx";
+
 
 export default function Product() {
   const [products, setProduct] = useState<IProduct[]>([]);
@@ -21,21 +17,18 @@ export default function Product() {
   const [showModal, setShowModal] = useState(false);
   const [showModalAll, setShowModalAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
   const [limit] = useState(9);
   const location = useLocation();
 
   useEffect(() => {
-    getProduct(currentPage);
-  }, [currentPage]);
+    getProduct()
+  }, []);
 
   //#region getProduct
-  const getProduct = async (page: number) => {
+  const getProduct = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/products?page=${page}&limit=${limit}`);
-      setProduct(response.data.products)
-      setTotalPages(response.data.totalPages);
+      const response = await axios.get(api.getProducts(limit));
+      setProduct(response.data);
     } catch (error: any) {
       if (error.message === 'Network Error') {
         setError("Server Can't Response")
@@ -56,7 +49,7 @@ export default function Product() {
         await axios.delete(api.deleteProduct(selectedId));
         setShowModal(false);
         setSelectedId(null);
-        getProduct(currentPage);
+        getProduct();
       } catch (error) {
         console.log(error);
       }
@@ -68,7 +61,7 @@ export default function Product() {
     try {
       await axios.delete(api.deleteAllProducts);
       setShowModalAll(false);
-      getProduct(currentPage);
+      getProduct();
     } catch ({ error }: any) {
       console.log(error.message);
     } finally {
@@ -93,7 +86,7 @@ export default function Product() {
                 text="Refresh Product Table"
                 icon={<ArrowPathIcon className="w-5" />}
                 className="bg-sky-500"
-                onClick={() => getProduct(currentPage)}
+                onClick={() => getProduct()}
               />
               <Button
                 text="DeleteAll"
@@ -117,7 +110,7 @@ export default function Product() {
                   </tr>
                 </thead>
                 <tbody className="tbody">
-                  {products.map((p) => (
+                  {products.length < 0 ? "Noting" : (products.map((p) => (
                     <tr
                       key={p._id}
                       className="dark:hover:bg-gray-900 hover:bg-gray-200"
@@ -133,7 +126,6 @@ export default function Product() {
                       <td>
                         <p>{p.name}</p>
                       </td>
-
                       <td>
                         {p.stock > 9 ? (
                           <p className="text-green-500">Avaliable</p>
@@ -159,12 +151,11 @@ export default function Product() {
                         </Link>
                       </td>
                     </tr>
-                  ))}
+                  )))}
                 </tbody>
               </table>
             </div>
           </div>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
         </>
       ) : (
         <Outlet />
