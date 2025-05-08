@@ -1,6 +1,5 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
-
 function SearchBox() {
   return (
     <>

@@ -10,7 +10,7 @@ function Buttons() {
   const role = useSelector(selectCurrentRole);
   return (
     <>
-      <div>
+      <div className="hidden lg:block">
         <div className="hidden md:flex">
           <Suspense fallback={<LoadingText />}>
             {role === "admin" && (

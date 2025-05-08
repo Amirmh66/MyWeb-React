@@ -1,22 +1,27 @@
 import "./Header.css";
-import SearchBox from "./navSection/SearchBox";
-import Buttons from "./navSection/Buttons";
+import SearchBox from "./SectionsInHeader/SearchBox";
+import Buttons from "./SectionsInHeader/Buttons";
 import Logo from "../../Elements/Logo";
-import Navbar from "./navSection/Navbar";
+import Navbar from "./SectionsInHeader/Navbar";
 import NavbarMobile from "../../Elements/NavbarMobile";
-
+import MostSearchedByUsers from "./SectionsInHeader/MostSearchedByUsers";
+import WebBanners from "./SectionsInHeader/WebBanners";
+import ShoppingByCategories from "./SectionsInHeader/ShoppingByCategories";
 
 function Header() {
- 
+
   return (
     <>
-      <nav className="header">
-        <Logo />
+      <div className="header">
+        <Logo width="w-28 md:w-16" />
         <SearchBox />
+        <MostSearchedByUsers />
         <Navbar />
         <Buttons />
-      </nav>
-      <NavbarMobile/>
+        <WebBanners />
+        <ShoppingByCategories />
+      </div>
+      <NavbarMobile />
     </>
   );
 }

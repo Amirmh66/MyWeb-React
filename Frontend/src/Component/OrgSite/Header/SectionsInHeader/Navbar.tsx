@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+
 interface Item {
   id: number;
   name: string;
@@ -16,16 +17,16 @@ function Navbar() {
     <>
       <div className="hidden md:flex  py-2 gap-8">
         {navbar.map((li) => (
-          <li key={li.id} className="hover:border-b border-blue-700 list-none">
+          <li key={li.id} className="list-none text-gray-600  hover:text-black font-semibold">
             <NavLink
               to={li.path}
               key={li.id}
               id="navli"
               className={({ isActive }) =>
-                isActive ? "text-blue-600 font-semibold" : ""
+                isActive ? "text-blue-600 font-bold" : ""
               }
             >
-              <p>{li.name}</p>
+              <p className="">{li.name}</p>
             </NavLink>
           </li>
         ))}
