@@ -1,4 +1,3 @@
-
 interface IPopularSearches {
     name: string;
     bgColor: string;
@@ -20,10 +19,9 @@ function MostSearchedByUsers() {
         <>
             <div className="flex flex-col gap-2 text-center md:hidden">
                 <p className="font-semibold mb-3">Most Searched by Users</p>
-                <div className="grid grid-cols-3 flex-  justify-center gap-2 text-white
-             font-semibold text-sm">
-                    {popularSearches.map(((i) => (
-                        <span className={`${i.bgColor} text-center rounded-xl p-2`}>{i.name}</span>
+                <div className="grid grid-cols-2 gap-3 text-white font-semibold text-sm">
+                    {popularSearches.map(((i, index) => (
+                        <div key={index} className={`${i.bgColor} text-center rounded-xl p-2 line-clamb-1`}>{i.name}</div>
                     )))}
                 </div>
             </div>
