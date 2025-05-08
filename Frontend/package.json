@@ -37,6 +37,7 @@
     "react-select": "^5.8.1",
     "redux": "^5.0.1",
     "redux-persist": "^6.0.0",
+    "swiper": "^11.2.6",
     "yup": "^1.4.0"
   },
   "devDependencies": {
