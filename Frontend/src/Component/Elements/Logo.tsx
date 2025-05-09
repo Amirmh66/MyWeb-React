@@ -10,7 +10,7 @@ function Logo({ width }: ImageProps) {
     <>
       <Link to={"/"}>
         <img srcSet="/Images/DarwinLowQuality.webp"
-          className={`${width} mx-auto cursor-pointer`} loading='lazy' alt="logo" />
+          className={`${width} mx-auto cursor-pointer select-none`} loading='lazy' alt="logo" />
       </Link>
     </>
   )

@@ -1,11 +1,9 @@
-import NavbarMobile from "../Elements/NavbarMobile";
+import NavbarMobile from "../OrgSite/pages/HomePage/Mobile/Sections/NavbarMobile";
 
-function UserLayout({children}:any) {
+function UserLayout({ children }: any) {
   return (
     <>
       <div>{children}</div>
-      
-      <NavbarMobile />
     </>
   );
 }
