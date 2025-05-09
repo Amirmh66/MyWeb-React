@@ -27,6 +27,13 @@
 
 /* for buttons cards forms and etc... */
 @layer components {
+  #searchBox[type="search"]{
+    @apply rounded-full pl-10 py-3 w-full 
+    focus:outline-none focus:outline-indigo-500 bg-gray-100 text-black;
+} 
+#searchBox[type="search"]::-webkit-search-cancel-button {
+      display: none;
+}
   .btn {
     @apply no-underline text-sm font-semibold rounded-md shadow-md
       text-white cursor-pointer px-5 py-3 text-center
