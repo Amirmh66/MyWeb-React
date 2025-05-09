@@ -1,23 +1,37 @@
 import { Outlet, useLocation } from "react-router-dom";
-import Footer from "./Footer/Footer";
-import Header from "./Header/Header";
-import Main from "./Main/Main";
+import { lazy, Suspense } from "react";
+const Desktop = lazy(() => import("./pages/HomePage/Desktop/Desktop"));
+const Mobile = lazy(() => import("./pages/HomePage/Mobile/Mobile"));
+import { useDevice } from "../Context/DeviceContext";
 
 function HomePage() {
-  const location = useLocation(); 
+  const deviceType = useDevice();
+  const location = useLocation();
+
   return (
     <>
       {location.pathname !== "/" ? (
-        <div>
+        <>
           <Outlet />
-          <Footer />
-        </div>
+        </>
       ) : (
-        <div>
-          <Header />
-          <Main />
-          <Footer /> 
-        </div>
+        (() => {
+          switch (deviceType) {
+
+            case 'mobile':
+              return <Suspense >
+                <Mobile />
+              </Suspense>
+
+            case 'desktop':
+              return <Suspense>
+                <Desktop />
+              </Suspense>
+
+            default:
+              return <Desktop />
+          }
+        })()
       )}
     </>
   );
