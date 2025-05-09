@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { UserCircleIcon } from "@heroicons/react/20/solid";
-import { selectCurrentRole } from "../../../Features/Authentication/AuthSlice/AuthSlice";
+import { selectCurrentRole } from "../../../../../../Features/Authentication/AuthSlice/AuthSlice";
 import { useSelector } from "react-redux";
 import { lazy, Suspense } from 'react'
-import LoadingText from "../../../Elements/LoadingText";
-const AdminBtn = lazy(() => import("../../../Elements/AdminBtn"))
+import LoadingText from "../../../../../../Elements/LoadingText";
+const AdminBtn = lazy(() => import("../../../../../../Elements/AdminBtn"))
 
 function Buttons() {
   const role = useSelector(selectCurrentRole);

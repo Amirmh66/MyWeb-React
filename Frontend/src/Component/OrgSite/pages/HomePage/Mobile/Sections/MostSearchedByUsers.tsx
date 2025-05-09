@@ -17,7 +17,7 @@ const popularSearches: IPopularSearches[] = [
 function MostSearchedByUsers() {
     return (
         <>
-            <div className="flex flex-col gap-2 text-center md:hidden">
+            <div className="flex flex-col mx-3 gap-2 text-center md:hidden">
                 <p className="font-semibold mb-3">Most Searched by Users</p>
                 <div className="grid grid-cols-2 gap-3 text-white font-semibold text-sm">
                     {popularSearches.map(((i, index) => (

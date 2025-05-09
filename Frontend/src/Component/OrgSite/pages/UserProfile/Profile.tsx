@@ -2,7 +2,7 @@ import "./Profile.css";
 import Logo from "../../../Elements/Logo";
 import { ShoppingCartIcon, UserCircleIcon, HeartIcon } from '@heroicons/react/20/solid'
 import AdminBtn from "../../../Elements/AdminBtn";
-import NavbarMobile from "../../../Elements/NavbarMobile";
+import NavbarMobile from "../HomePage/Mobile/Sections/NavbarMobile";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectCurrentRole } from "../../../Features/Authentication/AuthSlice/AuthSlice";
@@ -31,12 +31,12 @@ function Profile() {
         )}
         {role === "user" && (
           <Link to={"/panelUser"}>
-          <div className="transition-all duration-150 hover:text-orange-500">
-            <span className="inline-block w-6 md:w-8">
-              <UserCircleIcon />
-            </span>
-          </div>
-        </Link>
+            <div className="transition-all duration-150 hover:text-orange-500">
+              <span className="inline-block w-6 md:w-8">
+                <UserCircleIcon />
+              </span>
+            </div>
+          </Link>
         )}
       </div>
       <div className="mx-3 my-5 border-t-2"></div>

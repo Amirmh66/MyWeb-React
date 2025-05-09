@@ -40,11 +40,12 @@ const AddBrand = lazy(() => import("../PanelAdmin/Pages/Brands/AddBrand/AddBrand
 const Types = lazy(() => import("../PanelAdmin/Pages/Types/Types"))
 const AddType = lazy(() => import("../PanelAdmin/Pages/Types/AddType/AddType"))
 const EditType = lazy(() => import("../PanelAdmin/Pages/Types/EditType/EditType"))
-const ProductDetail = lazy(() => import("../OrgSite/Sections/Product/ProductDetail/ProductDetail"))
+const ProductDetail = lazy(() => import("../OrgSite/pages/Product/ProductDetail/ProductDetail"))
 const PanelUser = lazy(() => import("../PanelUser/PanelUser"))
-const Profile = lazy(() => import("../OrgSite/Sections/Profile/Profile"))
+const Profile = lazy(() => import("../OrgSite/pages/UserProfile/Profile"))
 const RequireAuth = lazy(() => import("../Authentication/RequireAuth"))
-const ShoppingCart = lazy(() => import("../OrgSite/Sections/ShoppingCart/ShoppingCart"));
+const ShoppingCart = lazy(() => import("../OrgSite/pages/ShoppingCart/ShoppingCart"));
+
 const Login = lazy(() => import("../Authentication/Login/Login"))
 const SignUp = lazy(() => import("../Authentication/SignUp/SignUp"))
 const Error404 = lazy(() => import("../Authentication/unAuthorized/Error404"));

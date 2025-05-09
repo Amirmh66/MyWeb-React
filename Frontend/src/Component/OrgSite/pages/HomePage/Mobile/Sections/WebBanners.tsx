@@ -1,6 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FreeMode } from 'swiper/modules';
-import "../Header.css"
 import 'swiper/css';
 import "swiper/css/navigation";
 import "swiper/css/pagination";

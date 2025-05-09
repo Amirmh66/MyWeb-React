@@ -44,7 +44,7 @@ function ShoppingByCategories() {
                     }}
                 >
                     {categoryItem.map((row, rowIndex) => (
-                        <SwiperSlide key={`row-${rowIndex}`} className="">
+                        <SwiperSlide key={`row-${rowIndex}`} className="select-none">
                             <div className='grid grid-cols-3 gap-2 w-full'>
                                 {row.map((i) => (
                                     <div key={i.id} className="flex flex-col justify-center items-center">

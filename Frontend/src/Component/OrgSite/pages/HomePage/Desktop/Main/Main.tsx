@@ -1,12 +1,12 @@
-import Border from "../../Elements/Border";
-import Products from "../Sections/Product/Products";
+import Border from "../../../../../Elements/Border";
+import Products from "../../../Product/Products";
 
 
 function Main() {
   return (
     <>
       <main className="main">
-        
+
       </main>
     </>
   );

@@ -1,5 +1,5 @@
 import Button from "../../../Elements/Buttons";
-import NavbarMobile from "../../../Elements/NavbarMobile";
+import NavbarMobile from "../../pages/HomePage/Mobile/Sections/NavbarMobile";
 import { useCartSelector, useCartDispatch } from "../../../Features/hooks";
 import { type CartItem, addToCart, removefromCart } from "../../../Features/SoppingCart/CartSlice/Cart-Slice";
 
