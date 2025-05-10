@@ -1,3 +1,37 @@
 .mobile {
     @apply flex flex-col gap-16  text-center mt-10
 }
+
+
+
+/* Brand SpotLight */
+.brandSpot-Cart{
+    @apply relative w-2/4 h-80 rounded-2xl select-none overflow-hidden bg-gradient-to-bl
+     from-orange-400 to-yellow-300/90 flex flex-col gap-3 items-center
+}
+.seeMoreBottom{
+    @apply bg-white px-8 py-0 -bottom-1 rounded-tr-3xl rounded-tl-3xl absolute
+}
+.seeMoreBottom-text{
+    @apply text-red-600 font-bold 
+}
+.brandName{
+    @apply text-2xl font-semibold uppercase top-10
+}
+.brandDetail{
+    @apply flex items-center gap-2 pt-10
+}
+.brandImg{
+    @apply -rotate-6 w-[55vw] h-auto max-w-none
+}
+.brandSpot-Cart-Small{
+    @apply relative w-2/6 h-28 rounded-2xl select-none overflow-hidden 
+    bg-gradient-to-bl from-orange-400 to-yellow-300/90 flex items-center justify-center
+}
+.seeMoreBottom-Small{
+    @apply bg-white px-5 py-0 -bottom-1 rounded-tr-3xl rounded-tl-3xl absolute
+}
+.seeMoreBottom-text-Small{
+    @apply text-red-600 font-bold text-sm 
+}
+/*End Brand SpotLight */

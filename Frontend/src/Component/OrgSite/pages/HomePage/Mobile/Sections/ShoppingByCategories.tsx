@@ -27,7 +27,7 @@ function ShoppingByCategories() {
     return (
         <>
             <p className='font-semibold md:hidden'>Shopping by Categories</p>
-            <div className="space-y-3 w-full mb-60 md:hidden">
+            <div className="space-y-3 w-full md:hidden">
                 <Swiper
                     modules={[FreeMode]}
                     slidesPerView={1.1}

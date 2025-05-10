@@ -4,6 +4,7 @@ import WebBanners from './Sections/WebBanners'
 import NavbarMobile from './Sections/NavbarMobile'
 import Logo from '../../../../Elements/Logo'
 import SearchBox from '../Shared/SearchBox'
+import BrandSpotlight from './Sections/BrandSpotlight'
 import "./Mobile.css";
 
 function Mobile() {
@@ -15,7 +16,10 @@ function Mobile() {
                 <MostSearchedByUsers />
                 <WebBanners />
                 <ShoppingByCategories />
-                <NavbarMobile />
+                <BrandSpotlight />
+                <nav>
+                    <NavbarMobile />
+                </nav>
             </div>
         </>
     )
