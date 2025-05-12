@@ -3,7 +3,7 @@ import { lazy, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
 import HomePage from "../OrgSite/HomePage";
-import PanelAdminSkeleton from "../Elements/PanelAdminSkeleton";
+const PanelAdminSkeleton = lazy(() => import("../Elements/PanelAdminSkeleton"));
 const SEOSetting = lazy(() => import("../PanelAdmin/Pages/Setting/SEOSetting/SEOSetting"));
 const APISetting = lazy(() => import("../PanelAdmin/Pages/Setting/APISetting/APISetting"))
 const Notification = lazy(() => import("../PanelAdmin/Pages/Setting/NotificationSetting/Notification"));
@@ -45,7 +45,6 @@ const PanelUser = lazy(() => import("../PanelUser/PanelUser"))
 const Profile = lazy(() => import("../OrgSite/pages/UserProfile/Profile"))
 const RequireAuth = lazy(() => import("../Authentication/RequireAuth"))
 const ShoppingCart = lazy(() => import("../OrgSite/pages/ShoppingCart/ShoppingCart"));
-
 const Login = lazy(() => import("../Authentication/Login/Login"))
 const SignUp = lazy(() => import("../Authentication/SignUp/SignUp"))
 const Error404 = lazy(() => import("../Authentication/unAuthorized/Error404"));
@@ -55,7 +54,14 @@ const Container = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />}>
+
+        <Route path="/" element={
+          <Suspense>
+            <UserLayout>
+              <HomePage />
+            </UserLayout>
+          </Suspense>
+        }>
 
           <Route path="/ProductDetail/:id" element={
             <Suspense fallback={<LoadingText />}>

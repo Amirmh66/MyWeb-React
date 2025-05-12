@@ -1,7 +1,6 @@
 .mobile {
-    @apply flex flex-col gap-16  text-center mt-10
+    @apply flex flex-col gap-16 mx-1 text-center pt-10
 }
-
 
 
 /* Brand SpotLight */

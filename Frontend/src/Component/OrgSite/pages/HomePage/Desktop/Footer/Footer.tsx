@@ -1,6 +1,9 @@
 import "./Footer.css";
 
 function Footer() {
+
+  const year = new Date().getFullYear().toString();
+
   return (
     <>
       <footer className="relative hidden lg:block bg-gray-200 pt-8 pb-6 mt-auto min-w-full ">
@@ -83,23 +86,13 @@ function Footer() {
           <div className="flex flex-wrap items-center md:justify-between justify-center">
             <div className="w-full md:w-4/12 px-4 mx-auto text-center">
               <div className="text-sm text-blueGray-500 font-semibold py-1">
-                Copyright © <span id="get-current-year">2021</span>
+                Copyright © <span>{year}</span>
               </div>
-              <a
-                href="https://www.creative-tim.com/product/notus-js"
-                className="text-blueGray-500 hover:text-gray-800"
-                target="_blank"
+              <p
+                className="hover:text-gray-800 font-semibold"
               >
-                {" "}
-                Notus JS by
-              </a>
-              <a
-                href="https://www.creative-tim.com?ref=njs-profile"
-                className="text-blueGray-500 hover:text-blueGray-800"
-              >
-                Creative Tim
-              </a>
-              .
+                Created by <span className="text-sky-600">Amir</span> <span className="text-red-600">:)</span>
+              </p>
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import '../Mobile.css';
 function BrandSpotlight() {
     return (
         <>
-            <div className="flex flex-col gap-5 mx-1 mb-20">
+            <div className="flex flex-col gap-5">
                 <div className="flex gap-2">
 
                     <div className="brandSpot-Cart">
