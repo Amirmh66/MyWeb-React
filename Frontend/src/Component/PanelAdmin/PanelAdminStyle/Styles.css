@@ -1,4 +1,20 @@
 @tailwind components;
+@tailwind base;
+
+@layer base{
+  .adminMain{
+    @apply p-3 min-h-96 max-h-[90vh] h-[85vh] overflow-auto;
+  }
+  main::-webkit-scrollbar{
+     @apply w-[5px]
+    }
+   main::-webkit-scrollbar-track{
+    @apply bg-[f1f1f1] dark:bg-[#2a2a2a]
+    }
+    main::-webkit-scrollbar-thumb{
+    @apply bg-[#b3b3b3] dark:bg-[#444444]
+    }
+}
 
 @layer components {
   th {
