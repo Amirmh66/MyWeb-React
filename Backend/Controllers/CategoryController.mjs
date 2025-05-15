@@ -2,10 +2,7 @@ import Category from "../Models/Category.mjs";
 
 export const GetCategory = async (req, res) => {
   try {
-    const { page = 1, limit = 5 } = req.body;
-    const Categories = await Category.find()
-      .skip((page - 1) * limit)
-      .limit(Number(limit));
+    const Categories = await Category.find();
     res.json(Categories);
   } catch (error) {
     res.status(500).json({ message: error.message });

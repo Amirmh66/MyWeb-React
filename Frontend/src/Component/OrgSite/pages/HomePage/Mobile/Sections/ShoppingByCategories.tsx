@@ -1,27 +1,34 @@
 import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import API from "../../../../../../Constants/apiRoutes";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
-// row 3
-// column 7
-
-interface IType {
-    id: number;
-    categoryName: string;
+interface CategoryType {
+    _id: number;
+    name: string;
 }
 
 function ShoppingByCategories() {
+    const [categories, setCategories] = useState<CategoryType[]>([]);
 
-    const row = 3;
-    const column = 9;
+    useEffect(() => {
+        getCategories();
+    }, []);
 
-    const items = Array.from({ length: 21 }, (_, index) => ({
-        id: index + 1,
-        categoryName: `Item ${index + 1}`,
-    }))
+    const getCategories = async () => {
+        try {
+            await axios.get(API.getCategories).then((res) => {
+                setCategories(res.data);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    const categoryItem: typeof items[] = [];
-    for (let i = 0; i < items.length; i += column) {
-        categoryItem.push(items.slice(i, i + column));
+    const categoryItem: typeof categories[] = [];
+    for (let i = 0; i < categories.length; i += 9) {
+        categoryItem.push(categories.slice(i, i + 9));
     }
 
     return (
@@ -45,14 +52,13 @@ function ShoppingByCategories() {
                 >
                     {categoryItem.map((row, rowIndex) => (
                         <SwiperSlide key={`row-${rowIndex}`} className="select-none">
-                            <div className='grid grid-cols-3 gap-2 w-full'>
+                            <div className='grid grid-cols-3 gap-8 w-full'>
                                 {row.map((i) => (
-                                    <div key={i.id} className="flex flex-col justify-center items-center">
-                                        <div className='w-20 h-20 bg-gray-200 rounded-full'>
-                                            <img src="" alt="" />
-                                        </div>
-                                        <p className='font-semibold'>
-                                            {i.categoryName}
+                                    <div key={i._id} className="flex flex-col justify-between items-center">
+                                        <div className='w-20 h-20 bg-gray-200 rounded-full'></div>
+                                        {/* <img key={i._id} srcSet='' className='absolute top-0 w-20 h-auto' /> */}
+                                        <p className='font-semibold text-sm'>
+                                            {i.name}
                                         </p>
                                     </div>
                                 ))}
