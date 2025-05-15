@@ -1,4 +1,5 @@
 import { ShareIcon, HeartIcon } from "@heroicons/react/20/solid"
+import { Link } from "react-router-dom";
 // import { HeartIcon } from "@heroicons/react/24/outline"
 import { Swiper, SwiperSlide } from "swiper/react"
 
@@ -9,21 +10,27 @@ type ProductType = {
     imageUrl: string;
 }
 
-const DynamicProductSlider = ({ productsDetail, title }: { productsDetail: ProductType[]; title: string }) => {
-    const productDetails = productsDetail;
+const DynamicProductSlider = ({ products, title }: { products: ProductType[]; title: string }) => {
+    const productsList = products;
     return (
         <>
             <div className="flex flex-col gap-3">
                 <div className="flex justify-between">
                     <p className="font-bold">{title}</p>
-                    <p className="text-blue-500 font-bold hover:text-blue-700">Show all</p>
+                    <Link to={"/productCollection"}
+                        state={{
+                            products: productsList,
+                            title: title
+                        }}>
+                        <p className="text-blue-500 font-bold hover:text-blue-700">Show all</p>
+                    </Link>
                 </div>
                 <div>
                     <Swiper
                         spaceBetween={10}
                         slidesPerView={2.1}
                         freeMode={true}>
-                        {productDetails.map((i) => (
+                        {productsList.map((i) => (
                             <SwiperSlide key={i.id}>
                                 <div className="relative flex flex-col gap-1 p-1 rounded-lg bg-white h-80 overflow-hidden">
                                     <img className="object-cover" srcSet={`Images/${i.imageUrl}`} alt={i.name} />
@@ -42,7 +49,7 @@ const DynamicProductSlider = ({ productsDetail, title }: { productsDetail: Produ
                         ))}
                     </Swiper>
                 </div>
-            </div>
+            </div >
         </>
     )
 }

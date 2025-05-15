@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
 import HomePage from "../OrgSite/HomePage";
+const ProductCollection = lazy(() => import("../OrgSite/pages/ProductCollection/ProductCollection"));
 const PanelAdminSkeleton = lazy(() => import("../Elements/PanelAdminSkeleton"));
 const SEOSetting = lazy(() => import("../PanelAdmin/Pages/Setting/SEOSetting/SEOSetting"));
 const APISetting = lazy(() => import("../PanelAdmin/Pages/Setting/APISetting/APISetting"))
@@ -70,6 +71,17 @@ const Container = () => {
               </UserLayout>
             </Suspense>} />
         </Route>
+
+        <Route path="/productCollection" element={
+          <Suspense>
+            <UserLayout>
+              <ProductCollection />
+            </UserLayout>
+          </Suspense>
+        }>
+
+        </Route>
+
         <Route
           path="/login"
           element={

@@ -34,9 +34,9 @@ function Mobile() {
                 <WebBanners />
                 <ShoppingByCategories />
                 <BrandSpotlight />
-                <DynamicProductSlider productsDetail={cardItem} title='Best-SellingProducts' />
-                <DynamicProductSlider productsDetail={cardItem} title='Featured-Products' />
-                <DynamicProductSlider productsDetail={cardItem} title='DiscountedProducts' />
+                <DynamicProductSlider products={cardItem} title='Best-SellingProducts' />
+                <DynamicProductSlider products={cardItem} title='Featured-Products' />
+                <DynamicProductSlider products={cardItem} title='DiscountedProducts' />
                 <nav>
                     <NavbarMobile />
                 </nav>
