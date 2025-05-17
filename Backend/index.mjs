@@ -13,6 +13,7 @@ import middlewareRoute from "./Routes/middlewareRoute.mjs";
 import TypeRoute from "./Routes/TypeRoute.mjs";
 import BrandRoute from "./Routes/BrandRoute.mjs";
 import SettingRoute from "./Routes/SettingRoute.mjs";
+import BlogRoute from "./Routes/BlogRoute.mjs";
 
 const PORT = process.env.PORT;
 const app = express();
@@ -41,5 +42,6 @@ app.use(middlewareRoute);
 app.use(TypeRoute);
 app.use(BrandRoute);
 app.use(SettingRoute);
+app.use(BlogRoute);
 
 app.listen(PORT, console.log(`Server Running On Port ${PORT}`));
