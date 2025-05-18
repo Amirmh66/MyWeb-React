@@ -58,8 +58,74 @@ export const createBlog = async (req, res) => {
     });
   }
 };
-export const updateBlog = async (req, res) => {};
-export const deleteBlog = async (req, res) => {};
+export const updateBlog = async (req, res) => {
+  try {
+    const blogId = req.params.id;
+    const blogContent = req.body;
+    if (blogContent && blogId) {
+      if (blogContent.title.length < 10 || blogContent.title.length > 100) {
+        return res.status(400).json({
+          stasu: "error",
+          message: "The title must be between 10 and 100 characters!",
+        });
+      } else if (
+        blogContent.content === null ||
+        undefined ||
+        "" ||
+        blogContent.content.length < 0
+      ) {
+        return res.status(400).json({
+          stasu: "error",
+          message: "The blog content cannot be empty!",
+        });
+      }
+      const blog = await Blog.findByIdAndUpdate(
+        { _id: blogId },
+        { $set: blogContent }
+      );
+      if (!blog) {
+        return res.status(404).json({
+          status: "error",
+          message: "Blog not found",
+        });
+      }
+
+      res.status(200).json({
+        status: "success",
+        data: { blog },
+        message: "Blog updated successfully",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Error in editing the blog",
+      error: err.message,
+    });
+  }
+};
+export const deleteBlog = async (req, res) => {
+  try {
+    const blogId = req.params.id;
+    const blog = await Blog.findByIdAndDelete(blogId);
+    if (!blog) {
+      return res.status(404).json({
+        status: "error",
+        message: "Blog not found",
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      message: "Blog deleted successfully",
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Error While deleting blog",
+      error: err.message,
+    });
+  }
+};
 export const deleteAllBlogs = async (req, res) => {
   try {
     await Blog.deleteMany({}).then((result) => {
