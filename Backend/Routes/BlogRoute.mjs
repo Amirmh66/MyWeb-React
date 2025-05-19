@@ -4,15 +4,24 @@ import {
   createBlog,
   updateBlog,
   deleteBlog,
-  deleteAllBlogs
+  deleteAllBlogs,
+  getBlogBySlug,
 } from "../Controllers/BlogController.mjs";
+
+import {
+  setPublishedAt,
+  calculateReadingTime,
+} from "../Middleware/blogMiddleware.mjs";
 
 const router = express.Router();
 
-router.get("/latestBlogs", getBlog);
-router.post("/newBlog", createBlog);
-router.patch("/updateBlog/:id", updateBlog);
-router.delete("/deleteBlog/:id", deleteBlog);
-router.delete("/deleteAllBlogs",deleteAllBlogs);
+// query
+router.get("/blogs", getBlog);
+// params
+router.get("/blogs/:slug", getBlogBySlug);
+router.post("/blogs", calculateReadingTime, setPublishedAt, createBlog);
+router.patch("/blogs/:id", setPublishedAt, updateBlog);
+router.delete("/blogs/delete/:id", deleteBlog);
+router.delete("/blogs/deleteAll", deleteAllBlogs);
 
-export default router
+export default router;

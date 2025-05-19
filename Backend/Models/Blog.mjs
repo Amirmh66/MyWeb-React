@@ -1,8 +1,4 @@
 import mongoose, { Schema } from "mongoose";
-import {
-  setPublishedAt,
-  calculateReadingTime,
-} from "../Middleware/blogMiddleware.mjs";
 
 const Blog = mongoose.Schema(
   {
@@ -20,7 +16,7 @@ const Blog = mongoose.Schema(
     },
     content: {
       type: String,
-      required: false,
+      required: true,
     },
     excerpt: {
       type: String,
@@ -39,18 +35,20 @@ const Blog = mongoose.Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Categories",
-        required: false,
+        required: true
       },
     ],
     tags: [
       {
         type: String,
+        required: true,
       },
     ],
     status: {
       type: String,
       enum: ["draft", "pending", "published", "archived"],
       defautl: "darft",
+      required: true
     },
     publishedAt: {
       type: Date,
@@ -64,12 +62,10 @@ const Blog = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    readingTime: Number,
+    readingTime: { type: Number, default : 0},
   },
   { timestamps: true }
 );
 
-// Blog.pre("save", calculateReadingTime);
-// Blog.pre("save", setPublishedAt);
 
 export default mongoose.model("blog", Blog);

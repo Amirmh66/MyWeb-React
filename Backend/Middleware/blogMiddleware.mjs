@@ -1,49 +1,31 @@
-import Blog from "../Models/Blog.mjs";
+export const setPublishedAt = async (req, res, next) => {
+  const isPublished = req.body.isPublished;
+  const publishedAt = req.body.publishedAt;
 
-export const setPublshedAt = async (req, res, next) => {
-  const blog = await Blog.findById(req.params.id);
-
-  try {
-    if (!blog) {
-      return res.status(404).json({
-        message: "",
-      });
+  if (isPublished) {
+    if (!publishedAt) {
+      req.body.publishedAt = new Date();
+      req.body.status = "published";
     }
-    if (
-      blog.isModified("isPublished") &&
-      req.body.isPublished &&
-      !blog.publishedAt
-    ) {
-      blog.publishedAt = new Date();
-      await blog.save();
-    }
-    next();
-  } catch (error) {
-    return res.status(500).json({
-      message: "",
-    });
+  } else if (!isPublished) {
+    req.body.publishedAt = null;
+    req.body.status = "draft";
   }
+  next();
 };
 
 export const calculateReadingTime = async (req, res, next) => {
-  try {
-    const blog = await Blog.findById(req.params.id);
-    if (!blog) {
-      return res.status(404).json({
-        messgage: "",
-      });
-    }
-    if (blog.isModified("content")) {
-      const text = req.body.content;
-      const wordsPerMinute = 200;
-      const wordCount = text.split(/\s/g).length;
-      blog.readingTime = Math.ceil(wordCount / wordsPerMinute);
-      await blog.save();
-    }
+  if (!req.body.content || typeof req.body.content !== "string") {
+    return next();
+  }
+  if (req.body.content) {
+    const wordPerMinute = 200;
+    const wordCount = req.body.content
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length;
+    const readingTime = Math.max(1, Math.ceil(wordCount / wordPerMinute));
+    req.body.readingTime = readingTime;
     next();
-  } catch (error) {
-    return res.status(500).json({
-      message: "Error in middleware calculateReadingTime!",
-    });
   }
 };

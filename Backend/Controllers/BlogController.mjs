@@ -2,23 +2,64 @@ import Blog from "../Models/Blog.mjs";
 
 export const getBlog = async (req, res) => {
   try {
-    await Blog.find({ isPublished: false })
-      .sort({ publishedAt: -1 })
-      .limit(3)
-      .select("title excerpt coverImage slug publishedAt")
-      .populate("author", "name")
-      .then((latestBlogs) => {
-        res.status(200).json({
-          status: "success",
-          data: {
-            blogs: latestBlogs,
-          },
+    const sortBlog = req.query.sort.toLowerCase();
+    if (sortBlog === "latest") {
+      await Blog.find({ isPublished: true })
+        .sort({ publishedAt: -1 })
+        .limit(3)
+        .select("title excerpt coverImage slug publishedAt")
+        .populate("author", "name")
+        .then((result) => {
+          res.status(200).json({
+            status: "success",
+            data: {
+              blogs: result,
+            },
+          });
         });
-      });
+    }
   } catch (err) {
     res.status(500).json({
       status: "error",
       message: "error while get Blogs",
+    });
+  }
+};
+export const getBlogBySlug = async (req, res) => {
+  try {
+    const blogSlug = req.params.slug;
+    await Blog.findOne({ slug: blogSlug })
+      .populate("author", "name email")
+      .then((result) => {
+        if (!result) {
+          return res.status(404).json({
+            status: "fail",
+            message: "Blog not found",
+          });
+        }
+        if (result.status !== "published") {
+          return res.status(403).json({
+            status: "fail",
+            messsage: "Access denied",
+          });
+        }
+        res.status(200).json({
+          status: "success",
+          data: {
+            result,
+          },
+        });
+      });
+  } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid blog ID",
+      });
+    }
+    res.status(500).json({
+      status: "error",
+      message: "Server error",
     });
   }
 };
@@ -27,13 +68,12 @@ export const createBlog = async (req, res) => {
     if (!req.body.title || !req.body.content) {
       return res.status(400).json({
         status: "fail",
-        message: "",
+        message: "Title and content are required",
       });
     }
     if (!req.body.slug) {
       req.body.slug = req.body.title.replace(/[^a-z0-9]/gi, "-").toLowerCase();
     }
-
     const newBlog = await Blog.create({
       ...req.body,
     });
@@ -51,6 +91,7 @@ export const createBlog = async (req, res) => {
         message: "This slug has already been used.",
       });
     }
+
     res.status(500).json({
       status: "error",
       message: "Error in creating the blog.",
@@ -134,7 +175,7 @@ export const deleteAllBlogs = async (req, res) => {
         data: {
           deletedCount: result.deletedCount,
         },
-        message: `All ${result.deleteCount} blogs have been deleted!`,
+        message: `All ${result.deletedCount} blogs have been deleted!`,
       });
     });
   } catch (error) {
@@ -145,3 +186,6 @@ export const deleteAllBlogs = async (req, res) => {
     });
   }
 };
+
+
+
