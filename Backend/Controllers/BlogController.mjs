@@ -2,22 +2,32 @@ import Blog from "../Models/Blog.mjs";
 
 export const getBlog = async (req, res) => {
   try {
-    const sortBlog = req.query.sort.toLowerCase();
-    if (sortBlog === "latest") {
-      await Blog.find({ isPublished: true })
-        .sort({ publishedAt: -1 })
-        .limit(3)
-        .select("title excerpt coverImage slug publishedAt")
-        .populate("author", "name")
-        .then((result) => {
-          res.status(200).json({
-            status: "success",
-            data: {
-              blogs: result,
-            },
-          });
-        });
+    const sortQuery = req.query.sort
+      ? req.query.sort.toLowerCase()
+      : "date-desc";
+    let sortBy = {};
+    if (sortQuery === "date-desc") {
+      sortBy = { publishedAt: -1 };
+    } else if (sortQuery === "date-asc") {
+      sortBy = { publishedAt: 1 };
+    } else if (sortQuery === "views-desc") {
+      sortBy = { views: -1 };
+    } else {
+      sortBy = { views: 1 };
     }
+
+    await Blog.find({ isPublished: true })
+      .sort(sortBy)
+      .limit(10)
+      .select("title coverImage publishedAt status")
+      .populate("author", "fullName")
+      .then((result) => {
+        res.status(200).json({
+          status: "success",
+          result,
+          sort: sortQuery,
+        });
+      });
   } catch (err) {
     res.status(500).json({
       status: "error",
@@ -186,6 +196,59 @@ export const deleteAllBlogs = async (req, res) => {
     });
   }
 };
-
-
-
+export const getTotalBlogs = async (req, res) => {
+  try {
+    const totalBlogs = await Blog.countDocuments();
+    res.status(200).json(totalBlogs);
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Error while send total Blog!",
+    });
+  }
+};
+export const getPublishedBlogs = async (req, res) => {
+  try {
+    const publishedBlogs = await Blog.countDocuments({ isPublished: true });
+    res.json(publishedBlogs);
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Error while send published Blogs!",
+    });
+  }
+};
+export const getTotalAuthors = async (req, res) => {
+  try {
+    const distincAuthor = await Blog.distinct("author");
+    const totalAuthors = distincAuthor.length;
+    res.json(totalAuthors);
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Error while send total Authors!",
+    });
+  }
+};
+export const getTotalViews = async (req, res) => {
+  try {
+    const totalViewsResult = await Blog.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalViews: {
+            $sum: "$views",
+          },
+        },
+      },
+    ]);
+    const totalViews =
+      totalViewsResult.length > 0 ? totalViewsResult[0].totalViews : 0;
+    res.status(200).json(totalViews);
+  } catch (err) {
+    res.status(500).json({
+      status: "error",
+      message: "Error while send Total Views!",
+    });
+  }
+};

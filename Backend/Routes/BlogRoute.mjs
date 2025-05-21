@@ -6,6 +6,10 @@ import {
   deleteBlog,
   deleteAllBlogs,
   getBlogBySlug,
+  getTotalBlogs,
+  getPublishedBlogs,
+  getTotalAuthors,
+  getTotalViews,
 } from "../Controllers/BlogController.mjs";
 
 import {
@@ -15,9 +19,12 @@ import {
 
 const router = express.Router();
 
-// query
+router.get("/blogs/totalBlogs", getTotalBlogs);
+router.get("/blogs/publishedBlogs", getPublishedBlogs);
+router.get("/blogs/totalAuthors", getTotalAuthors);
+router.get("/blogs/totalViews", getTotalViews);
+
 router.get("/blogs", getBlog);
-// params
 router.get("/blogs/:slug", getBlogBySlug);
 router.post("/blogs", calculateReadingTime, setPublishedAt, createBlog);
 router.patch("/blogs/:id", setPublishedAt, updateBlog);
