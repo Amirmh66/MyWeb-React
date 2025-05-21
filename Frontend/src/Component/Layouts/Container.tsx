@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
 import HomePage from "../OrgSite/HomePage";
+const BlogComposer = lazy(() => import("../PanelAdmin/Pages/Blog/SectionsInBlog/BlogComposer"))
 const ProductCollection = lazy(() => import("../OrgSite/pages/ProductCollection/ProductCollection"));
 const PanelAdminSkeleton = lazy(() => import("../Elements/PanelAdminSkeleton"));
 const SEOSetting = lazy(() => import("../PanelAdmin/Pages/Setting/SEOSetting/SEOSetting"));
@@ -41,6 +42,7 @@ const AddBrand = lazy(() => import("../PanelAdmin/Pages/Brands/AddBrand/AddBrand
 const Types = lazy(() => import("../PanelAdmin/Pages/Types/Types"))
 const AddType = lazy(() => import("../PanelAdmin/Pages/Types/AddType/AddType"))
 const EditType = lazy(() => import("../PanelAdmin/Pages/Types/EditType/EditType"))
+const Blog = lazy(() => import("../PanelAdmin/Pages/Blog/Blog"))
 const ProductDetail = lazy(() => import("../OrgSite/pages/Product/ProductDetail/ProductDetail"))
 const PanelUser = lazy(() => import("../PanelUser/PanelUser"))
 const Profile = lazy(() => import("../OrgSite/pages/UserProfile/Profile"))
@@ -186,6 +188,19 @@ const Container = () => {
           }>
             <Route path="AddType" element={<AddType />} />
             <Route path="EditType/:id" element={<EditType />} />
+          </Route>
+          {/* hereNew */}
+          <Route path="Blogs" element={
+            <Suspense>
+              <Blog />
+            </Suspense>
+          }>
+            {/* outlet */}
+            <Route path="BlogComposer" element={
+              <Suspense>
+                <BlogComposer />
+              </Suspense>
+            } />
           </Route>
 
           <Route path="Categories" element={

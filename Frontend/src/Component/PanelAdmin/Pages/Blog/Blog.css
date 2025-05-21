@@ -1,0 +1,53 @@
+.cardAnalytic{
+    @apply flex flex-col justify-center items-center
+    w-[25vh] h-[25vh] p-0 bg-white rounded-lg
+     drop-shadow-md select-none text-center
+     hover:scale-105 transition
+}
+
+.cartTitle {
+    @apply text-lg font-semibold text-gray-700
+}
+
+.cardNumber{
+    @apply text-2xl font-bold
+}
+
+
+/* Table */
+table{
+    @apply w-full overflow-hidden
+}
+
+table, th , td{
+    @apply border-collapse p-5
+}
+
+thead th{
+    @apply  sticky top-0 left-0 bg-[#ede6fcfe]
+}
+tr{
+    @apply border-b hover:bg-slate-100 transition duration-200
+}
+
+tbody tr:nth-last-child{
+    @apply border-none 
+}
+tbody tr:nth-child(even){
+@apply bg-[#0000000b]
+}
+
+
+.draft {
+    @apply bg-sky-200 text-sky-600
+}
+.pending{
+    @apply bg-yellow-400 text-yellow-800
+}
+.archived{
+    @apply bg-red-600 text-red-950
+}
+.published{
+    @apply bg-green-600 text-green-950
+}
+/* EndTable */

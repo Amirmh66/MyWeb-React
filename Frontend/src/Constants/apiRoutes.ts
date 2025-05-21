@@ -52,6 +52,17 @@ const apiRoutes: any = {
   // Authentication
   Login: `${baseURL}/login`,
   SignUp: `${baseURL}/signUp`,
+  // Blog
+  getBlogByQuery: (sort: string) => `${baseURL}/blogs?sort=${sort}`,
+  getBlogBySlug: (slug: string) => `${baseURL}/blogs/${slug}`,
+  createBlog: `${baseURL}/blogs`,
+  editBlogById: (id: string) => `${baseURL}/blogs/${id}`,
+  deleteBlogById: (id: string) => `${baseURL}/blogs/delete/${id}`,
+  deleteAllBlog: `${baseURL}/blogs/deleteAll`,
+  getTotalBlogs: `${baseURL}/blogs/totalBlogs`,
+  getPublishedBlogs: `${baseURL}/blogs/publishedBlogs`,
+  getTotalAuthors: `${baseURL}/blogs/totalAuthors`,
+  getViewsResult: `${baseURL}/blogs/totalViews`,
 };
 
 export default apiRoutes;

@@ -4,7 +4,8 @@ import SiteLogo from "./SiteLogo";
 import {
   ChartPieIcon, Bars3CenterLeftIcon, Squares2X2Icon, ShoppingBagIcon, DevicePhoneMobileIcon,
   ShoppingCartIcon, CurrencyDollarIcon, ChatBubbleLeftEllipsisIcon, PuzzlePieceIcon, ChevronDownIcon,
-  UserGroupIcon, Cog8ToothIcon, FingerPrintIcon, Bars3Icon, UserIcon
+  UserGroupIcon, Cog8ToothIcon, FingerPrintIcon, Bars3Icon, UserIcon,
+  BookOpenIcon
 } from '@heroicons/react/20/solid'
 import type { Item } from "../../../Types/Interfaces";
 import { pageContext } from "../../Context/PageNContext";
@@ -16,6 +17,7 @@ const items: Item[] = [
   { icon: <ShoppingCartIcon />, name: "Order", path: "Order" },
   { icon: <CurrencyDollarIcon />, name: "SalesReport", path: "SalesReport" },
   { icon: <ChatBubbleLeftEllipsisIcon />, name: "Message", path: "Message" },
+  { icon: <BookOpenIcon />, name: "Blogs", path: "Blogs" },
 ];
 
 const UsersItem: Item[] = [

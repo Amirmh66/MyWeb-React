@@ -32,7 +32,7 @@
 @layer components {
   #searchBox[type="search"]{
     @apply rounded-full pl-10 py-3 w-full 
-    focus:outline-none focus:outline-indigo-500 bg-gray-100 text-black;
+    focus:outline-none focus:outline-indigo-500 bg-gray-50 text-black;
 } 
 #searchBox[type="search"]::-webkit-search-cancel-button {
       display: none;
