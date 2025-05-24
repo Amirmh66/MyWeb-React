@@ -6,25 +6,31 @@ const Blog = mongoose.Schema(
       type: String,
       required: [true, "Blog Title is required."],
       trim: true,
-      maxlength: [80, "The title cannot be longer than 80 characters."],
+      maxlength: 70,
+      unique: true,
+      minlength: 20,
     },
     slug: {
       type: String,
-      required: false,
+      required: true,
       unique: true,
-      lowercase: true,
+      maxlength: 70,
+      minlength: 5,
     },
     content: {
       type: String,
       required: true,
+      maxlength: 15000,
+      minlength: 500,
     },
     excerpt: {
       type: String,
-      maxlength: 160,
+      maxlength: 200,
+      minlength: 50
     },
     coverImage: {
       type: String,
-      required: false,
+      required: true,
     },
     author: {
       type: Schema.Types.ObjectId,
@@ -35,20 +41,20 @@ const Blog = mongoose.Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "Categories",
-        required: true
+        required: false,
       },
     ],
     tags: [
       {
         type: String,
-        required: true,
+        required: false,
       },
     ],
     status: {
       type: String,
       enum: ["draft", "pending", "published", "archived"],
       defautl: "darft",
-      required: true
+      required: true,
     },
     publishedAt: {
       type: Date,
@@ -57,15 +63,19 @@ const Blog = mongoose.Schema(
     isPublished: {
       type: Boolean,
       default: false,
+      required: true,
     },
     views: {
       type: Number,
       default: 0,
     },
-    readingTime: { type: Number, default : 0},
+    readingTime: {
+      type: Number,
+      default: 0,
+      required: true,
+    },
   },
   { timestamps: true }
 );
-
 
 export default mongoose.model("blog", Blog);

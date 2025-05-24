@@ -19,7 +19,7 @@ export const getBlog = async (req, res) => {
     await Blog.find({ isPublished: true })
       .sort(sortBy)
       .limit(10)
-      .select("title coverImage publishedAt status")
+      .select("title coverImage publishedAt status slug")
       .populate("author", "fullName")
       .then((result) => {
         res.status(200).json({
@@ -39,6 +39,7 @@ export const getBlogBySlug = async (req, res) => {
   try {
     const blogSlug = req.params.slug;
     await Blog.findOne({ slug: blogSlug })
+      .select("title content excerpt coverImage author readingTime publishedAt")
       .populate("author", "name email")
       .then((result) => {
         if (!result) {
@@ -47,17 +48,9 @@ export const getBlogBySlug = async (req, res) => {
             message: "Blog not found",
           });
         }
-        if (result.status !== "published") {
-          return res.status(403).json({
-            status: "fail",
-            messsage: "Access denied",
-          });
-        }
         res.status(200).json({
           status: "success",
-          data: {
-            result,
-          },
+          result,
         });
       });
   } catch (err) {
@@ -75,25 +68,24 @@ export const getBlogBySlug = async (req, res) => {
 };
 export const createBlog = async (req, res) => {
   try {
-    if (!req.body.title || !req.body.content) {
+    const { title, slug, content } = req.body;
+    if (!title || !content) {
       return res.status(400).json({
         status: "fail",
         message: "Title and content are required",
       });
     }
-    if (!req.body.slug) {
-      req.body.slug = req.body.title.replace(/[^a-z0-9]/gi, "-").toLowerCase();
+    if (!slug) {
+      res.status(500).json({
+        status: "error",
+        message: "Internal error: Slug generation failed!",
+      });
     }
-    const newBlog = await Blog.create({
+    await Blog.create({
       ...req.body,
     });
-
-    res.status(201).json({
-      status: "success",
-      data: {
-        blog: newBlog,
-      },
-    });
+    res.status(201).json("success");
+    
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({
