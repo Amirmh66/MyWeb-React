@@ -15,6 +15,7 @@ import {
 import {
   setPublishedAt,
   calculateReadingTime,
+  generateUniqueSlug,
 } from "../Middleware/blogMiddleware.mjs";
 
 const router = express.Router();
@@ -26,7 +27,13 @@ router.get("/blogs/totalViews", getTotalViews);
 
 router.get("/blogs", getBlog);
 router.get("/blogs/:slug", getBlogBySlug);
-router.post("/blogs", calculateReadingTime, setPublishedAt, createBlog);
+router.post(
+  "/blogs",
+  calculateReadingTime,
+  setPublishedAt,
+  generateUniqueSlug,
+  createBlog
+);
 router.patch("/blogs/:id", setPublishedAt, updateBlog);
 router.delete("/blogs/delete/:id", deleteBlog);
 router.delete("/blogs/deleteAll", deleteAllBlogs);
