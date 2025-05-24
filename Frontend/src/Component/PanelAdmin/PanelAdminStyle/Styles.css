@@ -1,45 +1,71 @@
 @tailwind components;
 @tailwind base;
 
-@layer base{
-  .adminMain{
+@layer base {
+  .adminMain {
     @apply p-3 min-h-96 max-h-[90vh] h-[85vh] overflow-auto;
   }
-  main::-webkit-scrollbar{
-     @apply w-[5px]
-    }
-   main::-webkit-scrollbar-track{
+
+  main::-webkit-scrollbar {
+    @apply w-[5px]
+  }
+
+  main::-webkit-scrollbar-track {
     @apply bg-[f1f1f1] dark:bg-[#2a2a2a]
-    }
-    main::-webkit-scrollbar-thumb{
+  }
+
+  main::-webkit-scrollbar-thumb {
     @apply bg-[#b3b3b3] dark:bg-[#444444]
-    }
+  }
+
+  input[type="text"] {
+    @apply mt-2 p-3 rounded-lg font-medium focus:outline-none w-full drop-shadow bg-gray-100 dark:bg-gray-800
+  }
+
+  textarea {
+    @apply text-sm font-bold tracking-wide p-3 rounded-lg w-full focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-400 drop-shadow bg-gray-100 dark:bg-gray-800
+  }
+
+  textarea::-webkit-scrollbar {
+    @apply w-1
+  }
+  label{
+    @apply font-medium tracking-wide
+}
 }
 
 @layer components {
+
   th {
     @apply p-5 text-sm tracking-wider text-center text-gray-700 uppercase dark:text-gray-400;
   }
+
   .filterBtn {
     @apply flex items-center p-1 text-sm font-semibold rounded-lg hover:bg-gray-300 hover:dark:bg-gray-600;
   }
+
   .boxTable {
     @apply flex flex-col min-w-full overflow-x-auto shadow-md rounded-lg;
   }
+
   .table {
     @apply min-w-full divide-gray-200 table-fixed dark:divide-gray-700;
   }
+
   .tbody {
     @apply bg-white divide-y divide-gray-200 shadow-inner dark:bg-gray-950 dark:divide-gray-700;
   }
+
   .thead {
     @apply bg-gray-200 dark:bg-gray-700 select-none
   }
+
   .btn-Sec-InForm {
     @apply px-12 md:px-5 py-2 text-sm font-medium text-center whitespace-nowrap;
   }
+
   .table-nav {
     @apply flex items-center gap-1 p-3 mb-2 bg-white rounded-lg drop-shadow dark:bg-gray-900;
   }
-  
+
 }
