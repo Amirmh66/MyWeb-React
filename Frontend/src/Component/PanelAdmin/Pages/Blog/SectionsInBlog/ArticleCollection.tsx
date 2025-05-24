@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 interface BlogType {
     _id: number;
     title: string;
+    slug: string;
     publishedAt: Date
     coverImage: string
     author: IAuthor;
@@ -76,8 +77,12 @@ function CartBlog() {
                             </td>
                             <td className="flex">
                                 <Button className="bg-red-500" icon={<TrashIcon className="w-4" />} />
-                                <Button className="bg-blue-500" icon={<PencilSquareIcon className="w-4" />} />
-                                <Button className="bg-yellow-500" icon={<EyeIcon className="w-4" />} />
+                                <Link to={`edit/${b._id}`}>
+                                    <Button className="bg-blue-500" icon={<PencilSquareIcon className="w-4" />} />
+                                </Link>
+                                <Link to={`detail/${b.slug}`}>
+                                    <Button className="bg-yellow-500" icon={<EyeIcon className="w-4" />} />
+                                </Link>
                             </td>
                         </tr>
                     ))}
@@ -86,5 +91,4 @@ function CartBlog() {
         </div>
     )
 }
-
 export default CartBlog
