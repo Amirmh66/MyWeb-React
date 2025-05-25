@@ -66,6 +66,7 @@ function BlogComposer() {
             <div className='flex flex-col max-w-full overflow-hidden'>
                 <form onSubmit={handleSubmit(onSubmit)}
                     className='bg-white rounded-xl p-10 flex gap-5 flex-col w-full'>
+<<<<<<< HEAD
                 <h1 className="font-bold uppercase text-3xl">
                     <span className="underline underline-offset-4">New</span> Blog
                 </h1>
@@ -79,10 +80,23 @@ function BlogComposer() {
                         <label>Content</label>
                         <textarea placeholder="Enter your full blog content here..."
                             {...register('content', { required: "Content Is Required!" })} />
+=======
+                    <p className='text-red-700 font-semibold'>{error}</p>
+                    <div>
+                        <label>Title</label>
+                        <input type='text' {...register('title', { required: 'Title is required!' })}
+                            placeholder='e.g : Why Evolution is true?' />
+                        {errors.title && <span className='error'>{errors.title.message}</span>}
+                    </div>
+                    <div>
+                        <label>Content</label>
+                        <textarea {...register('content', { required: "Content Is Required!" })} />
+>>>>>>> 6e7aeded452e55af0b38a5d63c5e96149f054b75
                         {errors.content && <span className='error'>{errors.content.message}</span>}
                     </div>
                     <div>
                         <label>Excerpt</label>
+<<<<<<< HEAD
                         <textarea placeholder='Write a short and compelling summary of your post...'
                             {...register('excerpt', { required: 'Excerpt is required!', maxLength: 300 })} />
                         {errors.excerpt && <span className='error'>{errors.excerpt.message}</span>}
@@ -96,13 +110,32 @@ function BlogComposer() {
                             <label>IsPublished?</label>
                             <input type="checkbox" {...register('isPublished')} />
                         </div>
+=======
+                        <textarea placeholder='Summary of the Content'
+                            {...register('excerpt', { required: 'Excerpt is required!', maxLength: 300 })} />
+                        {errors.excerpt && <span className='error'>{errors.excerpt.message}</span>}
+                    </div>
+                    <div>
+                        <label >CoverImage</label>
+                        <input type="file" {...register('coverImage')} />
+                        {errors.coverImage && <span className='error'>{errors.coverImage.message}</span>}
+                    </div>
+                    <div className='flex gap-2'>
+                        <label>IsPublished?</label>
+                        <input type="checkbox" {...register('isPublished')} />
+>>>>>>> 6e7aeded452e55af0b38a5d63c5e96149f054b75
                     </div>
                     <div className='flex justify-end mt-10'>
                         <Button text={`${isLoading ? 'Creating a blog....' : 'Submit'}`}
                             disable={isLoading} className='bg-green-600' type='submit' />
                     </div>
+<<<<<<< HEAD
                 </form >
             </div >
+=======
+                </form>
+            </div>
+>>>>>>> 6e7aeded452e55af0b38a5d63c5e96149f054b75
         </>
     )
 }
