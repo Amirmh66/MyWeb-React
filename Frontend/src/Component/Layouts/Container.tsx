@@ -3,6 +3,8 @@ import { lazy, Suspense } from 'react'
 import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from "../Authentication/ErrorFallback";
 import HomePage from "../OrgSite/HomePage";
+const BlogEditor = lazy(() => import("../PanelAdmin/Pages/Blog/SectionsInBlog/BlogEditor"))
+const BlogViewer = lazy(() => import("../PanelAdmin/Pages/Blog/SectionsInBlog/BlogViewer"))
 const BlogComposer = lazy(() => import("../PanelAdmin/Pages/Blog/SectionsInBlog/BlogComposer"))
 const ProductCollection = lazy(() => import("../OrgSite/pages/ProductCollection/ProductCollection"));
 const PanelAdminSkeleton = lazy(() => import("../Elements/PanelAdminSkeleton"));
@@ -189,18 +191,31 @@ const Container = () => {
             <Route path="AddType" element={<AddType />} />
             <Route path="EditType/:id" element={<EditType />} />
           </Route>
-          {/* hereNew */}
+
           <Route path="Blogs" element={
-            <Suspense>
+            <Suspense fallback={<LoadingText/>}>
               <Blog />
             </Suspense>
           }>
-            {/* outlet */}
+
             <Route path="BlogComposer" element={
-              <Suspense>
+              <Suspense fallback={<LoadingText />}>
                 <BlogComposer />
               </Suspense>
             } />
+
+            <Route path="edit/:id" element={
+              <Suspense fallback={<LoadingText />}>
+                <BlogEditor />
+              </Suspense>
+            } />
+
+            <Route path="detail/:slug" element={
+              <Suspense fallback={<LoadingText />}>
+                <BlogViewer />
+              </Suspense>
+            } />
+
           </Route>
 
           <Route path="Categories" element={

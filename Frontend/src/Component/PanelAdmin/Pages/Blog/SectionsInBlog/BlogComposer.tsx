@@ -66,16 +66,19 @@ function BlogComposer() {
             <div className='flex flex-col max-w-full overflow-hidden'>
                 <form onSubmit={handleSubmit(onSubmit)}
                     className='bg-white rounded-xl p-10 flex gap-5 flex-col w-full'>
+                <h1 className="font-bold uppercase text-3xl">
+                    <span className="underline underline-offset-4">New</span> Blog
+                </h1>
                     <p className='text-red-700 font-semibold'>{error}</p>
                     <div>
                         <label>Title</label>
-                        <input type='text' {...register('title', { required: 'Title is required!' })}
-                            placeholder='Enter your captivating and engaging title here...' />
-                        {errors.title && <span className='error'>{errors.title.message}</span>}
+                        <input type='text' placeholder='Enter your captivating and engaging title here...'
+                            {...register('title', { required: 'Title is required!' })} />
                     </div>
                     <div>
                         <label>Content</label>
-                        <textarea placeholder="Enter your full blog content here..." {...register('content', { required: "Content Is Required!" })} />
+                        <textarea placeholder="Enter your full blog content here..."
+                            {...register('content', { required: "Content Is Required!" })} />
                         {errors.content && <span className='error'>{errors.content.message}</span>}
                     </div>
                     <div>
@@ -84,21 +87,22 @@ function BlogComposer() {
                             {...register('excerpt', { required: 'Excerpt is required!', maxLength: 300 })} />
                         {errors.excerpt && <span className='error'>{errors.excerpt.message}</span>}
                     </div>
-                    <div>
-                        <label >CoverImage</label>
-                        <input type="file" {...register('coverImage')} />
-                        {errors.coverImage && <span className='error'>{errors.coverImage.message}</span>}
-                    </div>
-                    <div className='flex gap-2'>
-                        <label>IsPublished?</label>
-                        <input type="checkbox" {...register('isPublished')} />
+                    <div className='flex flex-col gap-3'>
+                        <div>
+                            <label >CoverImage</label>
+                            <input type="file" {...register('coverImage')} />
+                        </div>
+                        <div className='flex gap-5'>
+                            <label>IsPublished?</label>
+                            <input type="checkbox" {...register('isPublished')} />
+                        </div>
                     </div>
                     <div className='flex justify-end mt-10'>
                         <Button text={`${isLoading ? 'Creating a blog....' : 'Submit'}`}
                             disable={isLoading} className='bg-green-600' type='submit' />
                     </div>
-                </form>
-            </div>
+                </form >
+            </div >
         </>
     )
 }
