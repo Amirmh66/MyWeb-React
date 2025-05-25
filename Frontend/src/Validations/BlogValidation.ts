@@ -6,4 +6,4 @@ const validationBlog = object().shape({
     coverImage: string().max(150).required(),
     isPublished: boolean().required(),
 })
-export default validationBlog 
+export default validationBlog
