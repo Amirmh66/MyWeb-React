@@ -37,6 +37,9 @@ tbody tr:nth-child(even){
 @apply bg-[#0000000b]
 }
 
+.status{
+    @apply px-3 py-1 font-semibold text-sm text-center rounded-md
+}
 
 .draft {
     @apply bg-sky-200 text-sky-600
@@ -48,6 +51,6 @@ tbody tr:nth-child(even){
     @apply bg-red-600 text-red-950
 }
 .published{
-    @apply bg-green-600 text-green-950
+    @apply bg-green-600 text-green-100
 }
 /* EndTable */

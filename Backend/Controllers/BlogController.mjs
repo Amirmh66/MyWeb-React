@@ -39,7 +39,9 @@ export const getBlogBySlug = async (req, res) => {
   try {
     const blogSlug = req.params.slug;
     await Blog.findOne({ slug: blogSlug })
-      .select("title content excerpt coverImage author readingTime publishedAt")
+      .select(
+        "title content excerpt coverImage author status publishedAt updatedAt createdAt readingTime"
+      )
       .populate("author", "name email")
       .then((result) => {
         if (!result) {
@@ -85,7 +87,6 @@ export const createBlog = async (req, res) => {
       ...req.body,
     });
     res.status(201).json("success");
-    
   } catch (err) {
     if (err.code === 11000) {
       return res.status(400).json({
