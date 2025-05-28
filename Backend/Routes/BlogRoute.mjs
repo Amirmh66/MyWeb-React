@@ -10,6 +10,7 @@ import {
   getPublishedBlogs,
   getTotalAuthors,
   getTotalViews,
+  getBlogById,
 } from "../Controllers/BlogController.mjs";
 
 import {
@@ -26,7 +27,8 @@ router.get("/blogs/totalAuthors", getTotalAuthors);
 router.get("/blogs/totalViews", getTotalViews);
 
 router.get("/blogs", getBlog);
-router.get("/blogs/:slug", getBlogBySlug);
+router.get("/blogs/:id", getBlogById);
+router.get("/blogs/detail/:slug", getBlogBySlug);
 router.post(
   "/blogs",
   calculateReadingTime,

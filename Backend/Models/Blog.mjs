@@ -4,7 +4,7 @@ const Blog = mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Blog Title is required."],
+      required: true,
       trim: true,
       maxlength: 70,
       unique: true,

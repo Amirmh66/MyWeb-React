@@ -68,6 +68,22 @@ export const getBlogBySlug = async (req, res) => {
     });
   }
 };
+export const getBlogById = async (req, res) => {
+  const blogId = req.params.id;
+  try {
+    const blog = await Blog.findById(blogId);
+    if (!blog) {
+      return res.status(404).json({
+        message: "Blog not Found",
+      });
+    }
+    res.status(200).json(blog);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 export const createBlog = async (req, res) => {
   try {
     const { title, slug, content } = req.body;
@@ -107,10 +123,10 @@ export const updateBlog = async (req, res) => {
     const blogId = req.params.id;
     const blogContent = req.body;
     if (blogContent && blogId) {
-      if (blogContent.title.length < 10 || blogContent.title.length > 100) {
+      if (blogContent.title.length < 20 || blogContent.title.length > 70) {
         return res.status(400).json({
           stasu: "error",
-          message: "The title must be between 10 and 100 characters!",
+          message: "The title must be between 20 and 70 characters!",
         });
       } else if (
         blogContent.content === null ||
@@ -136,7 +152,6 @@ export const updateBlog = async (req, res) => {
 
       res.status(200).json({
         status: "success",
-        data: { blog },
         message: "Blog updated successfully",
       });
     }
