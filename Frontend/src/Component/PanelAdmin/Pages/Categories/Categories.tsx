@@ -8,7 +8,6 @@ import "./Categoryies.css";
 import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid"
 import TablesSkeleton from "../../../Elements/TablesSkeleton"
 import Modal from "../../../Elements/Modal"
-
 function Categories() {
   const [categories, setCategories] = useState<ICategories[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -17,7 +16,6 @@ function Categories() {
   const [showModalAll, setShowModalAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
-
   //#region GetAllCategories
   useEffect(() => {
     getCategories();
@@ -66,10 +64,8 @@ function Categories() {
     }
   };
   //#endregion
-
-  if (loading) return <TablesSkeleton />;
-  if (error) return <p>Error: {error}</p>;
-
+  if (loading) return <TablesSkeleton />
+  if (error) return <p>Error: {error}</p>
   return (
     <>
       {location.pathname === "/PanelAdmin/Categories" ? (
@@ -91,38 +87,35 @@ function Categories() {
               onClick={() => setShowModalAll(true)}
             />
           </div>
-          <div className="boxTable">
-            <div className="overflow-auto" style={{ maxHeight: "490px" }}>
-              <table className="table">
-                <thead className="thead">
-                  <tr>
-                    <th scope="col">Category Name</th>
-                    <th scope="col">Command</th>
+          <div className="overflow-auto" style={{ maxHeight: "490px" }}>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Category Name</th>
+                  <th scope="col">Command</th>
+                </tr>
+              </thead>
+              <tbody>
+                {categories.map((c) => (
+                  <tr key={c._id}>
+                    <td>
+                      <p>{c.name}</p>
+                    </td>
+                    <td className="btn-Sec-InForm">
+                      <Button
+                        onClick={() => handleDelete(c._id)}
+                        text="Delete"
+                        icon={<TrashIcon className="w-5" />}
+                        className="bg-red-600"
+                      />
+                      <Link to={`EditCategory/${c._id}`}>
+                        <Button text="Edit" icon={<PencilSquareIcon className="w-5" />} className="bg-blue-600" />
+                      </Link>
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="tbody">
-                  {categories.map((c) => (
-                    <tr
-                      key={c._id}
-                      className="hover:bg-gray-300 dark:hover:bg-gray-900"
-                    >
-                      <td>{c.name}</td>
-                      <td className="btn-Sec-InForm">
-                        <Button
-                          onClick={() => handleDelete(c._id)}
-                          text="Delete"
-                          icon={<TrashIcon className="w-5" />}
-                          className="bg-red-600"
-                        />
-                        <Link to={`EditCategory/${c._id}`}>
-                          <Button text="Edit" icon={<PencilSquareIcon className="w-5" />} className="bg-blue-600" />
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         </>
       ) : (
@@ -137,6 +130,6 @@ function Categories() {
         <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModalAll(false)} />
       </Modal>
     </>
-  );
+  )
 }
-export default Categories;
+export default Categories

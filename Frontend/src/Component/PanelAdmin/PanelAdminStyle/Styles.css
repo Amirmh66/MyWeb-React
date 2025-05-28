@@ -29,43 +29,42 @@
   textarea::-webkit-scrollbar {
     @apply w-1
   }
-  label{
+  label {
     @apply font-medium tracking-wide
-}
+  }
+  table {
+    @apply w-full overflow-hidden
+  }
+
+  table, th, td {
+    @apply border-collapse p-5
+  }
+
+  thead th {
+    @apply sticky top-0 left-0 bg-[#ede6fcfe]
+  }
+
+  tr {
+    @apply border-b hover:bg-slate-100 transition duration-200
+  }
+
+  tbody tr:nth-last-child {
+    @apply border-none
+  }
+
+  tbody tr:nth-child(even) {
+    @apply bg-[#0000000b]
+  }
 }
 
 @layer components {
-
-  th {
-    @apply p-5 text-sm tracking-wider text-center text-gray-700 uppercase dark:text-gray-400;
-  }
-
   .filterBtn {
     @apply flex items-center p-1 text-sm font-semibold rounded-lg hover:bg-gray-300 hover:dark:bg-gray-600;
   }
-
-  .boxTable {
-    @apply flex flex-col min-w-full overflow-x-auto shadow-md rounded-lg;
-  }
-
-  .table {
-    @apply min-w-full divide-gray-200 table-fixed dark:divide-gray-700;
-  }
-
-  .tbody {
-    @apply bg-white divide-y divide-gray-200 shadow-inner dark:bg-gray-950 dark:divide-gray-700;
-  }
-
-  .thead {
-    @apply bg-gray-200 dark:bg-gray-700 select-none
-  }
-
   .btn-Sec-InForm {
     @apply px-12 md:px-5 py-2 text-sm font-medium text-center whitespace-nowrap;
   }
-
   .table-nav {
     @apply flex items-center gap-1 p-3 mb-2 bg-white rounded-lg drop-shadow dark:bg-gray-900;
   }
-
 }

@@ -6,13 +6,11 @@ import apiRoutes from '../../../../Constants/apiRoutes'
 import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from '@heroicons/react/20/solid';
 import TablesSkeleton from '../../../Elements/TablesSkeleton';
 import Modal from '../../../Elements/Modal';
-
 interface ITypes {
   _id: string;
   typeName: string;
   description: string;
 }
-
 function Types() {
   const [isSendRequest, setIsSendRequest] = useState(true);
   const [types, setTypes] = useState<ITypes[]>([])
@@ -20,7 +18,6 @@ function Types() {
   const [showModal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
-
   //#region GetTypes
   useEffect(() => {
     if (isSendRequest) {
@@ -59,14 +56,12 @@ function Types() {
     }
   };
   //#endregion 
-
   if (error) return error
-  if (isSendRequest) return <TablesSkeleton />;
-
+  if (isSendRequest) return <TablesSkeleton />
   return (
     <>
       {location.pathname === "/PanelAdmin/Types" ? (
-        <div>
+        <>
           <div className="table-nav">
             <Link to="AddType">
               <Button text="CreateNewType" icon={<PlusCircleIcon className='w-5' />} className="bg-green-500" />
@@ -78,21 +73,18 @@ function Types() {
               onClick={getTypes}
             />
           </div>
-          <div className="boxTable">
+          <div>
             <div className="overflow-auto" style={{ maxHeight: "490px" }}>
-              <table className="table">
-                <thead className="thead">
+              <table>
+                <thead>
                   <tr>
                     <th scope="col">Type Name</th>
                     <th scope="col">Command</th>
                   </tr>
                 </thead>
-                <tbody className="tbody">
+                <tbody>
                   {types.map((t) => (
-                    <tr
-                      key={t._id}
-                      className="hover:bg-gray-300 dark:hover:bg-gray-900"
-                    >
+                    <tr key={t._id}>
                       <td>{t.typeName}</td>
                       <td className="btn-Sec-InForm">
                         <Button
@@ -111,7 +103,7 @@ function Types() {
               </table>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <Outlet />
       )}
@@ -122,5 +114,4 @@ function Types() {
     </>
   )
 }
-
 export default Types

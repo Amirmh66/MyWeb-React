@@ -12,31 +12,6 @@
 .cardNumber{
     @apply text-2xl font-bold
 }
-
-
-/* Table */
-table{
-    @apply w-full overflow-hidden
-}
-
-table, th , td{
-    @apply border-collapse p-5
-}
-
-thead th{
-    @apply  sticky top-0 left-0 bg-[#ede6fcfe]
-}
-tr{
-    @apply border-b hover:bg-slate-100 transition duration-200
-}
-
-tbody tr:nth-last-child{
-    @apply border-none 
-}
-tbody tr:nth-child(even){
-@apply bg-[#0000000b]
-}
-
 .status{
     @apply px-3 py-1 font-semibold text-sm text-center rounded-md
 }

@@ -8,8 +8,6 @@ import axios from "axios";
 import api from "../../../../Constants/apiRoutes.ts";
 import TablesSkeleton from "../../../Elements/TablesSkeleton.tsx";
 import Modal from "../../../Elements/Modal.tsx";
-
-
 export default function Product() {
   const [products, setProduct] = useState<IProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,8 +20,7 @@ export default function Product() {
 
   useEffect(() => {
     getProduct()
-  }, []);
-
+  }, [products]);
   //#region getProduct
   const getProduct = async () => {
     try {
@@ -96,10 +93,10 @@ export default function Product() {
               />
             </div>
           </div>
-          <div className="boxTable">
+          <div>
             <div className="overflow-auto" style={{ maxHeight: "479px" }}>
-              <table className="table">
-                <thead className="thead">
+              <table>
+                <thead>
                   <tr>
                     <th scope="col">Image</th>
                     <th scope="col">Name</th>
@@ -109,7 +106,7 @@ export default function Product() {
                     <th scope="col">Command</th>
                   </tr>
                 </thead>
-                <tbody className="tbody">
+                <tbody>
                   {products.length < 0 ? "Noting" : (products.map((p) => (
                     <tr
                       key={p._id}

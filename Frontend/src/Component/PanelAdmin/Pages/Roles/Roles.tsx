@@ -6,16 +6,11 @@ import api from "../../../../Constants/apiRoutes"
 import { ArrowPathIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/20/solid";
 import TablesSkeleton from "../../../Elements/TablesSkeleton";
 import Modal from "../../../Elements/Modal";
-
-
-
 interface IRoles {
   _id: string;
   name: string;
 }
-
 function Roles() {
-
   const [roles, setRoles] = useState<IRoles[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -23,7 +18,6 @@ function Roles() {
   const [showModalAll, setShowModalAll] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const location = useLocation();
-
   //#region GetAllRoles
   useEffect(() => {
     getRoles();
@@ -72,14 +66,12 @@ function Roles() {
     }
   };
   //#endregion
-
-  if (loading) return <TablesSkeleton />;
-  if (error) return <p>Error: {error}</p>;
-
+  if (loading) return <TablesSkeleton />
+  if (error) return <p>Error: {error}</p>
   return (
     <>
       {location.pathname === "/PanelAdmin/Roles" ? (
-        <div>
+        <>
           <div className="table-nav justify-start">
             <Link to="AddRole">
               <Button text="Create Role" icon={<PlusCircleIcon className="w-5" />} className="bg-green-500" />
@@ -97,37 +89,25 @@ function Roles() {
               onClick={() => setShowModalAll(true)}
             />
           </div>
-          <div className="boxTable">
+          <div>
             <div className="overflow-auto" style={{ maxHeight: "490px" }}>
-              <table className="table">
-                <thead className="thead">
+              <table>
+                <thead>
                   <tr>
                     <th scope="col">Role Name</th>
                     <th scope="col">Command</th>
                   </tr>
                 </thead>
-                <tbody className="tbody">
+                <tbody>
                   {roles.map((role) => (
-                    <tr
-                      key={role._id}
-                      className="hover:bg-gray-300 dark:hover:bg-gray-900"
-                    >
+                    <tr key={role._id}>
                       <td>
                         <p className="uppercase">{role.name}</p>
                       </td>
                       <td className="btn-Sec-InForm">
-                        <Button
-                          onClick={() => handleDelete(role._id)}
-                          text="Delete"
-                          icon={<TrashIcon className="w-5" />}
-                          className="bg-red-500"
-                        />
+                        <Button onClick={() => handleDelete(role._id)} text="Delete" icon={<TrashIcon className="w-5" />} className="bg-red-500" />
                         <Link to={`EditRole/${role._id}`}>
-                          <Button
-                            icon={<PencilSquareIcon className="w-5" />}
-                            text="Edit Role"
-                            className={"bg-blue-500"}
-                          />
+                          <Button icon={<PencilSquareIcon className="w-5" />} text="Edit Role" className={"bg-blue-500"} />
                         </Link>
                       </td>
                     </tr>
@@ -136,7 +116,7 @@ function Roles() {
               </table>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <Outlet />
       )}
@@ -151,4 +131,4 @@ function Roles() {
     </>
   );
 }
-export default Roles;
+export default Roles
