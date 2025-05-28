@@ -51,9 +51,15 @@ function CartBlog() {
                 <tbody>
                     {blogsToDisplay && Array.isArray(blogsToDisplay) && blogsToDisplay.map((b) => (
                         <tr key={b._id}>
-                            <td className=" max-w-[50%] font-bold">{b.title}</td>
-                            <td>{"Dave Gray"}</td>
-                            <td>{formattedDate(b.publishedAt)}</td>
+                            <td className="w-[30%]">
+                                <p className=" font-bold text-sm line-clamp-1">{b.title}</p>
+                            </td>
+                            <td>
+                                <p className="font-semibold">{"Dave Gray"}</p>
+                            </td>
+                            <td>
+                                <p className="font-semibold">{formattedDate(b.publishedAt)}</p>
+                            </td>
                             <td>
                                 <p className={`${conditionStatusColor(b.status)} status`}>{b.status}</p>
                             </td>

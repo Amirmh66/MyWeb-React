@@ -30,8 +30,6 @@ function BlogViewer() {
   useEffect(() => {
     if (slug) {
       getBlogBySlug(slug)
-    } else {
-      redirect("/PanelAdmin/Blogs")
     }
   }, []);
   //#region GetBlogBySlug
@@ -41,11 +39,14 @@ function BlogViewer() {
     try {
       const response = await fetch(apiRoutes.getBlogBySlug(slug));
       const data = await response.json();
+
       if (data) {
         setBlog(data.result)
+      } else if (response.status >= 500 && response.status < 600) {
+        setError(response.statusText)
       }
     } catch (error: any) {
-      setError(error)
+      setError(error.message)
     } finally {
       setIsLoading(false);
     }
@@ -123,11 +124,11 @@ function BlogViewer() {
               </div>
             </div>
             <div className="flex flex-col gap-4">
-              <label>Summary of content</label>
-              <p className="font-semibold text-gray-700">{blog.excerpt}</p>
+              <label className="text-xl">Summary of content</label>
+              <p className="font-semibold text-gray-700 ">{blog.excerpt}</p>
             </div>
             <div className="flex flex-col gap-4">
-              <label>Content</label>
+              <label className="text-xl">Content</label>
               <p className="font-semibold text-gray-700">{blog.content}</p>
             </div>
           </div>

@@ -54,7 +54,8 @@ const apiRoutes: any = {
   SignUp: `${baseURL}/signUp`,
   // Blog
   getBlogByQuery: (sort: string) => `${baseURL}/blogs?sort=${sort}`,
-  getBlogBySlug: (slug: string) => `${baseURL}/blogs/${slug}`,
+  getBlogBySlug: (slug: string) => `${baseURL}/blogs/detail/${slug}`,
+  getBlogById: (id: string) => `${baseURL}/blogs/${id}`,
   createBlog: `${baseURL}/blogs`,
   editBlogById: (id: string) => `${baseURL}/blogs/${id}`,
   deleteBlogById: (id: string) => `${baseURL}/blogs/delete/${id}`,
