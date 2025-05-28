@@ -1,34 +1,13 @@
-import axios from "axios";
 import Button from "../../../Elements/Buttons";
 import "./AdminProfile.css";
 import { useSelector } from "react-redux";
 import { PencilSquareIcon, UserIcon } from "@heroicons/react/20/solid"
 import { CameraIcon } from "@heroicons/react/24/outline"
-import { Form, Field, Formik } from "formik";
 import apiRoutes from "../../../../Constants/apiRoutes";
 import { selectCurrentUserName, selectCurrentRole } from '../../../Features/Authentication/AuthSlice/AuthSlice';
-
 function AdminProfile() {
   const userName = useSelector(selectCurrentUserName);
   const role = useSelector(selectCurrentRole);
-
-  const SubmitForm = async () => {
-    try {
-      await axios.post(apiRoutes.updateUser()).then(res => {
-
-      })
-    } catch (error) {
-
-    }
-  }
-
-  const initialValues = {
-    userName: "",
-    fullName: "",
-    email: "",
-    phoneNumber: "",
-  }
-
   return (
     <>
       <div className='flex flex-col md:flex-row items-start gap-6'>
@@ -36,7 +15,7 @@ function AdminProfile() {
         <div className="bg-white dark:bg-gray-950 flex flex-col items-center py-4 gap-3 rounded-xl w-3/12 relative overflow-hidden">
 
           <div className="bg-slate-200/90 dark:bg-violet-800/85 p-2 rounded-full inline-block absolute ml-20 mt-24 z-50 cursor-pointer hover:scale-105 transition duration-300">
-            <CameraIcon className="w-5"/></div>
+            <CameraIcon className="w-5" /></div>
           <img srcSet="/Images/DarwinLowQuality.webp" loading='lazy'
             className='w-20 md:w-6/12 border-4 rounded-full border-gray-100 dark:border-slate-800 z-40' />
 
@@ -57,40 +36,33 @@ function AdminProfile() {
           <div className="w-28 h-28 bg-orange-500/50 blur-3xl opacity-60 top-56 right-10 absolute rounded-full"></div>
         </div>
 
-        {/* form */}
         <div className="bg-white dark:bg-gray-950 p-4 rounded-xl">
           <div className="pb-6 flex items-center gap-1">
             <p className="font-bold text-sm">Profile Details</p>
             <div className="border-b flex-grow"></div>
           </div>
-          <Formik
-            initialValues={initialValues}
-            onSubmit={SubmitForm} >
-            <Form>
-              <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
-                <div className="inpBox">
-                  <span className="inpText">UserName</span>
-                  <Field type="text" name="UserName" placeholder='example: Androw129' />
-                  <UserIcon className="inpIcon" />
-                </div>
-                <div className="inpBox">
-                  <span className="inpText">FullName</span>
-                  <Field type="text" name="FullName" placeholder='example: Androw Jeferson' />
-                  <UserIcon className="inpIcon" />
-                </div>
-                <div className="inpBox">
-                  <span className="inpText">Email</span>
-                  <Field type="text" name="Email" placeholder='example: emaill@gmail.com' />
-                  <UserIcon className="inpIcon" />
-                </div>
-                <div className="inpBox">
-                  <span className="inpText">PhoneNumber</span>
-                  <Field type="number" name="PhoneNumber" placeholder='example: 09123456789' minLength={11} maxLength={11} />
-                  <UserIcon className="inpIcon" />
-                </div>
-              </div>
-            </Form>
-          </Formik>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-10'>
+            <div className="inpBox">
+              <span className="inpText">UserName</span>
+              <input type="text" name="UserName" placeholder='example: Androw129' />
+              <UserIcon className="inpIcon" />
+            </div>
+            <div className="inpBox">
+              <span className="inpText">FullName</span>
+              <input type="text" name="FullName" placeholder='example: Androw Jeferson' />
+              <UserIcon className="inpIcon" />
+            </div>
+            <div className="inpBox">
+              <span className="inpText">Email</span>
+              <input type="text" name="Email" placeholder='example: emaill@gmail.com' />
+              <UserIcon className="inpIcon" />
+            </div>
+            <div className="inpBox">
+              <span className="inpText">PhoneNumber</span>
+              <input type="number" name="PhoneNumber" placeholder='example: 09123456789' minLength={11} maxLength={11} />
+              <UserIcon className="inpIcon" />
+            </div>
+          </div>
           <div className=" mt-3">
             <Button
               text="Update Profile"
@@ -98,10 +70,8 @@ function AdminProfile() {
               icon={<PencilSquareIcon className="w-5" />} />
           </div>
         </div>
-
       </div>
     </>
   )
 }
-
 export default AdminProfile

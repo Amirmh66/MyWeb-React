@@ -193,7 +193,7 @@ const Container = () => {
           </Route>
 
           <Route path="Blogs" element={
-            <Suspense fallback={<LoadingText/>}>
+            <Suspense fallback={<LoadingText />}>
               <Blog />
             </Suspense>
           }>

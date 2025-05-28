@@ -6,10 +6,9 @@ import { useNavigate, useSubmit } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import Notification from "../../../../Elements/Notification";
 import "../Categoryies.css";
-import { validCategory } from "../../../../../Validations/ValidCategoryies";
+import validCategory from "../../../../../Validations/ValidCategoryies";
 import { ExclamationTriangleIcon } from "@heroicons/react/20/solid"
 import apiRoutes from "../../../../../Constants/apiRoutes";
-
 
 interface ICategory {
   name: string;
@@ -62,11 +61,6 @@ function AddCategory() {
     description: "",
     types: [],
   };
-
-  const onCancle = () => {
-    setShowConfirm(false);
-  };
-
   return (
     <>
       <Formik

@@ -6,13 +6,11 @@ import Notification from "../../../../Elements/Notification";
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import Button from '../../../../Elements/Buttons';
 import { ExclamationTriangleIcon } from '@heroicons/react/20/solid';
-import { validType } from '../../../../../Validations/TypeValidation';
-
+import validationType from '../../../../../Validations/TypeValidation';
 interface IType {
   typeName: string;
   description: string;
 }
-
 function AddType() {
   const [error, setError] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -36,19 +34,13 @@ function AddType() {
     }
   }
   //#endregion 
-
   const initialValues = {
     typeName: "",
     description: "",
   }
-
   return (
     <>
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSave}
-        validationSchema={validType}
-      >
+      <Formik initialValues={initialValues} onSubmit={onSave} validationSchema={validationType} >
         <Form>
           <div className="px-10">
             <div className="structure-category">
