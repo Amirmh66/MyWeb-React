@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
 import validationBlog from '../../../../../Validations/BlogValidation';
 import { useEffect } from 'react';
 import Button from '../../../../Elements/Buttons';
@@ -34,11 +34,10 @@ const statusOption: StatusType[] = [
 ]
 
 function Form({ onSubmit, initialValues, isEditMode, isLoading, error }: IForm) {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<IBlogPostForm>({
+    const { register, handleSubmit, control, reset, formState: { errors } } = useForm<IBlogPostForm>({
         resolver: yupResolver(validationBlog),
         defaultValues: initialValues || {}
     });
-    console.log(initialValues)
 
     const handleFromSubmit: SubmitHandler<IBlogPostForm> = (data) => { onSubmit(data) }
     useEffect(() => {
@@ -46,7 +45,6 @@ function Form({ onSubmit, initialValues, isEditMode, isLoading, error }: IForm) 
             reset(initialValues)
         }
     }, [initialValues, reset]);
-
     return (
         <>
             <form onSubmit={handleSubmit(handleFromSubmit)} className='bg-white p-5 rounded-xl flex flex-col gap-5'>
@@ -79,14 +77,22 @@ function Form({ onSubmit, initialValues, isEditMode, isLoading, error }: IForm) 
                         <input type="file" {...register('coverImage')} />
                     </div>
                     {isEditMode && (
-                        <div>
+                        <div className='w-1/4'>
                             <label>Status</label>
-                            <Select<StatusType>
-                                options={statusOption}
-                                value={statusOption}
-                                isSearchable={false}
-                                defaultInputValue={initialValues?.status}
-                                placeholder="Status"
+                            <Controller name='status'
+                                control={control}
+                                render={({ field }) => (
+                                    <Select<StatusType>
+                                        {...field}
+                                        value={statusOption.find(opt => opt.value === field.value)}
+                                        onChange={(selectedOpt) => (
+                                            field.onChange(selectedOpt ? selectedOpt.value : null)
+                                        )}
+                                        options={statusOption}
+                                        isSearchable={false}
+                                        placeholder={initialValues?.status}
+                                    />
+                                )}
                             />
                         </div>
                     )}
