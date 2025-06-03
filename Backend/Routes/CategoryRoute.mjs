@@ -1,22 +1,20 @@
 import express from "express";
 import {
-  GetCategory,
+  GetAllCategory,
   saveCategory,
   GetCategoryById,
   updateCategory,
   deleteCategory,
-  deleteAllCategories,
-  GetCategoryTypesById,
 } from "../Controllers/CategoryController.mjs";
+
+import validateCategory from "../Validators/categoryValidator.mjs";
 
 const router = express.Router();
 
-router.get("/categories", GetCategory);
-router.post("/categories", saveCategory);
+router.get("/categories", GetAllCategory);
+router.post("/category", validateCategory, saveCategory);
 router.get("/categories/:id", GetCategoryById);
-router.get("/categoryTypes/:id", GetCategoryTypesById);
-router.patch("/categories/:id", updateCategory);
+router.patch("/categories/:id", validateCategory, updateCategory);
 router.delete("/categories/:id", deleteCategory);
-router.delete("/categories/", deleteAllCategories);
 
 export default router;
