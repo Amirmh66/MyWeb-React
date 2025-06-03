@@ -18,6 +18,7 @@ import {
   calculateReadingTime,
   generateUniqueSlug,
 } from "../Middleware/blogMiddleware.mjs";
+import BlogValidation from "../Validators/blogValidator.mjs";
 
 const router = express.Router();
 
@@ -34,9 +35,10 @@ router.post(
   calculateReadingTime,
   setPublishedAt,
   generateUniqueSlug,
+  BlogValidation,
   createBlog
 );
-router.patch("/blogs/:id", setPublishedAt, updateBlog);
+router.patch("/blogs/:id", setPublishedAt, updateBlog, BlogValidation);
 router.delete("/blogs/delete/:id", deleteBlog);
 router.delete("/blogs/deleteAll", deleteAllBlogs);
 

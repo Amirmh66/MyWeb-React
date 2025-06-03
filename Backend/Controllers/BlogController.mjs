@@ -86,14 +86,7 @@ export const getBlogById = async (req, res) => {
 };
 export const createBlog = async (req, res) => {
   try {
-    const { title, slug, content } = req.body;
-    if (!title || !content) {
-      return res.status(400).json({
-        status: "fail",
-        message: "Title and content are required",
-      });
-    }
-    if (!slug) {
+    if (!req.body.slug) {
       res.status(500).json({
         status: "error",
         message: "Internal error: Slug generation failed!",
@@ -110,7 +103,6 @@ export const createBlog = async (req, res) => {
         message: "This slug has already been used.",
       });
     }
-
     res.status(500).json({
       status: "error",
       message: "Error in creating the blog.",
@@ -120,41 +112,20 @@ export const createBlog = async (req, res) => {
 };
 export const updateBlog = async (req, res) => {
   try {
-    const blogId = req.params.id;
-    const blogContent = req.body;
-    if (blogContent && blogId) {
-      if (blogContent.title.length < 20 || blogContent.title.length > 70) {
-        return res.status(400).json({
-          stasu: "error",
-          message: "The title must be between 20 and 70 characters!",
-        });
-      } else if (
-        blogContent.content === null ||
-        undefined ||
-        "" ||
-        blogContent.content.length < 0
-      ) {
-        return res.status(400).json({
-          stasu: "error",
-          message: "The blog content cannot be empty!",
-        });
-      }
-      const blog = await Blog.findByIdAndUpdate(
-        { _id: blogId },
-        { $set: blogContent }
-      );
-      if (!blog) {
-        return res.status(404).json({
-          status: "error",
-          message: "Blog not found",
-        });
-      }
-
-      res.status(200).json({
-        status: "success",
-        message: "Blog updated successfully",
+    const blog = await Blog.findByIdAndUpdate(
+      { _id: req.params.id },
+      { $set: req.body }
+    );
+    if (!blog) {
+      return res.status(404).json({
+        status: "error",
+        message: "Blog not found",
       });
     }
+    res.status(200).json({
+      status: "success",
+      message: "Blog updated successfully",
+    });
   } catch (err) {
     res.status(500).json({
       status: "error",
