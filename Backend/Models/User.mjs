@@ -3,55 +3,69 @@ import mongoose, { Schema } from "mongoose";
 const passwordRules =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/;
 
-const User = mongoose.Schema({
-  fullName: {
-    type: String,
-    required: false,
-  },
-  userName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    match: passwordRules,
-  },
-  phoneNumber: {
-    type: Number,
-    required: false,
-    validator: function (v) {
-      return /^[0-9]{11}$/.test(v);
+const UserSchema = new Schema(
+  {
+    fullName: {
+      type: String,
+      trim: true,
     },
-    message: (props) =>
-      `${props.value} Mobile Number Must be exactly 11 digits.`,
+    userName: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    },
+    password: {
+      type: String,
+      required: true,
+      validate: {
+        validator: (v) => passwordRules.test(v),
+        message:
+          "Password must be at least 8 characters long, containing at least one uppercase letter, one lowercase letter, one number, and one special character.",
+      },
+    },
+    phoneNumber: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: (v) => /^[0-9]{11}$/.test(v),
+        message: (props) =>
+          `${props.value} is not a valid phone number. It must be exactly 11 digits.`,
+      },
+    },
+    imageUrl: {
+      type: String,
+      trim: true,
+      validate: {
+        validator: (v) =>
+          /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/.test(
+            v
+          ),
+        message: "Invalid image URL format.",
+      },
+    },
+    role: {
+      type: Schema.Types.ObjectId,
+      ref: "role",
+      required: true,
+    },
+    favorites: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "product",
+      },
+    ],
   },
-  imageUrl: {
-    type: String,
-  },
-  role: {
-    type: Schema.Types.ObjectId,
-    ref: "roles",
-    required: true,
-  },
-  favorites: [{
-    type: Schema.Types.ObjectId,
-    ref: "products",
-    required: false,
-  }],
-  createdAt: {
-    type: Date,
-    required: true,
-    immutable: true,
-  },
-  updateAt: {
-    type: Date,
-    required: false,
-  },
-});
+  { timestamps: true }
+);
 
-export default mongoose.model("users", User);
+export default mongoose.model("user", UserSchema);

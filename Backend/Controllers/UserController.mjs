@@ -1,6 +1,6 @@
 import User from "../Models/User.mjs";
 import bcrypt from "bcrypt";
-import moment from "moment-jalaali";
+import { validationResult } from "express-validator";
 
 export const GetUsers = async (req, res) => {
   try {
@@ -22,7 +22,10 @@ export const getUsersByRole = async (req, res) => {
     });
     res.status(200).json(filteredUsers);
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
   }
 };
 export const GetUserById = async (req, res) => {
@@ -52,23 +55,33 @@ export const GetRoleUserById = async (req, res) => {
   }
 };
 export const saveUser = async (req, res) => {
-  const user = req.body;
-  const isUserExsit = await User.findOne({ email: user.email });
-
-  if (!isUserExsit) {
-    try {
-      const currentData = moment().format("jYYYY/jM/jD");
-      const hashPassword = await bcrypt.hash(user.password, 10);
-      user.createdAt = currentData;
-      user.password = hashPassword;
-      const newUser = new User(user);
-      await newUser.save();
-      res.status(201).json({ message: "User Successfully Registered." });
-    } catch (error) {
-      res.status(500).json({ message: error });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  try {
+    const isUserExist = await User.findOne({ email: req.body.email });
+    if (isUserExist) {
+      return res
+        .status(409)
+        .json({ message: "This email is already registered!" });
     }
-  } else {
-    res.status(400).json({ message: "this email already registered!" });
+
+    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    req.body.password = hashPassword;
+
+    const newUser = new User(req.body);
+    await newUser.save();
+
+    return res.status(201).json({
+      status: "success",
+      message: "User successfully registered.",
+      user: newUser,
+    });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Internal server error.", error: error.message });
   }
 };
 export const updateUser = async (req, res) => {
@@ -77,7 +90,10 @@ export const updateUser = async (req, res) => {
       { _id: req.params.id },
       { $set: req.body }
     );
-    res.status(200).json("User Edited");
+    res.status(200).json({
+      status: "success",
+      message: "User Edited successfully",
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
