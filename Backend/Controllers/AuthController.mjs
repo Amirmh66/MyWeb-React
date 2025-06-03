@@ -1,7 +1,6 @@
 import User from "../Models/User.mjs";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import moment from "moment-jalaali";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -11,16 +10,18 @@ export const signUpUser = async (req, res) => {
 
   if (!isUserExsit) {
     try {
-      
-      await newUser.save();
-      res.status(201).json({ message: "User Successfully SignUp." });
-    } catch (error) {const currentData = moment().format("jYYYY/jM/jD HH:MM");
       const passwordHash = await bcrypt.hash(user.password, 10);
-      user.createdAt = currentData;
+      user.createdAt = Date.now();
       user.password = passwordHash;
       user.role = "68187ad79e5a167f5f3f2a5b";
       const newUser = new User(user);
-      res.status(500).json({ message: error });
+      await newUser.save();
+      res.status(201).json({ message: "User Successfully SignUp." });
+    } catch (error) {
+      res.status(500).json({
+        status: "error",
+        message: error.message,
+      });
     }
   } else {
     res.status(400).json({ message: "this email already SignUp!" });
@@ -29,7 +30,7 @@ export const signUpUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const user = req.body;
 
-   if (!user.email || !user.password) {
+  if (!user.email || !user.password) {
     res.status(400).json({ message: "information is not valid!" });
   }
   const userIsExsit = await User.findOne({ email: user.email }).populate(
