@@ -1,52 +1,83 @@
 import Brand from "../Models/Brand.mjs";
+import { validationResult } from "express-validator";
 
 export const GetAllBrands = async (req, res) => {
   try {
-    await Brand.find().then((response) => {
-      res.json(response);
+    const response = await Brand.find().select(
+      "name logoUrl websiteUrl countryOfOrigin establishedYear"
+    );
+    return res.status(200).json({
+      status: "success",
+      response,
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
 export const GetTypesInBrand = async (req, res) => {
-  const brandId = req.params.id;
   try {
-    const response = await Brand.findById(brandId).populate("types");
-    res.json(response.types);
+    const response = await Brand.findById(req.params.id).populate(
+      "types",
+      "name"
+    );
+    return res.status(200).json({
+      status: "success",
+      message: response,
+    });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 export const GetBrandById = async (req, res) => {
-  const brandId = req.params.id;
   try {
-    await Brand.findById(brandId).then((response) => {
-      res.json(response);
+    await Brand.findById(req.params.id).then((response) => {
+      return res.status(200).json({
+        status: "success",
+        data: response,
+      });
     });
   } catch (error) {
     res.status(404).json({ message: error.message });
   }
 };
 export const saveBrand = async (req, res) => {
-  const brand = req.body;
-  const brandIsExist = await Brand.findOne({ name: brand.name });
-  if (!brandIsExist) {
-    const newBrand = await new Brand(brand);
-    try {
-      const response = await newBrand.save();
-      res.json(response);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
     }
-  } else {
-    res.status(400).json("This Brand is Already Exist!");
+    const brandIsExist = await Brand.findOne({ name: req.body.name });
+    if (brandIsExist) {
+      return res.status(409).json({
+        status: "error",
+        message: "A brand with this name already exists.",
+      });
+    }
+    await Brand.create({
+      ...req.body,
+    });
+
+    return res.status(201).json({
+      status: "success",
+      message: "Created brand successfully",
+    });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
   }
 };
 export const updateBrand = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   try {
     await Brand.updateOne({ _id: req.params.id }, { $set: req.body });
-    res.status(200);
+    return res.status(200).json({
+      status: "success",
+      message: "Update Brand successfully",
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -54,9 +85,9 @@ export const updateBrand = async (req, res) => {
 export const deleteBrand = async (req, res) => {
   try {
     await Brand.deleteOne({ _id: req.params.id }).then(() => {
-      res.status(200).json("Successfully deleteBrand!");
+      return res.status(200).json("Successfully deleteBrand!");
     });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    return res.status(500).json({ message: error.message });
   }
 };
