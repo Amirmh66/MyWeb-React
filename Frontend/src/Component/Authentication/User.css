@@ -1,17 +1,10 @@
-  .boxlogin {
-    @apply flex flex-col md:flex-row h-screen items-center justify-center drop-shadow-lg;
+  .structure {
+    @apply bg-white dark:bg-gray-900 w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-5/12 h-fit  
+     py-0 lg:py-10 px-5 lg:px-16 xl:px-9 flex flex-col items-center justify-center rounded-lg dark:text-gray-100 text-black 
   }
-  .struch {
-    @apply bg-white dark:bg-gray-900 w-full md:max-w-md lg:max-w-full md:w-1/2 xl:w-5/12 h-fit py-10 px-5 lg:px-16 xl:px-12
-        flex items-center justify-center rounded-lg dark:text-gray-100 text-black;
-  }
-  .inp {
+  input {
     @apply w-full px-4 py-3 rounded-lg bg-gray-200 dark:bg-gray-800 border
          focus:border-blue-500 focus:bg-white focus:outline-none placeholder:text-gray-500 dark:placeholder:text-gray-500;
-  }
-  .inp[type="password"]::-ms-reveal,
-  .inp[type="password"]::-ms-clear{
-    display: none;
   }
   .logBtn {
     @apply w-full block bg-indigo-500 hover:bg-indigo-400 focus:bg-indigo-400 text-white font-semibold rounded-lg
@@ -25,11 +18,22 @@
     @apply w-full block bg-gray-800 hover:bg-gray-700 focus:bg-gray-600 text-gray-200 font-semibold
         rounded-lg px-2 py-3 border border-gray-900;
   }
-  .lable {
-    @apply block text-gray-700 dark:text-gray-100;
+  label {
+    @apply block text-black dark:text-gray-100 font-semibold 
   }
-
   .forgetPass {
     @apply text-sm font-semibold text-gray-700 dark:text-gray-300 inline-block
          hover:text-blue-700 dark:hover:text-blue-300 focus:text-blue-700 cursor-pointer;
+  }
+
+    ::-webkit-scrollbar {
+    @apply w-[5px]
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-[f1f1f1] dark:bg-[#2a2a2a]
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#b3b3b3] dark:bg-[#444444]
   }
