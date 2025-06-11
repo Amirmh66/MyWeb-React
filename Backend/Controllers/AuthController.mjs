@@ -5,38 +5,35 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const signUpUser = async (req, res) => {
-  const user = req.body;
-  const isUserExsit = await User.findOne({ email: user.email });
-
-  if (!isUserExsit) {
-    try {
-      const passwordHash = await bcrypt.hash(user.password, 10);
-      user.createdAt = Date.now();
-      user.password = passwordHash;
-      user.role = "68187ad79e5a167f5f3f2a5b";
-      const newUser = new User(user);
-      await newUser.save();
-      res.status(201).json({ message: "User Successfully SignUp." });
-    } catch (error) {
-      res.status(500).json({
-        status: "error",
-        message: error.message,
-      });
+  try {
+    const isUserExsit = await User.findOne({ email: req.body.email });
+    if (isUserExsit) {
+      return res.status(400).json({ message: "this email already SignUp!" });
     }
-  } else {
-    res.status(400).json({ message: "this email already SignUp!" });
+    req.body.role = "6845cf39f6e70fc8cd2636c5";
+    const newUser = new User(req.body);
+    await newUser.save();
+    return res.status(201).json({ message: "User Successfully SignUp." });
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error,
+    });
   }
 };
 export const loginUser = async (req, res) => {
-  const user = req.body;
-
-  if (!user.email || !user.password) {
-    res.status(400).json({ message: "information is not valid!" });
-  }
-  const userIsExsit = await User.findOne({ email: user.email }).populate(
-    "role"
-  );
-  if (userIsExsit) {
+  try {
+    const user = req.body;
+    const userIsExsit = await User.findOne({ email: user.email }).populate(
+      "role",
+      "name"
+    );
+    if (!userIsExsit) {
+      return res.status(404).json({
+        message:
+          "A user with these credentials was not found. Please check your info!",
+      });
+    }
     const isMatch = await bcrypt.compare(user.password, userIsExsit.password);
     if (!isMatch) {
       return res.status(401).json({
@@ -44,22 +41,21 @@ export const loginUser = async (req, res) => {
       });
     } else {
       const token = jwt.sign(
-        { id: userIsExsit._id, userName: userIsExsit.userName },
+        { id: userIsExsit._id },
         process.env.ACCESS_TOKEN_SECRET,
         { expiresIn: "10m" }
       );
-      res.status(200).json({
+      return res.status(200).json({
         accessToken: token,
         id: userIsExsit.id,
-        userName: userIsExsit.userName,
         email: userIsExsit.email,
         role: userIsExsit.role.name,
       });
     }
-  } else {
-    res.status(404).json({
-      message:
-        "A user with these credentials was not found. Please check your info!",
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      message: error,
     });
   }
 };
