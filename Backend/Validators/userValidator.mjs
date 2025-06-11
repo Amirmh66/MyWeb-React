@@ -37,7 +37,7 @@ const validateUser = [
     ),
 
   body("phoneNumber")
-    .optional()
+    .notEmpty()
     .trim()
     .matches(/^[0-9]{11}$/)
     .withMessage("Phone number must be exactly 11 digits."),
