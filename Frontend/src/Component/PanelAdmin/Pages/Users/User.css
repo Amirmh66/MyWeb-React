@@ -1,26 +1,3 @@
-.table{
-    @apply rounded-lg text-center bg-gray-100 dark:bg-gray-700 min-w-full 
-}
-.th {
-    @apply py-3 px-5
-}
-.td {
-    @apply py-2 px-5 border-t border-gray-300 dark:border-gray-950
-    max-w-xs max-h-min
-}
-
-.structInp{
-    @apply gap-5 grid sm:grid-cols-1 lg:grid-cols-1 2xl:grid-cols-2
-}
-
-.txterea{
-    @apply text-sm font-bold tracking-wide p-3 rounded-lg w-full 
-    focus:outline-none  placeholder:text-black dark:placeholder:text-gray-200 
-}
-.structure-user{
-    @apply w-full p-5 lg:w-9/12 px-24 rounded-xl bg-white dark:bg-gray-900
-}
-
 .UserInfo{
     @apply px-5 border my-3 font-bold text-lg gap-2
     rounded-lg  flex items-center justify-start sm:w-1/2 md:w-2/4 xl:w-1/3  h-24
