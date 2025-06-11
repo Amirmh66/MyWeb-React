@@ -12,7 +12,7 @@ const apiRoutes: any = {
   // Users
   getUsers: `${baseURL}/users`,
   getUserById: (id: string) => `${baseURL}/users/${id}`,
-  createUser: `${baseURL}/users/`,
+  createUser: `${baseURL}/users`,
   updateUser: (id: string) => `${baseURL}/users/${id}`,
   deleteUser: (id: string) => `${baseURL}/users/${id}`,
   deleteAllUsers: `${baseURL}/users`,
@@ -20,7 +20,7 @@ const apiRoutes: any = {
   // Categories
   getCategories: `${baseURL}/categories`,
   getCategoryById: (id: string) => `${baseURL}/categories/${id}`,
-  createCategory: `${baseURL}/categories/`,
+  createCategory: `${baseURL}/category`,
   getCategoryTypesById: (id: string) => `${baseURL}/categoryTypes/${id}`,
   updateCategory: (id: string) => `${baseURL}/categories/${id}`,
   deleteCategory: (id: string) => `${baseURL}/categories/${id}`,

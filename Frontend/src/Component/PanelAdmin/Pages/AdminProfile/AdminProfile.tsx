@@ -3,10 +3,9 @@ import "./AdminProfile.css";
 import { useSelector } from "react-redux";
 import { PencilSquareIcon, UserIcon } from "@heroicons/react/20/solid"
 import { CameraIcon } from "@heroicons/react/24/outline"
-import apiRoutes from "../../../../Constants/apiRoutes";
-import { selectCurrentUserName, selectCurrentRole } from '../../../Features/Authentication/AuthSlice/AuthSlice';
+import { selectCurrentEmail, selectCurrentRole } from '../../../Features/Authentication/AuthSlice/AuthSlice';
 function AdminProfile() {
-  const userName = useSelector(selectCurrentUserName);
+  const email = useSelector(selectCurrentEmail);
   const role = useSelector(selectCurrentRole);
   return (
     <>
@@ -27,8 +26,7 @@ function AdminProfile() {
             </div>
           </div>
           <div className="z-50 text-center">
-            <p className='font-semibold text-xl'>{userName}</p>
-            <p className='text-sm text-gray-500'>email@gmail.com</p>
+            <p className='font-semibold'>{email}</p>
           </div>
 
           <div className="w-28 h-28 bg-red-500/50  blur-3xl opacity-60 -top-5 -left-5 absolute rounded-full"></div>

@@ -1,10 +1,12 @@
-import BarChart from "./Charts/BarChart";
 
 function Leaderboard() {
   return (
     <>
-      <div className="theme w-6/12 rounded-lg">
-        <BarChart />
+      <div>
+        Leader Board
+        <p className="text-9xl select-none">
+          ☺
+        </p>
       </div>
     </>
   );

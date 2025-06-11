@@ -1,4 +1,3 @@
-import axios from "axios"
 import Button from "../../../../Elements/Buttons"
 import PageName from "../../../../Elements/PageName"
 import apiRoutes from "../../../../../Constants/apiRoutes"
@@ -22,10 +21,9 @@ function StoreSetting() {
   //#region DefaultSetting
   const defaultSetting = async () => {
     try {
-      await axios.get(apiRoutes.defaultSetting("Store")).then((res) => {
-        setShowModal(false);
-        setApplyDefSet(true)
-      })
+      await fetch(apiRoutes.defaultSetting("Store"))
+      setShowModal(false);
+      setApplyDefSet(true)
     } catch (error) {
       console.log(error)
     }
@@ -38,9 +36,9 @@ function StoreSetting() {
 
   const GetSettingsByGroup = async (group: string) => {
     try {
-      await axios.get(apiRoutes.getSettings(group)).then((res) => {
-        setSettins(res.data)
-      });
+      const response = await fetch(apiRoutes.getSettings(group));
+      const data = await response.json();
+      setSettins(data)
     } catch (error) {
       console.log(error);
 

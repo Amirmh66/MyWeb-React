@@ -1,13 +1,13 @@
 import { ChevronDownIcon, ExclamationTriangleIcon } from "@heroicons/react/20/solid";
 import { useDispatch, useSelector } from "react-redux";
-import { selectCurrentRole, selectCurrentUserName, logOut } from "../../../Features/Authentication/AuthSlice/AuthSlice";
+import { selectCurrentRole, selectCurrentEmail, logOut } from "../../../Features/Authentication/AuthSlice/AuthSlice";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Modal from "../../../Elements/Modal";
 import Button from "../../../Elements/Buttons";
 
 function Profile() {
-  const userName = useSelector(selectCurrentUserName);
+  const email = useSelector(selectCurrentEmail);
   const role = useSelector(selectCurrentRole);
   const [isOpen, setIsOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +26,7 @@ function Profile() {
 
         <div className="User-AL">
           {/* UserName */}
-          <p className="font-semibold">{userName}</p>
+          <p className="font-semibold">{email}</p>
           {/* AccessLevel */}
           <p className="font-semibold text-sm">{role}</p>
         </div>

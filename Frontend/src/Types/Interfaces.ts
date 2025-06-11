@@ -11,15 +11,13 @@ type Status = "Active" | "InActive" | "Pending" | "Blocked" | "Expired";
 export interface IUser {
   _id: string;
   fullName: string;
-  userName: string;
   email: string;
   password: string;
-  phoneNumber: number;
+  phoneNumber: string;
   status: Status;
-  pictureProf: string;
   role: IRole;
   createdAt: Date;
-  updatedAt: Date | null;
+  updatedAt: Date;
 }
 
 export interface IRole {
@@ -67,8 +65,8 @@ export interface IAlert {
 export interface ICategories {
   _id: string;
   name: string;
-  types: [string];
   description: string;
+  types?: string[];
 }
 
 export interface LoginValues {
@@ -76,8 +74,17 @@ export interface LoginValues {
   password: string;
 }
 
-export interface SignUpValues {
-  userName: string;
+export interface ISignUp {
   email: string;
   password: string;
+  confirmPassword: string;
+}
+
+export interface IBrand {
+  name: string;
+  logoUrl: string;
+  description: string;
+  websiteUrl: string;
+  countryOfOrigin: string;
+  establishedYear: number;
 }

@@ -1,7 +1,6 @@
 import { FreeMode } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import API from "../../../../../../Constants/apiRoutes";
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 
 interface CategoryType {
@@ -11,18 +10,18 @@ interface CategoryType {
 
 function ShoppingByCategories() {
     const [categories, setCategories] = useState<CategoryType[]>([]);
-
+    const [error, setError] = useState<string | null>(null)
     useEffect(() => {
         getCategories();
     }, []);
 
     const getCategories = async () => {
         try {
-            await axios.get(API.getCategories).then((res) => {
-                setCategories(res.data);
-            })
-        } catch (error) {
-            console.log(error);
+            const response = await fetch(API.getCategories)
+            const data = await response.json();
+            setCategories(data);
+        } catch (error: any) {
+            setError(error)
         }
     }
 
@@ -30,7 +29,7 @@ function ShoppingByCategories() {
     for (let i = 0; i < categories.length; i += 9) {
         categoryItem.push(categories.slice(i, i + 9));
     }
-
+    if (error) return null
     return (
         <>
             <p className='font-semibold md:hidden'>Shopping by Categories</p>

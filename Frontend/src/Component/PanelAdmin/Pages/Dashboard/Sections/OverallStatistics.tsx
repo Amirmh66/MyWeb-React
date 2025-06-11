@@ -1,15 +1,16 @@
 import { ShoppingBagIcon, ShoppingCartIcon, UserGroupIcon, UsersIcon } from "@heroicons/react/20/solid";
 import { useQueryClient, useQuery } from "@tanstack/react-query";
 import apiRoutes from "../../../../../Constants/apiRoutes";
-import axios from "axios";
 
 const fetchProduct = async () => {
-    const response = await axios.get(apiRoutes.getProductCount);
-    return response.data
+    const response = await fetch(apiRoutes.getProductCount);
+    const data = response.json();
+    return data
 }
 const fetchUsers = async () => {
-    const response = await axios.get(apiRoutes.getUserCount);
-    return response.data
+    const response = await fetch(apiRoutes.getUserCount);
+    const data = response.json();
+    return data
 }
 
 function OverallStatistics() {
