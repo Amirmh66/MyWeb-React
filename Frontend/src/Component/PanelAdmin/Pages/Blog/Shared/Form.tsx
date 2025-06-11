@@ -10,9 +10,10 @@ interface IBlogPostForm {
     content: string;
     excerpt: string;
     coverImage: string;
-    status?: string
+    status?: string;
     isPublished: boolean;
 }
+
 interface IForm {
     isEditMode: boolean
     initialValues?: Partial<IBlogPostForm> | null;
@@ -27,11 +28,8 @@ interface StatusType {
 }
 
 const statusOption: StatusType[] = [
-    { value: 'published', label: 'Published' },
     { value: 'archived', label: 'Archived' },
-    { value: 'pending', label: 'Pending' },
-    { value: 'draft', label: 'Draft' }
-]
+    { value: 'pending', label: 'Pending' },]
 
 function Form({ onSubmit, initialValues, isEditMode, isLoading, error }: IForm) {
     const { register, handleSubmit, control, reset, formState: { errors } } = useForm<IBlogPostForm>({
@@ -55,7 +53,7 @@ function Form({ onSubmit, initialValues, isEditMode, isLoading, error }: IForm) 
                 <div>
                     <label>Title</label>
                     <input type='text' placeholder='Enter your captivating and engaging title here...'
-                        {...register('title', { maxLength: 70, minLength: 20 })} />
+                        {...register('title')} />
                     {errors.title && <span className='error'>{errors.title.message}</span>}
 
                 </div>

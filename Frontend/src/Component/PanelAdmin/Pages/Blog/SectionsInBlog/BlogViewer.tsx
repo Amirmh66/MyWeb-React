@@ -11,7 +11,7 @@ interface IBlog {
   title: string;
   content: string;
   excerpt: string;
-  status: string
+  status: string;
   coverImage: string;
   author: string;
   readingTime: string;
@@ -53,8 +53,8 @@ function BlogViewer() {
   }
   //#endregion
   //#region DeleteBlogById
-  const handleDelete = (productId: string) => {
-    setSelectedId(productId);
+  const handleDelete = (blogId: string) => {
+    setSelectedId(blogId);
     setShowModal(true);
   };
   const ConfirmDelete = async () => {
@@ -80,7 +80,7 @@ function BlogViewer() {
   return (
     <>
       {blog && (
-        <div className="w-full bg-white rounded-lg flex flex-col gap-1 overflow-hidden">
+        <div className=" bg-white rounded-lg flex flex-col gap-1 overflow-hidden">
           {error && (
             <p className="error">{error}</p>
           )}
@@ -91,7 +91,7 @@ function BlogViewer() {
             <Button className="bg-red-600" text="Delete This Blog"
               icon={<TrashIcon className="w-4" />} onClick={() => handleDelete(blog._id)} />
           </div>
-          <div className="w-ful max-h-40 mb-5">
+          <div className="w-full max-h-40 mb-5">
             <img srcSet="/Images/1.jpg" className="w-full h-44 object-cover" alt={blog.coverImage} loading="lazy" />
           </div>
           <div className="px-3 flex flex-col  gap-5">
@@ -127,7 +127,7 @@ function BlogViewer() {
               <label className="text-xl">Summary of content</label>
               <p className="font-semibold text-gray-700 ">{blog.excerpt}</p>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4 w-full">
               <label className="text-xl">Content</label>
               <p className="font-semibold text-gray-700">{blog.content}</p>
             </div>
