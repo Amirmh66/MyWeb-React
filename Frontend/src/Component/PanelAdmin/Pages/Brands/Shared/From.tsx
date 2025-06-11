@@ -64,7 +64,7 @@ function From({ onSubmit, initialValues, isEditMode, isLoading, error }: IForm) 
                 </div>
                 <div>
                     <label>Description</label>
-                    <textarea {...register('description')} placeholder='Provide a brief description of the company' />
+                    <textarea {...register('description')} rows={3} placeholder='Provide a brief description of the company' />
                     {errors.description && <span className='error'>{errors.description.message}</span>}
                 </div>
 

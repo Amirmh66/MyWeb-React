@@ -4,21 +4,26 @@ import apiRoutes from "../../../../../Constants/apiRoutes";
 import Form from '../Shared/From';
 import { IBrand } from "../../../../../Types/Interfaces";
 
+interface ApiResponse {
+  status: string;
+  data: IBrand;
+}
+
 function EditBrand() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const navigate = useNavigate();
-  const [brand, setBrand] = useState();
+  const [brand, setBrand] = useState<IBrand>();
   const { id } = useParams();
-
   useEffect(() => {
     GetBrand();
   }, [])
   const GetBrand = async () => {
+    setIsLoading(true)
     try {
       const response = await fetch(apiRoutes.getBrandById(id));
-      const data = await response.json();
-      setBrand(data);
+      const data: ApiResponse = await response.json();
+      setBrand(data.data);
     } catch (error: any) {
       setError(error);
     } finally {

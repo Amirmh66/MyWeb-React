@@ -13,6 +13,10 @@ interface IBrand {
     countryOfOrigin: string;
     establishedYear: number;
 }
+interface IAPIResponse{
+    status: string;
+    data: IBrand[]
+}
 
 function ListOfBrand() {
     const [brands, setBrands] = useState<IBrand[]>([]);
@@ -31,9 +35,9 @@ function ListOfBrand() {
         setError(null);
         try {
             const res = await fetch(apiRoutes.getBrands);
-            const data = await res.json();
+            const data:IAPIResponse = await res.json();
             if (res.status === 200) {
-                setBrands(data.response)
+                setBrands(data.data)
             }
         } catch (error: any) {
             setError(error.response.data.message)
@@ -100,22 +104,21 @@ function ListOfBrand() {
                                 <td>
                                     <p className='font-semibold'>{b.establishedYear}</p>
                                 </td>
-                                <td>
+                                <td title='Delete this brand' className='flex gap-1 lg:gap-3'>
                                     <Button
                                         onClick={() => handleDelete(b._id)}
-                                        text="Delete"
                                         icon={<TrashIcon className="w-5" />}
                                         className="bg-red-600"
                                     />
-                                    <Link to={`EditBrand/${b._id}`}>
-                                        <Button text="Edit" icon={<PencilSquareIcon className="w-5" />} className="bg-blue-600" />
+                                    <Link to={`EditBrand/${b._id}`} title="Edit this brand">
+                                        <Button icon={<PencilSquareIcon className="w-5" />} className="bg-blue-600" />
                                     </Link>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
-            </div>
+            </div >
             <Modal title="Are You Sure You Want To Delete This Brand?" icon={<TrashIcon className="w-14 text-red-500" />} isOpen={showModal} onClose={() => setShowModal}>
                 <Button className="bg-red-600" text="Delete" onClick={ConfirmDelete} />
                 <Button className="bg-slate-400" text="Cancel" onClick={() => setShowModal(false)} />
