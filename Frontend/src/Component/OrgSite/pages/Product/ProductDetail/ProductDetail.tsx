@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useParams } from "react-router-dom";
 import api from "../../../../../Constants/apiRoutes";
 import { useEffect, useState } from "react";
@@ -36,9 +35,9 @@ function ProductDetail() {
   });
   const getProduct = async () => {
     try {
-      await axios.get(api.getProductById(id)).then((res) => {
-        setProduct(res.data);
-      });
+      const result = await fetch(api.getProductById(id));
+      const data = await result.json();
+      setProduct(data);
     } catch (error: any) {
       setError(error.response.data);
     } finally {

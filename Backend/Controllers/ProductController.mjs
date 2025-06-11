@@ -10,7 +10,7 @@ export const GetProduct = async (req, res) => {
       .populate("type", "name")
       .populate("category", "name");
     return res.status(200).json({
-      statsu: "success",
+      status: "success",
       data: products,
     });
   } catch (error) {
@@ -19,9 +19,15 @@ export const GetProduct = async (req, res) => {
 };
 export const GetProductById = async (req, res) => {
   try {
-    const products = await Product.findById(req.params.id);
+    const products = await Product.findById(req.params.id)
+      .select(
+        "name slug price stock status description brand category type createdAt updatedAt"
+      )
+      .populate("brand", "name")
+      .populate("type", "name")
+      .populate("category", "name");
     if (products) {
-      return res.statsu(200).json({
+      return res.status(200).json({
         status: "success",
         data: products,
       });
