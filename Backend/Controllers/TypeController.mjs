@@ -3,7 +3,7 @@ import Type from "../Models/Type.mjs";
 export const GetTypes = async (req, res) => {
   try {
     await Type.find()
-      .select("name imageUrl category")
+      .select("name imageUrl")
       .populate("category", "name")
       .then((response) => {
         return res.status(200).json({
@@ -17,7 +17,9 @@ export const GetTypes = async (req, res) => {
 };
 export const GetTypeById = async (req, res) => {
   try {
-    const response = await Type.findById(req.params.id);
+    const response = await Type.findById(req.params.id)
+      .select("name slug description imageUrl slug createdAt updatedAt")
+      .populate("category", "name");
     if (response) {
       return res.status(200).json({
         status: "success",

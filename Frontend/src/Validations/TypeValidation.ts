@@ -1,7 +1,13 @@
 import { string, object } from "yup";
-const validTypeSchima = /^[A-Za-z/-]+$/
+const validTypeSchima = /^[A-Za-z/-\s]+$/;
 const validationType = object().shape({
-    typeName: string().matches(validTypeSchima, "Only letters are allowed!").max(20).required(),
-    description: string().max(90).optional(),
-})
-export default validationType
+  name: string()
+    .matches(validTypeSchima, "Only letters are allowed!")
+    .max(50)
+    .min(3)
+    .trim()
+    .required(),
+  description: string().min(3).max(90).required(),
+  imageUrl: string().max(200).required(),
+});
+export default validationType;

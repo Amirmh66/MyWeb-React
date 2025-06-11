@@ -32,7 +32,7 @@ const Type = new mongoose.Schema(
     },
     imageUrl: {
       type: String,
-      required: false,
+      required: true,
       maxlength: 200,
       trim: true,
     },
