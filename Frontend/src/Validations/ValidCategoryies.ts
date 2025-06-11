@@ -1,6 +1,6 @@
 import { object, string } from "yup";
-const validCategory = object().shape({
-  name: string().max(45).required(),
-  description: string().max(90).optional(),
-});
-export default validCategory;
+const validationCategory = object().shape({
+  name: string().trim().min(3).max(50).required(),
+  description: string().trim().min(10).max(500).required(),
+  });
+export default validationCategory;
