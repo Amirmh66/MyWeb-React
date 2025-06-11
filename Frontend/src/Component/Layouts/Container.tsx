@@ -22,28 +22,28 @@ const LoadingText = lazy(() => import("../Elements/LoadingText"));
 const AdminLayout = lazy(() => import('./AdminLayout'))
 const UserLayout = lazy(() => import("./UserLayout"))
 const AuthLayout = lazy(() => import("./AuthLayout"))
-const AddProduct = lazy(() => import("../PanelAdmin/Pages/Product/AddProduct/AddProduct"))
-const EditProduct = lazy(() => import("../PanelAdmin/Pages/Product/EditProduct/EditProduct"))
-const AddUser = lazy(() => import("../PanelAdmin/Pages/Users/AddUser/AddUser"))
-const EditUser = lazy(() => import("../PanelAdmin/Pages/Users/EditUser/EditUser"))
-const MoreInfo = lazy(() => import("../PanelAdmin/Pages/Users/MoreInfo/MoreInfo"))
+const AddProduct = lazy(() => import("../PanelAdmin/Pages/Product/SectionInProduct/AddProduct"))
+const EditProduct = lazy(() => import("../PanelAdmin/Pages/Product/SectionInProduct/EditProduct"))
+const AddUser = lazy(() => import("../PanelAdmin/Pages/Users/SectionInUsers/AddUser"))
+const EditUser = lazy(() => import("../PanelAdmin/Pages/Users/SectionInUsers/EditUser"))
+const MoreInfo = lazy(() => import("../PanelAdmin/Pages/Users/SectionInUsers/MoreInfo"))
 const Order = lazy(() => import("../PanelAdmin/Pages/Order/Order"))
 const Dashboard = lazy(() => import("../PanelAdmin/Pages/Dashboard/Dashboard"))
 const Users = lazy(() => import("../PanelAdmin/Pages/Users/User"))
 const Leaderboard = lazy(() => import("../PanelAdmin/Pages/Leaderboard/Leaderboard"))
 const Product = lazy(() => import("../PanelAdmin/Pages/Product/Product"))
 const Categories = lazy(() => import("../PanelAdmin/Pages/Categories/Categories"))
-const AddCategory = lazy(() => import("../PanelAdmin/Pages/Categories/AddCategory/AddCategory"))
-const EditCategory = lazy(() => import("../PanelAdmin/Pages/Categories/EditCategory/EditCategory"))
+const AddCategory = lazy(() => import("../PanelAdmin/Pages/Categories/SectionInCategories/CreateCategory"))
+const EditCategory = lazy(() => import("../PanelAdmin/Pages/Categories/SectionInCategories/EditCategory"))
 const Roles = lazy(() => import("../PanelAdmin/Pages/Roles/Roles"))
-const AddRole = lazy(() => import("../PanelAdmin/Pages/Roles/AddRoles/AddRole"))
-const EditRole = lazy(() => import("../PanelAdmin/Pages/Roles/EditRoles/EditRole"))
+const AddRole = lazy(() => import("../PanelAdmin/Pages/Roles/SectionInForm/AddRole"))
+const EditRole = lazy(() => import("../PanelAdmin/Pages/Roles/SectionInForm/EditRole"))
 const Brands = lazy(() => import("../PanelAdmin/Pages/Brands/Brands"))
-const EditBrand = lazy(() => import("../PanelAdmin/Pages/Brands/EditBrand/EditBrand"))
-const AddBrand = lazy(() => import("../PanelAdmin/Pages/Brands/AddBrand/AddBrand"))
+const EditBrand = lazy(() => import("../PanelAdmin/Pages/Brands/SectionInBrand/EditBrand"))
+const CreateBrand = lazy(() => import("../PanelAdmin/Pages/Brands/SectionInBrand/CreateBrand"))
 const Types = lazy(() => import("../PanelAdmin/Pages/Types/Types"))
-const AddType = lazy(() => import("../PanelAdmin/Pages/Types/AddType/AddType"))
-const EditType = lazy(() => import("../PanelAdmin/Pages/Types/EditType/EditType"))
+const AddType = lazy(() => import("../PanelAdmin/Pages/Types/SectionInType/AddType"))
+const EditType = lazy(() => import("../PanelAdmin/Pages/Types/SectionInType/EditType"))
 const Blog = lazy(() => import("../PanelAdmin/Pages/Blog/Blog"))
 const ProductDetail = lazy(() => import("../OrgSite/pages/Product/ProductDetail/ProductDetail"))
 const PanelUser = lazy(() => import("../PanelUser/PanelUser"))
@@ -150,8 +150,16 @@ const Container = () => {
               <Product />
             </Suspense>
           }>
-            <Route path="AddProduct" element={<AddProduct />} />
-            <Route path="EditProduct/:id" element={<EditProduct />} />
+            <Route path="AddProduct" element={
+              <Suspense fallback={<LoadingText />}>
+                <AddProduct />
+              </Suspense>
+            } />
+            <Route path="EditProduct/:id" element={
+              <Suspense fallback={<LoadingText />}>
+                <EditProduct />
+              </Suspense>
+            } />
           </Route>
 
           <Route path="Roles" element={
@@ -179,8 +187,17 @@ const Container = () => {
             </Suspense>
 
           }>
-            <Route path="AddBrand" element={<AddBrand />} />
-            <Route path="EditBrand/:id" element={<EditBrand />} />
+            <Route path="CreateBrand" element={
+              <Suspense fallback={<LoadingText />}>
+                <CreateBrand />
+              </Suspense>
+            } />
+
+            <Route path="EditBrand/:id" element={
+              <Suspense fallback={<LoadingText />}>
+                <EditBrand />
+              </Suspense>
+            } />
           </Route>
 
           <Route path="Types" element={
