@@ -1,8 +1,7 @@
-import {
-  loginSuccess,
-  logoutSuccess,
-} from "../Features/Authentication/AuthSlice/AuthSlice";
-import axios from "axios";
+// import {
+//   loginSuccess,
+//   logoutSuccess,
+// } from "../Features/Authentication/AuthSlice/AuthSlice";
 import apiRoutes from "../../Constants/apiRoutes";
 import { store } from "../Features/Store/Store";
 
@@ -11,14 +10,23 @@ interface IUserData {
   password: string;
 }
 
+interface IAPILogin {
+  accessToken: string;
+}
+
 export const AuthService = {
   async login(userData: IUserData) {
-    await axios.post(apiRoutes.Login, userData).then((response) => {
-      const token = response.data.accessToken;
-      localStorage.setItem("token", token);
-      store.dispatch(loginSuccess(response));
-      return response;
+    const res = await fetch(apiRoutes.Login, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
     });
+    const data: IAPILogin = await res.json();
+    const token = data.accessToken;
+    localStorage.setItem("token", token);
+    return "response";
   },
 
   async logout() {
@@ -26,6 +34,5 @@ export const AuthService = {
       localStorage.removeItem("token");
       localStorage.removeItem("theme");
     };
-    store.dispatch(logoutSuccess());
   },
 };
