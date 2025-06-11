@@ -1,8 +1,0 @@
-#textarea{
-    @apply text-sm font-bold tracking-wide p-3 rounded-lg w-full 
-    focus:outline-none placeholder:text-gray-400 dark:placeholder:text-gray-400 drop-shadow
-     bg-gray-100 dark:bg-gray-800
-}
-.structure-roles{
-    @apply p-5 lg:w-9/12 px-24 rounded-xl bg-white dark:bg-gray-900
-}
